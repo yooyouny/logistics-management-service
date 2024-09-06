@@ -1,0 +1,6 @@
+rootProject.name = 'logistics'
+include(':service:eureka')
+include(':service:gateway')
+include(':service:hub')
+include(':service:order')
+include(':service:user')
