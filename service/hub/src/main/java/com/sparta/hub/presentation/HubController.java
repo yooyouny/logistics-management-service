@@ -22,18 +22,21 @@ public class HubController {
 
     private final HubService hubService;
 
+    //TODO 접근 권한 제어
     @PostMapping
     public ResponseEntity<ResponseDto<HubResponse>> createHub(@RequestBody HubCreateRequest hubCreateRequest) {
         HubResponse response = hubService.createHub(hubCreateRequest);
         return ResponseEntity.ok(new ResponseDto<>("200", "허브가 생성되었습니다", response));
     }
 
+    //TODO 접근 권한 제어
     @PutMapping("/{hubId}")
     public ResponseEntity<ResponseDto<HubResponse>> updateHub(@Valid @RequestBody HubUpdateRequest requestDto, @PathVariable UUID hubId) {
         HubResponse hubResponse = hubService.updateHub(requestDto, hubId);
         return ResponseEntity.ok(new ResponseDto<>("200", "허브가 수정되었습니다", hubResponse));
     }
 
+    //TODO 접근 권한 제어
     @DeleteMapping("/{hubId}")
     public ResponseEntity<ResponseDto<UUID>> deleteHub(@PathVariable UUID hubId) {
         hubService.deleteHub(hubId);
