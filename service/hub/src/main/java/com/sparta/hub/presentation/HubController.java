@@ -22,7 +22,7 @@ public class HubController {
 
     private final HubService hubService;
 
-    //TODO 접근 권한 제어, User 
+    //TODO 접근 권한 제어, User
     @PostMapping
     public ResponseEntity<ResponseDto<HubResponse>> createHub(@RequestBody HubCreateRequest hubCreateRequest) {
         HubResponse response = hubService.createHub(hubCreateRequest);
