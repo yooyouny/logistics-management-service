@@ -19,7 +19,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -46,6 +45,7 @@ public class HubService {
         return hubMapper.toResponse(hub);
 
     }
+
     @Caching(evict = {
             @CacheEvict(cacheNames = "hubCache", key = "args[0]"),
             @CacheEvict(cacheNames = "hubAllCache", allEntries = true)
