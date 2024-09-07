@@ -48,8 +48,7 @@ public class HubService {
 
     @Caching(evict = {
             @CacheEvict(cacheNames = "hubCache", key = "args[0]"),
-            @CacheEvict(cacheNames = "hubAllCache", allEntries = true)
-    })
+            @CacheEvict(cacheNames = "hubAllCache", allEntries = true)})
     public void deleteHub(UUID hubId) {
         Hub hub = hubRepository.findById(hubId)
                 .orElseThrow(() -> new EntityNotFoundException("해당 허브를 찾을 수 없습니다"));
