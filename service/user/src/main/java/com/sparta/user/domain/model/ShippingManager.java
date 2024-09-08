@@ -16,7 +16,7 @@ import java.util.UUID;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "p_shipping_managers")
-@SQLRestriction(value = "is_deleted is NULL")
+@SQLRestriction(value = "is_delete is NULL")
 public class ShippingManager extends BaseEntity {
 
     @Id
