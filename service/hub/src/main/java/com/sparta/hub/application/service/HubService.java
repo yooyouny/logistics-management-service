@@ -7,7 +7,7 @@ import com.sparta.hub.application.dto.HubUpdateRequest;
 import com.sparta.hub.application.mapper.HubMapper;
 import com.sparta.hub.domain.Hub;
 import com.sparta.hub.exception.AlreadyDeletedException;
-import com.sparta.hub.infrastructure.repository.HubRepository;
+import com.sparta.hub.infrastructure.repository.hub.HubRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
@@ -59,6 +59,7 @@ public class HubService {
         }
     }
 
+    @Transactional(readOnly = true)
     @Cacheable(cacheNames = "hubCache", key = "args[0]")
     public HubResponse getSingleHub(UUID hubId) {
         Hub hub = hubRepository.findByIdAndIsDeleteFalse(hubId)
@@ -66,6 +67,7 @@ public class HubService {
         return hubMapper.toResponse(hub);
     }
 
+    @Transactional(readOnly = true)
     @Cacheable(cacheNames = "hubAllCache", key = "methodName")
     public Page<HubResponse> getAllHub(Pageable pageable, HubSearchCond cond) {
         Page<HubResponse> list = hubRepository.searchHub(pageable, cond);
