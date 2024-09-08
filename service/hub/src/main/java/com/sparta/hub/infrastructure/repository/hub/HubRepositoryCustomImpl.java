@@ -1,15 +1,13 @@
-package com.sparta.hub.infrastructure.repository;
+package com.sparta.hub.infrastructure.repository.hub;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.sparta.hub.application.dto.HubResponse;
-import com.sparta.hub.application.dto.HubSearchCond;
+import com.sparta.hub.application.dto.hub.HubResponse;
+import com.sparta.hub.application.dto.hub.HubSearchCond;
 import com.sparta.hub.application.mapper.HubMapper;
 import com.sparta.hub.domain.Hub;
-import com.sparta.hub.domain.QHub;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;

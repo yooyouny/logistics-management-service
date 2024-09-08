@@ -1,9 +1,9 @@
 package com.sparta.hub.presentation;
 
-import com.sparta.hub.application.dto.HubCreateRequest;
-import com.sparta.hub.application.dto.HubResponse;
-import com.sparta.hub.application.dto.HubSearchCond;
-import com.sparta.hub.application.dto.HubUpdateRequest;
+import com.sparta.hub.application.dto.hub.HubCreateRequest;
+import com.sparta.hub.application.dto.hub.HubResponse;
+import com.sparta.hub.application.dto.hub.HubSearchCond;
+import com.sparta.hub.application.dto.hub.HubUpdateRequest;
 import com.sparta.hub.application.service.HubService;
 import com.sparta.hub.presentation.dto.ResponseDto;
 import jakarta.validation.Valid;

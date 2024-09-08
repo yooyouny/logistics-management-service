@@ -1,6 +1,6 @@
 package com.sparta.hub.domain;
 
-import com.sparta.hub.application.dto.HubUpdateRequest;
+import com.sparta.hub.application.dto.hub.HubUpdateRequest;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

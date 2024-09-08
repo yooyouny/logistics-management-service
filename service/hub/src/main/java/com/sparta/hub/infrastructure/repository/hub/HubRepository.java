@@ -1,11 +1,8 @@
-package com.sparta.hub.infrastructure.repository;
+package com.sparta.hub.infrastructure.repository.hub;
 
-import com.sparta.hub.application.dto.HubSearchCond;
 import com.sparta.hub.domain.Hub;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 

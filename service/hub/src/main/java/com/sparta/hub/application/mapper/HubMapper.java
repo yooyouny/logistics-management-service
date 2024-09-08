@@ -1,7 +1,7 @@
 package com.sparta.hub.application.mapper;
 
-import com.sparta.hub.application.dto.HubCreateRequest;
-import com.sparta.hub.application.dto.HubResponse;
+import com.sparta.hub.application.dto.hub.HubCreateRequest;
+import com.sparta.hub.application.dto.hub.HubResponse;
 import com.sparta.hub.domain.Hub;
 import org.springframework.stereotype.Component;
 

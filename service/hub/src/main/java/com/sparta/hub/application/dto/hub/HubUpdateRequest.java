@@ -1,7 +1,6 @@
-package com.sparta.hub.application.dto;
+package com.sparta.hub.application.dto.hub;
 
 import jakarta.validation.constraints.Digits;
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.math.BigDecimal;

@@ -1,4 +1,4 @@
-package com.sparta.hub.application.dto;
+package com.sparta.hub.application.dto.hub;
 
 import lombok.Data;
 
