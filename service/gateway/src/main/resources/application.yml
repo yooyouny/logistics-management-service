@@ -25,6 +25,14 @@ spring:
           uri: lb://user  # 'auth-service'라는 이름으로 로드 밸런싱된 서비스로 라우팅
           predicates:
             - Path=/user/auth/**  # /auth/signIn 경로로 들어오는 요청을 이 라우트로 처리
+        - id: hub-interhubs  # 라우트 식별자
+          uri: lb://hub  # 'product-service'라는 이름으로 로드 밸런싱된 서비스로 라우팅
+          predicates:
+            - Path=/api/inter-hubs/**
+
+
+
+
       discovery:
         locator:
           enabled: true  # 서비스 디스커버리를 통해 동적으로 라우트를 생성하도록 설정
