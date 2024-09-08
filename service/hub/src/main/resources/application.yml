@@ -26,7 +26,7 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: ${EUREKA_CLIENT_SERVICE-URL_DEFAULTZONE}
+      defaultZone: ${EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE}
 
 server:
   port: 19094
