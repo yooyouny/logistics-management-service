@@ -1,5 +1,6 @@
 package com.sparta.hub.domain;
 
+import com.sparta.commons.domain.jpa.BaseEntity;
 import com.sparta.hub.application.dto.hub.HubUpdateRequest;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -8,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -16,7 +18,7 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Hub {
+public class Hub extends BaseEntity {
 
     @Id
     @GeneratedValue
@@ -55,8 +57,10 @@ public class Hub {
 
     }
 
-    public void delete() {
+    public void delete(String email) {
         isDelete = true;
-
+        deletedAt = LocalDateTime.now();
+        // TODO deletedBy 수동 설정
+        deletedBy = email;
     }
 }

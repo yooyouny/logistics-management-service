@@ -1,11 +1,12 @@
 package com.sparta.hub.presentation;
 
+import com.sparta.commons.domain.response.ResponseBody;
+import com.sparta.commons.domain.response.SuccessResponseBody;
 import com.sparta.hub.application.dto.hub.HubCreateRequest;
 import com.sparta.hub.application.dto.hub.HubResponse;
 import com.sparta.hub.application.dto.hub.HubSearchCond;
 import com.sparta.hub.application.dto.hub.HubUpdateRequest;
 import com.sparta.hub.application.service.HubService;
-import com.sparta.hub.presentation.dto.ResponseDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -24,35 +25,35 @@ public class HubController {
 
     //TODO 접근 권한 제어, User
     @PostMapping
-    public ResponseEntity<ResponseDto<HubResponse>> createHub(@RequestBody HubCreateRequest hubCreateRequest) {
+    public ResponseBody<HubResponse> createHub(@RequestBody HubCreateRequest hubCreateRequest) {
         HubResponse response = hubService.createHub(hubCreateRequest);
-        return ResponseEntity.ok(new ResponseDto<>("200", "허브가 생성되었습니다", response));
+        return new SuccessResponseBody<>(response);
     }
 
     //TODO 접근 권한 제어
     @PutMapping("/{hubId}")
-    public ResponseEntity<ResponseDto<HubResponse>> updateHub(@Valid @RequestBody HubUpdateRequest requestDto, @PathVariable UUID hubId) {
+    public ResponseBody<HubResponse> updateHub(@Valid @RequestBody HubUpdateRequest requestDto, @PathVariable UUID hubId) {
         HubResponse hubResponse = hubService.updateHub(requestDto, hubId);
-        return ResponseEntity.ok(new ResponseDto<>("200", "허브가 수정되었습니다", hubResponse));
+        return new SuccessResponseBody<>(hubResponse);
     }
 
     //TODO 접근 권한 제어
     @DeleteMapping("/{hubId}")
-    public ResponseEntity<ResponseDto<UUID>> deleteHub(@PathVariable UUID hubId) {
-        hubService.deleteHub(hubId);
-        return ResponseEntity.ok(new ResponseDto<>("200", "허브가 삭제되었습니다.", hubId));
+    public ResponseBody<UUID> deleteHub(@RequestHeader(value = "X_Email") String email,@PathVariable UUID hubId) {
+        hubService.deleteHub(hubId,email);
+        return new SuccessResponseBody<>(hubId);
     }
 
     @GetMapping("/{hubId}")
-    public ResponseEntity<ResponseDto<HubResponse>> getSingleHub(@PathVariable UUID hubId) {
+    public ResponseBody<HubResponse> getSingleHub(@PathVariable UUID hubId) {
         HubResponse responseHub = hubService.getSingleHub(hubId);
-        return ResponseEntity.ok(new ResponseDto<>("200", "허브 단일 조회", responseHub));
+        return new SuccessResponseBody<>(responseHub);
     }
 
     @GetMapping
-    public ResponseEntity<ResponseDto<Page<HubResponse>>> getAllHubs(Pageable pageable, HubSearchCond cond) {
+    public ResponseBody<Page<HubResponse>> getAllHubs(Pageable pageable, HubSearchCond cond) {
         Page<HubResponse> allHub = hubService.getAllHub(pageable, cond);
-        return ResponseEntity.ok(new ResponseDto<>("200", "허브 전체 조회", allHub));
+        return new SuccessResponseBody<>(allHub);
     }
 
 
