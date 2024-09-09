@@ -39,8 +39,8 @@ public class HubController {
 
     //TODO 접근 권한 제어
     @DeleteMapping("/{hubId}")
-    public ResponseBody<UUID> deleteHub(@PathVariable UUID hubId) {
-        hubService.deleteHub(hubId);
+    public ResponseBody<UUID> deleteHub(@RequestHeader(value = "X_Email") String email,@PathVariable UUID hubId) {
+        hubService.deleteHub(hubId,email);
         return new SuccessResponseBody<>(hubId);
     }
 

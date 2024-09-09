@@ -49,11 +49,11 @@ public class HubService {
     @Caching(evict = {
             @CacheEvict(cacheNames = "hubCache", key = "args[0]"),
             @CacheEvict(cacheNames = "hubAllCache", allEntries = true)})
-    public void deleteHub(UUID hubId) {
+    public void deleteHub(UUID hubId, String email) {
         Hub hub = hubRepository.findById(hubId)
                 .orElseThrow(() -> new EntityNotFoundException("해당 허브를 찾을 수 없습니다"));
         if(!hub.getIsDelete()) {
-            hub.delete();
+            hub.delete(email);
         }else{
             throw new AlreadyDeletedException("이미 삭제된 허브입니다");
         }
