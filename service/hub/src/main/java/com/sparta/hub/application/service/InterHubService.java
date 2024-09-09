@@ -9,7 +9,6 @@ import com.sparta.hub.domain.InterHub;
 import com.sparta.hub.infrastructure.repository.hub.HubRepository;
 import com.sparta.hub.infrastructure.repository.interhub.InterHubRepository;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -78,5 +77,10 @@ public class InterHubService {
         Hub arrivalHub = hubRepository.findById(requestDto.getArrivalHubId()).orElseThrow(() -> new EntityNotFoundException("도착 허브 정보가 없습니다"));
         interHub.update(departureHub, arrivalHub, requestDto.getElapsedTime());
         return interHubMapper.toResponse(interHub);
+    }
+
+    public void delete(UUID interHubId, String email) {
+        InterHub interHub = interHubRepository.findById(interHubId).orElseThrow(() -> new EntityNotFoundException("해당 허브 간 이동 정보가 없습니다"));
+        interHub.delete(email);
     }
 }

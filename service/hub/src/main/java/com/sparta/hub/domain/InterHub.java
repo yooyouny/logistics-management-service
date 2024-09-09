@@ -1,12 +1,14 @@
 package com.sparta.hub.domain;
 
 import com.sparta.commons.domain.jpa.BaseEntity;
+import com.sparta.hub.exception.AlreadyDeletedException;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -34,11 +36,20 @@ public class InterHub extends BaseEntity {
     private Long elapsedTime;
 
     @Column(nullable = false)
-    private Boolean isDelete;
+    private Boolean isDelete = false;
 
     public void update(Hub departureHub, Hub arrivalHub, Long elapsedTime) {
         this.departureHub = departureHub;
         this.arrivalHub = arrivalHub;
         this.elapsedTime = elapsedTime;
+    }
+
+    public void delete(String email) {
+        if(isDelete) {
+            throw new AlreadyDeletedException("이미 삭제 된 허브 간 이동 정보입니다.");
+        }
+        isDelete = true;
+        deletedAt = LocalDateTime.now();
+        deletedBy = email;
     }
 }
