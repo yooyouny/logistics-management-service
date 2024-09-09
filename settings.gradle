@@ -1,7 +1,9 @@
 rootProject.name = 'logistics'
+
 include(':service:eureka')
 include(':service:gateway')
 include(':service:company')
 include(':service:hub')
 include(':service:order')
 include(':service:user')
+include(':common:domain')
