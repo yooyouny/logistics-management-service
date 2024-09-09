@@ -1,5 +1,6 @@
 package com.sparta.user.domain.model;
 
+import com.sparta.commons.domain.jpa.BaseEntity;
 import com.sparta.user.domain.model.vo.ShippingManagerType;
 import jakarta.persistence.*;
 import lombok.AccessLevel;

@@ -1,5 +1,6 @@
 package com.sparta.user.domain.model;
 
+import com.sparta.commons.domain.jpa.BaseEntity;
 import com.sparta.user.domain.model.vo.UserRole;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
