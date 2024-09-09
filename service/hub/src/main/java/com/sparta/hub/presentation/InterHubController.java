@@ -37,7 +37,7 @@ public class InterHubController extends BaseEntity {
     }
 
     @DeleteMapping("/{interHubId}")
-    public ResponseBody<UUID> deleteInterHubRoute(@PathVariable UUID interHubId, @RequestHeader(value = "X_Email") String email) {
+    public ResponseBody<UUID> deleteInterHubRoute(@PathVariable UUID interHubId, @RequestHeader(value = "X_Email", required = false) String email) {
         interHubService.delete(interHubId, email);
         return new SuccessResponseBody<>(interHubId);
     }
