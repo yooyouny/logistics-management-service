@@ -34,5 +34,5 @@ public class InterHub extends BaseEntity {
     private Long elapsedTime;
 
     @Column(nullable = false)
-    private Boolean isDelete = false;
+    private Boolean isDelete;
 }
