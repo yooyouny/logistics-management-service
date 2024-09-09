@@ -12,7 +12,7 @@ import java.util.UUID;
 @Getter
 @Builder
 @NoArgsConstructor @AllArgsConstructor
-@Table(name = "p_inter_hub")
+@Table(name = "p_inter_hubs")
 public class InterHub {
 
     @Id
