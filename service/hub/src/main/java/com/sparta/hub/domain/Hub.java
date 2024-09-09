@@ -21,7 +21,7 @@ public class Hub {
     @Id
     @GeneratedValue
     @Column(name = "hub_id")
-    private UUID id;
+    private UUID hubId;
 
     @Column(length = 100, nullable = false)
     private String hubName;
