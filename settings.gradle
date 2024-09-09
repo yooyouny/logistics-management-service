@@ -6,4 +6,6 @@ include(':service:company')
 include(':service:hub')
 include(':service:order')
 include(':service:user')
+include(':service:auth')
+
 include(':common:domain')
