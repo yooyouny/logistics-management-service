@@ -10,9 +10,9 @@ public class InterHubMapper {
 
     public InterHubResponse toResponse(InterHub interHub) {
         InterHubResponse response = new InterHubResponse();
-        response.setInterHubId(interHub.getId());
-        response.setDepartureHubId(interHub.getDepartureHub().getId());
-        response.setArrivalHubId(interHub.getArrivalHub().getId());
+        response.setInterHubId(interHub.getInterHubId());
+        response.setDepartureHubId(interHub.getDepartureHub().getHubId());
+        response.setArrivalHubId(interHub.getArrivalHub().getHubId());
         response.setElapsedTime(interHub.getElapsedTime());
         return response;
     }

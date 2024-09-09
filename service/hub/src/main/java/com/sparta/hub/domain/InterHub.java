@@ -1,5 +1,6 @@
 package com.sparta.hub.domain;
 
+import com.sparta.commons.domain.jpa.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,12 +14,12 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor @AllArgsConstructor
 @Table(name = "p_inter_hubs")
-public class InterHub {
+public class InterHub extends BaseEntity {
 
     @Id
     @GeneratedValue
     @Column(name = "inter_hub_id")
-    private UUID id;
+    private UUID interHubId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "departure_hub_id")
@@ -33,5 +34,5 @@ public class InterHub {
     private Long elapsedTime;
 
     @Column(nullable = false)
-    private Boolean isDelete = false;
+    private Boolean isDelete;
 }
