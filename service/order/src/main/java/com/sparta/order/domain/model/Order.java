@@ -23,10 +23,14 @@ import java.util.UUID;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
 
 @Entity
 @Table(name = "P_ORDERS")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@SQLRestriction("is_delete is NULL")
+@SQLDelete(sql = "UPDATE p_orders SET deleted_at = NOW() where order_id = ?")
 public class Order extends BaseEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)

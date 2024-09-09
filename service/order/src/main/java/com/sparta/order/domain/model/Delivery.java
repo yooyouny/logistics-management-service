@@ -22,10 +22,14 @@ import java.util.UUID;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
 
 @Entity
 @Table(name = "P_DELIVERIES")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@SQLRestriction("is_delete is NULL")
+@SQLDelete(sql = "UPDATE p_deliveries SET deleted_at = NOW() where delivery_id = ?")
 public class Delivery extends BaseEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)
@@ -63,6 +67,8 @@ public class Delivery extends BaseEntity {
 
   @Column(nullable = false)
   private LocalDateTime arrivalDate;
+
+  private boolean isDelete = false;
 
   @Builder
   private Delivery(
