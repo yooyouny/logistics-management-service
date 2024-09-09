@@ -59,6 +59,7 @@ public class Hub extends BaseEntity {
 
     public void delete() {
         isDelete = true;
-        super.deletedAt = LocalDateTime.now();
+        deletedAt = LocalDateTime.now();
+        // TODO deletedBy 수동 설정
     }
 }
