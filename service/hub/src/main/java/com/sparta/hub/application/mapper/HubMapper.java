@@ -22,7 +22,7 @@ public class HubMapper {
     public HubResponse toResponse(Hub hub) {
         HubResponse response = new HubResponse();
         response.setUserId(hub.getUserId());
-        response.setHubId(hub.getId());
+        response.setHubId(hub.getHubId());
         response.setHubName(hub.getHubName());
         response.setHubAddress(hub.getHubAddress());
         response.setHubLatitude(hub.getHubLatitude());
