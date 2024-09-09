@@ -1,5 +1,6 @@
 package com.sparta.hub.domain;
 
+import com.sparta.commons.domain.jpa.BaseEntity;
 import com.sparta.hub.application.dto.hub.HubUpdateRequest;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -16,7 +17,7 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Hub {
+public class Hub extends BaseEntity {
 
     @Id
     @GeneratedValue
