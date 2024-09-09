@@ -19,7 +19,7 @@ public class InterHub extends BaseEntity {
     @Id
     @GeneratedValue
     @Column(name = "inter_hub_id")
-    private UUID id;
+    private UUID interHubId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "departure_hub_id")
