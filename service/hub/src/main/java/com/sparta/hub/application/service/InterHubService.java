@@ -2,15 +2,19 @@ package com.sparta.hub.application.service;
 
 import com.sparta.hub.application.dto.interhub.InterHubCreateRequest;
 import com.sparta.hub.application.dto.interhub.InterHubResponse;
+import com.sparta.hub.application.dto.interhub.InterHubUpdateRequest;
 import com.sparta.hub.application.mapper.InterHubMapper;
 import com.sparta.hub.domain.Hub;
 import com.sparta.hub.domain.InterHub;
 import com.sparta.hub.infrastructure.repository.hub.HubRepository;
 import com.sparta.hub.infrastructure.repository.interhub.InterHubRepository;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -66,5 +70,13 @@ public class InterHubService {
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         double distance = R * c; // 두 허브 간 거리 (단위: km)
         return (long) ((distance / 60.0) * 60);
+    }
+
+    public InterHubResponse updateRoute(InterHubUpdateRequest requestDto, UUID interHubId) {
+        InterHub interHub = interHubRepository.findById(interHubId).orElseThrow(() -> new EntityNotFoundException("해당 허브 간 이동 정보가 없습니다"));
+        Hub departureHub = hubRepository.findById(requestDto.getDepartureHubId()).orElseThrow(() -> new EntityNotFoundException("출발 허브 정보가 없습니다"));
+        Hub arrivalHub = hubRepository.findById(requestDto.getArrivalHubId()).orElseThrow(() -> new EntityNotFoundException("도착 허브 정보가 없습니다"));
+        interHub.update(departureHub, arrivalHub, requestDto.getElapsedTime());
+        return interHubMapper.toResponse(interHub);
     }
 }

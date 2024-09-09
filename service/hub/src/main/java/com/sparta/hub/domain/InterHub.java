@@ -35,4 +35,10 @@ public class InterHub extends BaseEntity {
 
     @Column(nullable = false)
     private Boolean isDelete;
+
+    public void update(Hub departureHub, Hub arrivalHub, Long elapsedTime) {
+        this.departureHub = departureHub;
+        this.arrivalHub = arrivalHub;
+        this.elapsedTime = elapsedTime;
+    }
 }
