@@ -1,5 +1,6 @@
 package com.sparta.hub.domain;
 
+import com.sparta.commons.domain.jpa.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,7 +14,7 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor @AllArgsConstructor
 @Table(name = "p_inter_hubs")
-public class InterHub {
+public class InterHub extends BaseEntity {
 
     @Id
     @GeneratedValue
