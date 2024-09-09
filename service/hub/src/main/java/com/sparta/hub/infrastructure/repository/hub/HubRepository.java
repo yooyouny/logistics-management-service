@@ -8,6 +8,6 @@ import java.util.UUID;
 
 public interface HubRepository extends JpaRepository<Hub, UUID>, HubRepositoryCustom {
 
-    Optional<Hub> findByIdAndIsDeleteFalse(UUID id);
+    Optional<Hub> findByHubIdAndIsDeleteFalse(UUID id);
 
 }

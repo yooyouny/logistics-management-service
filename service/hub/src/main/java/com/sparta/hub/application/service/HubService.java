@@ -39,7 +39,7 @@ public class HubService {
     @CachePut(cacheNames = "hubCache", key = "#result.hubId")
     @CacheEvict(cacheNames = "hubAllCache", allEntries = true)
     public HubResponse updateHub(HubUpdateRequest requestDto, UUID hubId) {
-        Hub hub = hubRepository.findByIdAndIsDeleteFalse(hubId)
+        Hub hub = hubRepository.findByHubIdAndIsDeleteFalse(hubId)
                 .orElseThrow(() -> new EntityNotFoundException("해당 허브를 찾을 수 없습니다"));
         hub.update(requestDto);
         return hubMapper.toResponse(hub);
@@ -62,7 +62,7 @@ public class HubService {
     @Transactional(readOnly = true)
     @Cacheable(cacheNames = "hubCache", key = "args[0]")
     public HubResponse getSingleHub(UUID hubId) {
-        Hub hub = hubRepository.findByIdAndIsDeleteFalse(hubId)
+        Hub hub = hubRepository.findByHubIdAndIsDeleteFalse(hubId)
                 .orElseThrow(() -> new EntityNotFoundException("해당 허브를 찾을 수 없습니다"));
         return hubMapper.toResponse(hub);
     }
