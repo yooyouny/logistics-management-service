@@ -14,7 +14,7 @@ import org.hibernate.annotations.SQLRestriction;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "p_users")
-@SQLRestriction(value = "is_delete is NULL")
+@SQLRestriction(value = "is_delete is false")
 public class User extends BaseEntity {
 
     @Id
