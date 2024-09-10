@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.SQLRestriction;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -16,6 +17,7 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor @AllArgsConstructor
 @Table(name = "p_inter_hubs")
+@SQLRestriction("is_delete = false")
 public class InterHub extends BaseEntity {
 
     @Id
@@ -44,6 +46,7 @@ public class InterHub extends BaseEntity {
         this.elapsedTime = elapsedTime;
     }
 
+    //TODO deletedBy 임의로 헤더에서 emial을 넣는걸로 설정, 이후 수정
     public void delete(String email) {
         if(isDelete) {
             throw new AlreadyDeletedException("이미 삭제 된 허브 간 이동 정보입니다.");
