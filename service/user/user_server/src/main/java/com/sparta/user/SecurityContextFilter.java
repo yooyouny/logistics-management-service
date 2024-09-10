@@ -1,5 +1,7 @@
 package com.sparta.user;
 
+import static com.sparta.gateway.domain.GatewayConstant.X_USER_CLAIMS;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.commons.domain.jwt.JwtClaim;
@@ -24,7 +26,7 @@ public class SecurityContextFilter extends OncePerRequestFilter {
   @Override
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
       FilterChain filterChain) throws ServletException, IOException {
-    String userClaimsHeader = request.getHeader("x-user-claims");
+    String userClaimsHeader = request.getHeader(X_USER_CLAIMS);
 
     if (userClaimsHeader != null) {
       try {

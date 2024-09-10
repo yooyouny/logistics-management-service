@@ -1,5 +1,9 @@
 package com.sparta.gateway;
 
+import static com.sparta.gateway.domain.GatewayConstant.AUTHORIZATION;
+import static com.sparta.gateway.domain.GatewayConstant.BEARER_PREFIX;
+import static com.sparta.gateway.domain.GatewayConstant.X_USER_CLAIMS;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.commons.domain.jwt.JwtClaim;
@@ -21,9 +25,6 @@ import reactor.core.publisher.Mono;
 @Component
 public class JwtAuthenticationFilter implements GlobalFilter {
 
-  public static final String BEARER_PREFIX = "Bearer ";
-  public static final String AUTHORIZATION = "Authorization";
-  public static final String X_USER_CLAIMS = "x-user-claims";
   private final AuthService authService;
 
   public JwtAuthenticationFilter(@Lazy AuthService authService) {
