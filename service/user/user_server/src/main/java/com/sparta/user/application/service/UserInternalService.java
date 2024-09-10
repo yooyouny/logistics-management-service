@@ -38,4 +38,9 @@ public class UserInternalService {
         savedUser.getIsDelete()
     ));
   }
+
+  @Transactional(readOnly = true)
+  public boolean isMaster(Long userId) {
+    return userRepository.existsByIdAndRoleMaster(userId);
+  }
 }
