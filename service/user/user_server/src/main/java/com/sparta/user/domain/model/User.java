@@ -59,7 +59,7 @@ public class User extends BaseEntity {
         .username(username)
         .email(email)
         .password(password)
-        .role(UserRole.HUB_COMPANY)
+        .role(UserRole.ROLE_HUB_COMPANY)
         .build();
   }
 }
