@@ -1,5 +1,6 @@
 package com.sparta.auth.domain;
 
+import com.sparta.commons.domain.jwt.JwtClaim;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -38,7 +39,7 @@ public record JwtAuthentication(
 
   @Override
   public Object getPrincipal() {
-    return userId;
+    return JwtClaim.create(userId, username, role);
   }
 
   @Override

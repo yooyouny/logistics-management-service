@@ -10,4 +10,6 @@ public interface UserService {
   void createUser(UserCreateDto userCreateDto);
 
   Optional<UserDto> getUserDto(String username);
+
+  boolean isMaster(Long userId);
 }
