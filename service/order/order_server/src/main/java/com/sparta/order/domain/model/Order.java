@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.UUID;
 import lombok.AccessLevel;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
@@ -29,8 +30,9 @@ import org.hibernate.annotations.SQLRestriction;
 @Entity
 @Table(name = "P_ORDERS")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@SQLRestriction("is_delete is NULL")
+@SQLRestriction("is_delete is false")
 @SQLDelete(sql = "UPDATE p_orders SET deleted_at = NOW() where order_id = ?")
+@Getter
 public class Order extends BaseEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)
@@ -45,7 +47,7 @@ public class Order extends BaseEntity {
 
   @Enumerated(EnumType.STRING)
   @Column(nullable = false)
-  private OrderState orderState = OrderState.PENDING;
+  private OrderState orderState = OrderState.CREATED;
 
   private LocalDateTime orderDate;
 
@@ -63,14 +65,9 @@ public class Order extends BaseEntity {
   private boolean isDelete = false;
 
   @Builder
-  private Order(
-      UUID supplierCompanyId,
-      UUID receiverCompanyId,
-      OrderState orderState,
-      LocalDateTime orderDate) {
+  private Order(UUID supplierCompanyId, UUID receiverCompanyId, LocalDateTime orderDate) {
     this.supplierCompanyId = supplierCompanyId;
     this.receiverCompanyId = receiverCompanyId;
-    this.orderState = orderState;
     this.orderDate = orderDate;
   }
 
@@ -80,13 +77,19 @@ public class Order extends BaseEntity {
     this.totalQuantity = calculateTotalQuantity(orderDetailList);
   }
 
+  public void updateOrderState(OrderState state) {
+    this.orderState = state;
+  }
+
   public void setDelivery(Delivery delivery) {
     this.delivery = delivery;
   }
 
   private Money calculateTotalAmount(List<OrderDetail> orderDetailList) {
     return Money.won(
-        orderDetailList.stream().mapToInt(orderDetail -> orderDetail.getUnitPrice()).sum());
+        orderDetailList.stream()
+            .mapToInt(orderDetail -> orderDetail.getUnitPrice() * orderDetail.getQuantity())
+            .sum());
   }
 
   private int calculateTotalQuantity(List<OrderDetail> orderDetailList) {
