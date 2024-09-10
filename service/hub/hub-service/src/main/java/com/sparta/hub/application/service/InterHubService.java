@@ -34,6 +34,7 @@ public class InterHubService {
 
 
   //TODO 허브 생성/수정/삭제 등에 의한 이동 정보 수정 자동화 (도전?)
+  //이동 간 정보 생성 시 역방향 정보도 함께 생성
   @CacheEvict(cacheNames = "interHubAllCache", allEntries = true)
   public List<InterHubResponse> createRoute(InterHubCreateRequest requestDto) {
     Hub departureHub = hubRepository.findById(requestDto.getDepartureHubId()).orElseThrow(
@@ -44,7 +45,7 @@ public class InterHubService {
     if (departureHub == arrivalHub) {
       throw new IllegalStateException("출발 허브와 도착 허브가 같습니다");
     }
-    // 위도 / 경도 값으로 구한 직선 거리
+    // 위도 / 경도 값으로 구한 직선 거리 (km)
     double distance = CalculateDistance(departureHub, arrivalHub);
     // 평균 시속 60 km로 갔을때 소요 시간
     long elapsedTime = (long) ((distance / 60.0) * 60);
@@ -81,14 +82,15 @@ public class InterHubService {
     double lat2 = arrivalHub.getHubLatitude().doubleValue();
     double lon2 = arrivalHub.getHubLongitude().doubleValue();
 
-    final int R = 6400; // 지구 반지름 (단위: km)
+    final int R = 6400;
     double latDistance = Math.toRadians(lat2 - lat1);
     double lonDistance = Math.toRadians(lon2 - lon1);
     double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
         + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2))
         * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
     double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    double distance = R * c; // 두 허브 간 거리 (단위: km)
+    double distance = R * c;
+    distance = Math.round(distance * 10) / 10.0;
     return distance;
   }
 
