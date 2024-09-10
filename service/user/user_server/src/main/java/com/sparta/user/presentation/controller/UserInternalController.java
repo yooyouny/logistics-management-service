@@ -22,12 +22,12 @@ public class UserInternalController {
 
   private final UserInternalService userInternalService;
 
-  @PostMapping("/internal/users")
+  @PostMapping
   public void createUser(@RequestBody UserCreateDto userCreateDto) {
     userInternalService.createUser(userCreateDto.username(), userCreateDto.email(), userCreateDto.encodedPassword());
   }
 
-  @GetMapping("/internal/users")
+  @GetMapping
   public Optional<UserDto> getUserDto(@RequestParam(value = "username") String username) {
     return userInternalService.getUserDto(username);
   }
