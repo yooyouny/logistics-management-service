@@ -21,6 +21,13 @@ public class GlobalExceptionHandler {
         .body(new FailedResponseBody(errorCode.getCode(), errorCode.getMessage()));
   }
 
+  @ExceptionHandler(FeignClientException.class) // custom 에러
+  public ResponseEntity<ResponseBody<Void>> handleFeignClientException(HttpServletRequest request,
+      FeignClientException e) {
+    return ResponseEntity.status(e.getHttpStatus())
+        .body(new FailedResponseBody(e.getCode(), e.getMessage()));
+  }
+
   @ExceptionHandler(MethodArgumentNotValidException.class) // Valid
   public ResponseEntity<ResponseBody<Void>> handleMethodArgumentNotValidException(
       MethodArgumentNotValidException e) {
@@ -37,6 +44,6 @@ public class GlobalExceptionHandler {
     log.error("Exception : {}", e.getMessage());
     return ResponseEntity.internalServerError()
         .body(new FailedResponseBody(ErrorCode.INTERNAL_SERVER_ERROR.getCode(),
-            ErrorCode.INVALID_INPUT_VALUE.getMessage()));
+            ErrorCode.INTERNAL_SERVER_ERROR.getMessage()));
   }
 }

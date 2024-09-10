@@ -8,11 +8,13 @@ import com.sparta.auth.infrastructure.utils.JwtHandler;
 import com.sparta.user.dto.user_dto.UserCreateDto;
 import com.sparta.user.dto.user_dto.UserDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class AuthService {
