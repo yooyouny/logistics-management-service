@@ -1,7 +1,13 @@
 package com.sparta.user.domain.repository;
 
 import com.sparta.user.domain.model.User;
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.Optional;
+import org.springframework.stereotype.Repository;
 
-public interface UserRepository extends JpaRepository<User, Long> {
+@Repository
+public interface UserRepository {
+
+  Optional<User> findByUsername(String username);
+
+  User save(User user);
 }

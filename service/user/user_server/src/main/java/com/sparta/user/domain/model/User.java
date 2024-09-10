@@ -26,7 +26,7 @@ public class User extends BaseEntity {
   @Column(unique = true, nullable = false)
   private String username;
 
-  @Column(unique = true, nullable = false)
+  @Column(nullable = false)
   private String email;
 
   @Column(nullable = false)
@@ -52,5 +52,14 @@ public class User extends BaseEntity {
     this.shippingManager = shippingManager;
     this.username = username;
     this.email = email;
+  }
+
+  public static User create(String username, String email, String password) {
+    return User.builder()
+        .username(username)
+        .email(email)
+        .password(password)
+        .role(UserRole.HUB_COMPANY)
+        .build();
   }
 }
