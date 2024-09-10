@@ -1,4 +1,4 @@
-package com.sparta.auth.domain;
+package com.sparta.commons.domain.jwt;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

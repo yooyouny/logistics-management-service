@@ -1,7 +1,7 @@
 package com.sparta.auth.application.service;
 
 import com.sparta.auth.application.dtos.SingInResponse;
-import com.sparta.auth.domain.JwtClaim;
+import com.sparta.commons.domain.jwt.JwtClaim;
 import com.sparta.auth.exception.BusinessException;
 import com.sparta.auth.exception.ErrorCode;
 import com.sparta.auth.infrastructure.utils.JwtHandler;

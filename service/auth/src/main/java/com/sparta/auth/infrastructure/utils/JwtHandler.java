@@ -1,6 +1,6 @@
 package com.sparta.auth.infrastructure.utils;
 
-import com.sparta.auth.domain.JwtClaim;
+import com.sparta.commons.domain.jwt.JwtClaim;
 import com.sparta.auth.infrastructure.properties.JwtProperties;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

@@ -2,7 +2,7 @@ package com.sparta.auth.application;
 
 import com.sparta.auth.domain.JwtAuthentication;
 import com.sparta.auth.domain.JwtAuthenticationToken;
-import com.sparta.auth.domain.JwtClaim;
+import com.sparta.commons.domain.jwt.JwtClaim;
 import com.sparta.auth.exception.jwt.JwtTokenExpiredException;
 import com.sparta.auth.exception.jwt.JwtTokenInvalidException;
 import com.sparta.auth.infrastructure.utils.JwtHandler;
