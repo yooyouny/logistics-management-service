@@ -29,6 +29,7 @@ ext {
 
 dependencies {
 	implementation project(':common:domain')
+	implementation project(':service:gateway:gateway_domain')
 
 	implementation 'org.springframework.cloud:spring-cloud-starter-gateway'
 	implementation 'org.springframework.boot:spring-boot-starter-web' // TODO. 물어보기 이거 왜 web?
