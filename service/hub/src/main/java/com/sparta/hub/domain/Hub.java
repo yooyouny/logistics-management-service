@@ -3,10 +3,8 @@ package com.sparta.hub.domain;
 import com.sparta.commons.domain.jpa.BaseEntity;
 import com.sparta.hub.application.dto.hub.HubUpdateRequest;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.annotations.SQLRestriction;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -17,7 +15,8 @@ import java.util.UUID;
 @Table(name = "p_hubs")
 @Builder
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@SQLRestriction("is_delete is false")
 public class Hub extends BaseEntity {
 
     @Id
