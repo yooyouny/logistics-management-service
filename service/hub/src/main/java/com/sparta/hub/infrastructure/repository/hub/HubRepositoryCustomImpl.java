@@ -19,39 +19,39 @@ import static com.sparta.hub.domain.QHub.*;
 
 public class HubRepositoryCustomImpl implements HubRepositoryCustom {
 
-    private final EntityManager em;
-    private final JPAQueryFactory queryFactory;
-    private final HubMapper hubMapper;
+  private final EntityManager em;
+  private final JPAQueryFactory queryFactory;
+  private final HubMapper hubMapper;
 
-    public HubRepositoryCustomImpl(EntityManager em) {
-        this.em = em;
-        this.queryFactory = new JPAQueryFactory(em);
-        this.hubMapper = new HubMapper();
-    }
+  public HubRepositoryCustomImpl(EntityManager em) {
+    this.em = em;
+    this.queryFactory = new JPAQueryFactory(em);
+    this.hubMapper = new HubMapper();
+  }
 
-    @Override
-    public Page<HubResponse> searchHub(Pageable pageable, HubSearchCond cond) {
-        JPAQuery<Hub> common = queryFactory
-                .selectFrom(hub)
-                .where(
-                        hubNameEq(cond.getName()),
-                        hubAddressEq(cond.getAddress()),
-                        hub.isDelete.eq(false)
-                );
+  @Override
+  public Page<HubResponse> searchHub(Pageable pageable, HubSearchCond cond) {
+    JPAQuery<Hub> common = queryFactory
+        .selectFrom(hub)
+        .where(
+            hubNameEq(cond.getName()),
+            hubAddressEq(cond.getAddress()),
+            hub.isDelete.eq(false)
+        );
 
-        List<Hub> list = common.offset(pageable.getOffset())
-                .limit(pageable.getPageSize()).fetch();
+    List<Hub> list = common.offset(pageable.getOffset())
+        .limit(pageable.getPageSize()).fetch();
 
-        List<HubResponse> content = list.stream()
-                .map(hubMapper::toResponse).toList();
-        return PageableExecutionUtils.getPage(content, pageable, common::fetchCount);
-    }
+    List<HubResponse> content = list.stream()
+        .map(hubMapper::toResponse).toList();
+    return PageableExecutionUtils.getPage(content, pageable, common::fetchCount);
+  }
 
-    private BooleanExpression hubNameEq(String name) {
-        return StringUtils.hasText(name) ? hub.hubName.like("%" + name + "%") : null;
-    }
+  private BooleanExpression hubNameEq(String name) {
+    return StringUtils.hasText(name) ? hub.hubName.like("%" + name + "%") : null;
+  }
 
-    private BooleanExpression hubAddressEq(String address) {
-        return StringUtils.hasText(address) ? hub.hubAddress.like("%" + address + "%") : null;
-    }
+  private BooleanExpression hubAddressEq(String address) {
+    return StringUtils.hasText(address) ? hub.hubAddress.like("%" + address + "%") : null;
+  }
 }

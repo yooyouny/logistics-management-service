@@ -9,8 +9,8 @@ import java.util.UUID;
 @Data
 public class InterHubCreateRequest {
 
-    @NotNull
-    private UUID departureHubId;
-    @NotNull
-    private UUID arrivalHubId;
+  @NotNull
+  private UUID departureHubId;
+  @NotNull
+  private UUID arrivalHubId;
 }

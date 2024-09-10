@@ -8,8 +8,8 @@ import java.util.UUID;
 @Data
 public class InterHubResponse implements Serializable {
 
-    private UUID interHubId;
-    private UUID departureHubId;
-    private UUID arrivalHubId;
-    private Long elapsedTime;
+  private UUID interHubId;
+  private UUID departureHubId;
+  private UUID arrivalHubId;
+  private Long elapsedTime;
 }

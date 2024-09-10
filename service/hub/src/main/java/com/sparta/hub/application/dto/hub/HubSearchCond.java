@@ -5,6 +5,6 @@ import lombok.Data;
 @Data
 public class HubSearchCond {
 
-    private String name;
-    private String address;
+  private String name;
+  private String address;
 }

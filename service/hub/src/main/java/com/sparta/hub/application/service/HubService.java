@@ -26,54 +26,54 @@ import java.util.UUID;
 @Transactional
 public class HubService {
 
-    private final HubRepository hubRepository;
-    private final HubMapper hubMapper;
+  private final HubRepository hubRepository;
+  private final HubMapper hubMapper;
 
-    @CacheEvict(cacheNames = "hubAllCache", allEntries = true)
-    public HubResponse createHub(HubCreateRequest hubCreateRequest) {
-        Hub hub = hubMapper.createRequestToEntity(hubCreateRequest);
-        hubRepository.save(hub);
-        return hubMapper.toResponse(hub);
+  @CacheEvict(cacheNames = "hubAllCache", allEntries = true)
+  public HubResponse createHub(HubCreateRequest hubCreateRequest) {
+    Hub hub = hubMapper.createRequestToEntity(hubCreateRequest);
+    hubRepository.save(hub);
+    return hubMapper.toResponse(hub);
+  }
+
+  @CachePut(cacheNames = "hubCache", key = "#result.hubId")
+  @CacheEvict(cacheNames = "hubAllCache", allEntries = true)
+  public HubResponse updateHub(HubUpdateRequest requestDto, UUID hubId) {
+    Hub hub = hubRepository.findByHubIdAndIsDeleteFalse(hubId)
+        .orElseThrow(() -> new EntityNotFoundException("해당 허브를 찾을 수 없습니다"));
+    hub.update(requestDto);
+    return hubMapper.toResponse(hub);
+
+  }
+
+  @Caching(evict = {
+      @CacheEvict(cacheNames = "hubCache", key = "args[0]"),
+      @CacheEvict(cacheNames = "hubAllCache", allEntries = true)})
+  public void deleteHub(UUID hubId, String email) {
+    Hub hub = hubRepository.findById(hubId)
+        .orElseThrow(() -> new EntityNotFoundException("해당 허브를 찾을 수 없습니다"));
+    if (!hub.getIsDelete()) {
+      hub.delete(email);
+    } else {
+      throw new AlreadyDeletedException("이미 삭제된 허브입니다");
     }
+  }
 
-    @CachePut(cacheNames = "hubCache", key = "#result.hubId")
-    @CacheEvict(cacheNames = "hubAllCache", allEntries = true)
-    public HubResponse updateHub(HubUpdateRequest requestDto, UUID hubId) {
-        Hub hub = hubRepository.findByHubIdAndIsDeleteFalse(hubId)
-                .orElseThrow(() -> new EntityNotFoundException("해당 허브를 찾을 수 없습니다"));
-        hub.update(requestDto);
-        return hubMapper.toResponse(hub);
+  @Transactional(readOnly = true)
+  @Cacheable(cacheNames = "hubCache", key = "args[0]")
+  public HubResponse getSingleHub(UUID hubId) {
+    Hub hub = hubRepository.findByHubIdAndIsDeleteFalse(hubId)
+        .orElseThrow(() -> new EntityNotFoundException("해당 허브를 찾을 수 없습니다"));
+    return hubMapper.toResponse(hub);
+  }
 
+  @Transactional(readOnly = true)
+  @Cacheable(cacheNames = "hubAllCache", key = "#pageable.pageNumber + '-' + #pageable.pageSize + '-' + #cond.name + '-' + #cond.address")
+  public Page<HubResponse> getAllHub(Pageable pageable, HubSearchCond cond) {
+    Page<HubResponse> list = hubRepository.searchHub(pageable, cond);
+    if (list.isEmpty()) {
+      throw new EntityNotFoundException("허브가 존재하지 않습니다");
     }
-
-    @Caching(evict = {
-            @CacheEvict(cacheNames = "hubCache", key = "args[0]"),
-            @CacheEvict(cacheNames = "hubAllCache", allEntries = true)})
-    public void deleteHub(UUID hubId, String email) {
-        Hub hub = hubRepository.findById(hubId)
-                .orElseThrow(() -> new EntityNotFoundException("해당 허브를 찾을 수 없습니다"));
-        if(!hub.getIsDelete()) {
-            hub.delete(email);
-        }else{
-            throw new AlreadyDeletedException("이미 삭제된 허브입니다");
-        }
-    }
-
-    @Transactional(readOnly = true)
-    @Cacheable(cacheNames = "hubCache", key = "args[0]")
-    public HubResponse getSingleHub(UUID hubId) {
-        Hub hub = hubRepository.findByHubIdAndIsDeleteFalse(hubId)
-                .orElseThrow(() -> new EntityNotFoundException("해당 허브를 찾을 수 없습니다"));
-        return hubMapper.toResponse(hub);
-    }
-
-    @Transactional(readOnly = true)
-    @Cacheable(cacheNames = "hubAllCache", key = "#pageable.pageNumber + '-' + #pageable.pageSize + '-' + #cond.name + '-' + #cond.address")
-    public Page<HubResponse> getAllHub(Pageable pageable, HubSearchCond cond) {
-        Page<HubResponse> list = hubRepository.searchHub(pageable, cond);
-        if (list.isEmpty()) {
-            throw new EntityNotFoundException("허브가 존재하지 않습니다");
-        }
-        return list;
-    }
+    return list;
+  }
 }

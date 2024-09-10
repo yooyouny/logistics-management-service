@@ -8,6 +8,5 @@ import org.springframework.data.domain.Pageable;
 
 public interface InterHubRepositoryCustom {
 
-
-    Page<InterHubResponse> searchHub(Pageable pageable, InterHubSearchCond cond);
+  Page<InterHubResponse> searchHub(Pageable pageable, InterHubSearchCond cond);
 }

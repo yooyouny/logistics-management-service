@@ -27,35 +27,39 @@ import java.util.UUID;
 @Slf4j
 public class InterHubController extends BaseEntity {
 
-    private final InterHubService interHubService;
+  private final InterHubService interHubService;
 
-    @PostMapping
-    public ResponseBody<List<InterHubResponse>> createInterHubRoute(@Valid @RequestBody InterHubCreateRequest requestDto) {
-        List<InterHubResponse> route = interHubService.createRoute(requestDto);
-        return new SuccessResponseBody<>(route);
-    }
+  @PostMapping
+  public ResponseBody<List<InterHubResponse>> createInterHubRoute(
+      @Valid @RequestBody InterHubCreateRequest requestDto) {
+    List<InterHubResponse> route = interHubService.createRoute(requestDto);
+    return new SuccessResponseBody<>(route);
+  }
 
-    @PutMapping("/{interHubId}")
-    public ResponseBody<InterHubResponse> updateInterHubRoute(@Valid @RequestBody InterHubUpdateRequest requestDto, @PathVariable UUID interHubId) {
-        InterHubResponse interHubResponse = interHubService.updateRoute(requestDto, interHubId);
-        return new SuccessResponseBody<>(interHubResponse);
-    }
+  @PutMapping("/{interHubId}")
+  public ResponseBody<InterHubResponse> updateInterHubRoute(
+      @Valid @RequestBody InterHubUpdateRequest requestDto, @PathVariable UUID interHubId) {
+    InterHubResponse interHubResponse = interHubService.updateRoute(requestDto, interHubId);
+    return new SuccessResponseBody<>(interHubResponse);
+  }
 
-    @DeleteMapping("/{interHubId}")
-    public ResponseBody<UUID> deleteInterHubRoute(@PathVariable UUID interHubId, @RequestHeader(value = "X_Email", required = false) String email) {
-        interHubService.delete(interHubId, email);
-        return new SuccessResponseBody<>(interHubId);
-    }
+  @DeleteMapping("/{interHubId}")
+  public ResponseBody<UUID> deleteInterHubRoute(@PathVariable UUID interHubId,
+      @RequestHeader(value = "X_Email", required = false) String email) {
+    interHubService.delete(interHubId, email);
+    return new SuccessResponseBody<>(interHubId);
+  }
 
-    @GetMapping("/{interHubId}")
-    public ResponseBody<InterHubResponse> getInterHubRoute(@PathVariable UUID interHubId) {
-        InterHubResponse response = interHubService.getOneHubRoute(interHubId);
-        return new SuccessResponseBody<>(response);
-    }
+  @GetMapping("/{interHubId}")
+  public ResponseBody<InterHubResponse> getInterHubRoute(@PathVariable UUID interHubId) {
+    InterHubResponse response = interHubService.getOneHubRoute(interHubId);
+    return new SuccessResponseBody<>(response);
+  }
 
-    @GetMapping
-    public ResponseBody<Page<InterHubResponse>> getAllInterHubRoutes(InterHubSearchCond cond, Pageable pageable) {
-        Page<InterHubResponse> allHubRoute = interHubService.getAllHubRoute(cond,pageable);
-        return new SuccessResponseBody<>(allHubRoute);
-    }
+  @GetMapping
+  public ResponseBody<Page<InterHubResponse>> getAllInterHubRoutes(InterHubSearchCond cond,
+      Pageable pageable) {
+    Page<InterHubResponse> allHubRoute = interHubService.getAllHubRoute(cond, pageable);
+    return new SuccessResponseBody<>(allHubRoute);
+  }
 }

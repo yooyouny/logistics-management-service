@@ -9,10 +9,10 @@ import java.util.UUID;
 @Data
 public class HubResponse implements Serializable {
 
-    private UUID hubId;
-    private Long userId;
-    private String hubName;
-    private String hubAddress;
-    private BigDecimal hubLatitude;
-    private BigDecimal hubLongitude;
+  private UUID hubId;
+  private Long userId;
+  private String hubName;
+  private String hubAddress;
+  private BigDecimal hubLatitude;
+  private BigDecimal hubLongitude;
 }
