@@ -5,7 +5,9 @@ include(':service:gateway')
 include(':service:company')
 include(':service:hub')
 include(':service:order')
-include(':service:user')
+
+include(':service:user:user_dto')
+include(':service:user:user_server')
 include(':service:auth')
 
 include(':common:domain')
