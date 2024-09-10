@@ -44,8 +44,10 @@ public class InterHubService {
     if (departureHub == arrivalHub) {
       throw new IllegalStateException("출발 허브와 도착 허브가 같습니다");
     }
-
-    long elapsedTime = CalculateElapsedTime(departureHub, arrivalHub);
+    // 위도 / 경도 값으로 구한 직선 거리
+    double distance = CalculateDistance(departureHub, arrivalHub);
+    // 평균 시속 60 km로 갔을때 소요 시간
+    long elapsedTime = (long) ((distance / 60.0) * 60);
 
     if (elapsedTime == 0) {
       throw new IllegalStateException("출발 허브와 도착 허브가 같습니다");
@@ -54,6 +56,7 @@ public class InterHubService {
     InterHub interHub = InterHub.builder()
         .departureHub(departureHub)
         .arrivalHub(arrivalHub)
+        .distance(distance)
         .elapsedTime(elapsedTime)
         .isDelete(false)
         .build();
@@ -61,6 +64,7 @@ public class InterHubService {
     InterHub interHubReverse = InterHub.builder()
         .departureHub(arrivalHub)
         .arrivalHub(departureHub)
+        .distance(distance)
         .elapsedTime(elapsedTime)
         .isDelete(false)
         .build();
@@ -70,9 +74,8 @@ public class InterHubService {
     return interHubMapper.toResponse(interHub, interHubReverse);
   }
 
-  // 하버 사인 공식으로 위,경도를 통한 직선 거리를 구하고
-  // 평균 시속 60km로 갔을 때의 소요 시간 ( 단위 : 분 )
-  private static long CalculateElapsedTime(Hub departureHub, Hub arrivalHub) {
+  // 하버 사인 공식으로 위,경도를 통한 직선 거리 ( km )
+  private static double CalculateDistance(Hub departureHub, Hub arrivalHub) {
     double lat1 = departureHub.getHubLatitude().doubleValue();
     double lon1 = departureHub.getHubLongitude().doubleValue();
     double lat2 = arrivalHub.getHubLatitude().doubleValue();
@@ -86,7 +89,7 @@ public class InterHubService {
         * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
     double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     double distance = R * c; // 두 허브 간 거리 (단위: km)
-    return (long) ((distance / 60.0) * 60);
+    return distance;
   }
 
   @CachePut(cacheNames = "interHubCache", key = "#result.interHubId")
@@ -98,7 +101,8 @@ public class InterHubService {
         .orElseThrow(() -> new EntityNotFoundException("출발 허브 정보가 없습니다"));
     Hub arrivalHub = hubRepository.findById(requestDto.getArrivalHubId())
         .orElseThrow(() -> new EntityNotFoundException("도착 허브 정보가 없습니다"));
-    interHub.update(departureHub, arrivalHub, requestDto.getElapsedTime());
+    double distance = CalculateDistance(departureHub, arrivalHub);
+    interHub.update(departureHub, arrivalHub, requestDto.getElapsedTime(), distance);
     return interHubMapper.toResponse(interHub);
   }
 
