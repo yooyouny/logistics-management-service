@@ -12,7 +12,9 @@ public final class SuccessResponseBody<T> extends ResponseBody<T> {
         data = null;
     }
 
-    public SuccessResponseBody(T result) {
+    public SuccessResponseBody(String code, T result) {
+        super();
         this.data = result;
+        this.setCode(code);
     }
 }
