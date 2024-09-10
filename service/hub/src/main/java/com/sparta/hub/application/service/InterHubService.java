@@ -116,7 +116,7 @@ public class InterHubService {
     }
 
     @Transactional(readOnly = true)
-    @Cacheable(cacheNames = "interHubAllCache", key = "methodName")
+    @Cacheable(cacheNames = "interHubAllCache", key = "#pageable.pageNumber + '-' + #pageable.pageSize + '-' + #cond.departureHubId + '-' + #cond.arrivalHubId + '-' + #cond.departureHubName + '-' + #cond.arrivalHubName")
     public  Page<InterHubResponse> getAllHubRoute(InterHubSearchCond cond, Pageable pageable) {
         Page<InterHubResponse> list = interHubRepository.searchHub(pageable, cond);
         if (list.isEmpty()) {
