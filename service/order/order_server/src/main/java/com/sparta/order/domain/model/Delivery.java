@@ -28,7 +28,7 @@ import org.hibernate.annotations.SQLRestriction;
 @Entity
 @Table(name = "P_DELIVERIES")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@SQLRestriction("is_delete is NULL")
+@SQLRestriction("is_delete is false")
 @SQLDelete(sql = "UPDATE p_deliveries SET deleted_at = NOW() where delivery_id = ?")
 public class Delivery extends BaseEntity {
   @Id
@@ -62,11 +62,11 @@ public class Delivery extends BaseEntity {
   @OneToMany(mappedBy = "delivery", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<DeliveryRoute> routes = new ArrayList<>();
 
-  @Column(nullable = false)
-  private LocalDateTime departureDate;
+  @Column(name = "shipping_start_date")
+  private LocalDateTime shippingStartDate; //TODO :: 배송요청에서 허브이동중으로 변경되었을때 초기화
 
-  @Column(nullable = false)
-  private LocalDateTime arrivalDate;
+  @Column(name = "shipping_end_date")
+  private LocalDateTime shippingEndDate; //TODO :: 업체배송중에서 업체배송완료로 변경되었을때 초기화
 
   private boolean isDelete = false;
 
@@ -75,22 +75,23 @@ public class Delivery extends BaseEntity {
       Order order,
       UUID departureHubId,
       UUID arrivalHubId,
-      DeliveryState deliveryState,
       String shippingAddress,
       UUID shippingManagerId,
       String shippingManagerSlackId) {
     setOrder(order);
     this.departureHubId = departureHubId;
     this.arrivalHubId = arrivalHubId;
-    this.deliveryState = deliveryState;
     this.shippingAddress = shippingAddress;
     this.shippingManagerId = shippingManagerId;
     this.shippingManagerSlackId = shippingManagerSlackId;
   }
 
-  public void setDeliveryDate(LocalDateTime departureDate, LocalDateTime arrivalDate) {
-    this.departureDate = departureDate;
-    this.arrivalDate = arrivalDate;
+  public void setDeliveryRoutes(List<DeliveryRoute> routes){
+    this.routes = routes;
+  }
+
+  public void updateDeliveryState(DeliveryState state){
+    this.deliveryState = state;
   }
 
   private void setOrder(Order order) {

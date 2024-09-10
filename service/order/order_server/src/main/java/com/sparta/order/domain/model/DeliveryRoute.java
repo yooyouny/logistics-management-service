@@ -47,7 +47,7 @@ public class DeliveryRoute extends BaseEntity {
 
   private Duration realElapsedTime;
 
-  private RouteState routeState;
+  private RouteState routeState = RouteState.PENDING;
 
   @Builder
   private DeliveryRoute(
@@ -58,8 +58,7 @@ public class DeliveryRoute extends BaseEntity {
       Integer expectedDistance,
       String expectedElapsedTime,
       Integer realDistance,
-      Duration realElapsedTime,
-      RouteState routeState) {
+      Duration realElapsedTime) {
     this.delivery = delivery;
     this.sequence = sequence;
     this.departureHubId = departureHubId;
@@ -68,6 +67,9 @@ public class DeliveryRoute extends BaseEntity {
     this.expectedElapsedTime = expectedElapsedTime;
     this.realDistance = realDistance;
     this.realElapsedTime = realElapsedTime;
-    this.routeState = routeState;
+  }
+
+  public void updateRouteState(RouteState state){
+    this.routeState = state;
   }
 }
