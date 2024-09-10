@@ -34,6 +34,8 @@ public class InterHub extends BaseEntity {
   @JoinColumn(name = "arrival_hub_id")
   private Hub arrivalHub;
 
+  @Column(nullable = false)
+  private Double distance;
   // 소요시간 ( 단위 : 분 )
   @Column(nullable = false)
   private Long elapsedTime;
@@ -41,9 +43,10 @@ public class InterHub extends BaseEntity {
   @Column(nullable = false)
   private Boolean isDelete = false;
 
-  public void update(Hub departureHub, Hub arrivalHub, Long elapsedTime) {
+  public void update(Hub departureHub, Hub arrivalHub, Long elapsedTime, Double distance) {
     this.departureHub = departureHub;
     this.arrivalHub = arrivalHub;
+    this.distance = distance;
     this.elapsedTime = elapsedTime;
   }
 

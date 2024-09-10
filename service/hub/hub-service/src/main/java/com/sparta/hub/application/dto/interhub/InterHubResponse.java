@@ -11,5 +11,6 @@ public class InterHubResponse implements Serializable {
   private UUID interHubId;
   private UUID departureHubId;
   private UUID arrivalHubId;
+  private Double distance;
   private Long elapsedTime;
 }

@@ -18,6 +18,7 @@ public class InterHubMapper {
     response.setInterHubId(interHub.getInterHubId());
     response.setDepartureHubId(interHub.getDepartureHub().getHubId());
     response.setArrivalHubId(interHub.getArrivalHub().getHubId());
+    response.setDistance(interHub.getDistance());
     response.setElapsedTime(interHub.getElapsedTime());
     return response;
   }
