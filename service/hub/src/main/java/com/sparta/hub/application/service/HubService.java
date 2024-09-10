@@ -68,7 +68,7 @@ public class HubService {
     }
 
     @Transactional(readOnly = true)
-    @Cacheable(cacheNames = "hubAllCache", key = "methodName")
+    @Cacheable(cacheNames = "hubAllCache", key = "#pageable.pageNumber + '-' + #pageable.pageSize + '-' + #cond.name + '-' + #cond.address")
     public Page<HubResponse> getAllHub(Pageable pageable, HubSearchCond cond) {
         Page<HubResponse> list = hubRepository.searchHub(pageable, cond);
         if (list.isEmpty()) {
