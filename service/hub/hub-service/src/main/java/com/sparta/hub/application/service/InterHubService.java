@@ -1,12 +1,12 @@
 package com.sparta.hub.application.service;
 
 import com.sparta.hub.application.dto.interhub.InterHubCreateRequest;
-import com.sparta.hub.application.dto.interhub.InterHubResponse;
 import com.sparta.hub.application.dto.interhub.InterHubSearchCond;
 import com.sparta.hub.application.dto.interhub.InterHubUpdateRequest;
 import com.sparta.hub.application.mapper.InterHubMapper;
 import com.sparta.hub.domain.Hub;
 import com.sparta.hub.domain.InterHub;
+import com.sparta.hub.dto.InterHubResponse;
 import com.sparta.hub.infrastructure.repository.hub.HubRepository;
 import com.sparta.hub.infrastructure.repository.interhub.InterHubRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -120,5 +120,12 @@ public class InterHubService {
       throw new EntityNotFoundException("허브 간 이동 정보가 존재하지 않습니다");
     }
     return list;
+  }
+
+  public InterHubResponse findInterHubByDpHubAndAvHub(UUID departureHubId, UUID arrivalHubId) {
+    InterHub interHub = interHubRepository.findByDpHubAndAvHub(departureHubId,
+        arrivalHubId)
+        .orElseThrow( () -> new EntityNotFoundException("허브 이동 간 정보가 존재하지 않습니다"));
+    return interHubMapper.toResponse(interHub);
   }
 }
