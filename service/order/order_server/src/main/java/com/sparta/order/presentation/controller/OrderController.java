@@ -21,6 +21,6 @@ public class OrderController {
 
   @PostMapping
   public ResponseBody<OrderResponse> create(@RequestBody @Valid OrderCreateRequest request) {
-    return new SuccessResponseBody<>(HttpStatus.CREATED.name(), orderFacadeService.create(request));
+    return new SuccessResponseBody<>(orderFacadeService.create(request));
   }
 }
