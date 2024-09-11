@@ -2,8 +2,7 @@ package com.sparta.order.domain.model;
 
 public class State {
   public enum OrderState {
-    PENDING("주문대기"),
-    CONFIRMED("주문완료"),
+    CREATED("주문생성"),
     SHIPPED("배송중"),
     DELIVERED("배송완료"),
     CANCELLED("주문취소");
@@ -16,12 +15,14 @@ public class State {
   }
 
   public enum DeliveryState {
-    PENDING("배송대기중"),
+    PENDING("배송대기"),
+    REQUESTED("배송요청"),
     IN_TRANSIT_TO_HUB("허브이동중"),
     AT_ARRIVAL_HUB("목적지허브도착"),
     OUT_FOR_DELIVERY("출고완료"),
     IN_TRANSIT_TO_COMPANY("업체배송중"),
-    CONFIRMED("배송확정");
+    DELIVERED("업체배송완료"),
+    CONFIRMED("업체배송확정");
 
     final String description;
 

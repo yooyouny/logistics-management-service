@@ -19,6 +19,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "P_ORDER_DETAILS")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 public class OrderDetail extends BaseEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)
