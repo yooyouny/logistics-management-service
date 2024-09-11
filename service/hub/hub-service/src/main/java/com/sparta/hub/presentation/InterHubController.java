@@ -25,7 +25,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @RequestMapping("/api/inter-hubs")
 @Slf4j
-public class InterHubController extends BaseEntity {
+public class InterHubController {
 
   private final InterHubService interHubService;
 
