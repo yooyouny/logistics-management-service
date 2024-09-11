@@ -1,14 +1,12 @@
 package com.sparta.hub.application.mapper;
 
-import com.sparta.hub.application.dto.interhub.InterHubResponse;
-import com.sparta.hub.application.dto.interhub.InterHubStopResponse;
-import com.sparta.hub.domain.Hub;
 import com.sparta.hub.domain.InterHub;
 import com.sparta.hub.domain.InterHubStop;
+import com.sparta.hub.dto.InterHubResponse;
+import com.sparta.hub.dto.InterHubStopResponse;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 // Dto to Entity ,  Entity to Dto

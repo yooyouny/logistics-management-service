@@ -1,21 +1,17 @@
 package com.sparta.hub.presentation;
 
-import com.sparta.commons.domain.jpa.BaseEntity;
 import com.sparta.commons.domain.response.ResponseBody;
 import com.sparta.commons.domain.response.SuccessResponseBody;
-import com.sparta.hub.application.dto.hub.HubResponse;
 import com.sparta.hub.application.dto.interhub.InterHubCreateRequest;
-import com.sparta.hub.application.dto.interhub.InterHubResponse;
 import com.sparta.hub.application.dto.interhub.InterHubSearchCond;
 import com.sparta.hub.application.dto.interhub.InterHubUpdateRequest;
 import com.sparta.hub.application.service.InterHubService;
-import com.sparta.hub.domain.InterHub;
+import com.sparta.hub.dto.InterHubResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
