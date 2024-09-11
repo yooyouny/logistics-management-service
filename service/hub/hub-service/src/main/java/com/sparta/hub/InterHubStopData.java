@@ -1,3 +1,4 @@
+/*
 package com.sparta.hub;
 
 import com.sparta.hub.application.dto.interhub.InterHubCreateRequest;
@@ -92,3 +93,4 @@ public class InterHubStopData {
     }
   }
 }
+*/
