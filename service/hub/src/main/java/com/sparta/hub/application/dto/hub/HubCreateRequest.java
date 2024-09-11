@@ -1,6 +1,7 @@
 package com.sparta.hub.application.dto.hub;
 
 import jakarta.validation.constraints.Digits;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
@@ -11,9 +12,9 @@ public class HubCreateRequest {
 
   @NotNull
   private Long userId;
-  @NotNull
+  @NotBlank
   private String hubName;
-  @NotNull
+  @NotBlank
   private String hubAddress;
   @NotNull
   @Digits(integer = 3, fraction = 4)  // 정수부 최대 3자리, 소수부 최대 4자리

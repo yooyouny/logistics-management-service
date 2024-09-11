@@ -7,11 +7,14 @@ include(':service:gateway:gateway_domain')
 
 include(':service:company')
 include(':service:hub')
-include(':service:order')
 
 include(':service:user:user_dto')
 include(':service:user:user_server')
 
 include(':service:auth')
+
+include(':service:order:order_server')
+include(':service:order:order_dto')
+
 
 include(':common:domain')
