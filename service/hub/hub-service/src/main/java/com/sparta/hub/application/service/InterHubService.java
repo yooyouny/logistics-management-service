@@ -48,27 +48,14 @@ public class InterHubService {
     // 위도 / 경도 값으로 구한 직선 거리 (km)
     double distance = CalculateDistance(departureHub, arrivalHub);
     // 평균 시속 60 km로 갔을때 소요 시간
-    long elapsedTime = (long) ((distance / 60.0) * 60);
+    long elapsedTime = (long) ((distance / 70.0) * 60);
 
     if (elapsedTime == 0) {
       throw new IllegalStateException("출발 허브와 도착 허브가 같습니다");
     }
 
-    InterHub interHub = InterHub.builder()
-        .departureHub(departureHub)
-        .arrivalHub(arrivalHub)
-        .distance(distance)
-        .elapsedTime(elapsedTime)
-        .isDelete(false)
-        .build();
-
-    InterHub interHubReverse = InterHub.builder()
-        .departureHub(arrivalHub)
-        .arrivalHub(departureHub)
-        .distance(distance)
-        .elapsedTime(elapsedTime)
-        .isDelete(false)
-        .build();
+    InterHub interHub = new InterHub(departureHub, arrivalHub, distance, elapsedTime);
+    InterHub interHubReverse = new InterHub(arrivalHub, departureHub, distance, elapsedTime);
 
     interHubRepository.save(interHub);
     interHubRepository.save(interHubReverse);

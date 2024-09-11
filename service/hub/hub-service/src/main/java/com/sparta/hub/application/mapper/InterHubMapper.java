@@ -1,8 +1,10 @@
 package com.sparta.hub.application.mapper;
 
 import com.sparta.hub.application.dto.interhub.InterHubResponse;
+import com.sparta.hub.application.dto.interhub.InterHubStopResponse;
 import com.sparta.hub.domain.Hub;
 import com.sparta.hub.domain.InterHub;
+import com.sparta.hub.domain.InterHubStop;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -20,6 +22,7 @@ public class InterHubMapper {
     response.setArrivalHubId(interHub.getArrivalHub().getHubId());
     response.setDistance(interHub.getDistance());
     response.setElapsedTime(interHub.getElapsedTime());
+    response.setStops(toResponse(interHub.getInterHubStops()));
     return response;
   }
 
@@ -29,6 +32,26 @@ public class InterHubMapper {
     InterHubResponse response2 = toResponse(interHub2);
     response.add(response1);
     response.add(response2);
+    return response;
+  }
+
+  public InterHubStopResponse toInterHubStopResponse(InterHubStop interHubStop) {
+    InterHubStopResponse response = new InterHubStopResponse();
+    response.setDepartureHubId(interHubStop.getDepartureHubId());
+    response.setArrivalHubId(interHubStop.getArrivalHubId());
+    response.setDistance(interHubStop.getDistance());
+    response.setElapsedTime(interHubStop.getElapsedTime());
+    response.setInterHubStopId(interHubStop.getInterHubStopId());
+    response.setSequence(interHubStop.getSequence());
+    return response;
+  }
+
+  public List<InterHubStopResponse> toResponse(List<InterHubStop> interHubStops) {
+    List<InterHubStopResponse> response = new ArrayList<>();
+    for (InterHubStop interHubStop : interHubStops) {
+      InterHubStopResponse interHubStopResponse = toInterHubStopResponse(interHubStop);
+      response.add(interHubStopResponse);
+    }
     return response;
   }
 

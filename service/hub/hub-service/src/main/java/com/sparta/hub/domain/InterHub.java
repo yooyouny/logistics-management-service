@@ -3,6 +3,8 @@ package com.sparta.hub.domain;
 import com.sparta.commons.domain.jpa.BaseEntity;
 import com.sparta.hub.exception.AlreadyDeletedException;
 import jakarta.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -43,6 +45,9 @@ public class InterHub extends BaseEntity {
   @Column(nullable = false)
   private Boolean isDelete = false;
 
+  @OneToMany(mappedBy = "interHub")
+  private List<InterHubStop> interHubStops = new ArrayList<>();
+
   public void update(Hub departureHub, Hub arrivalHub, Long elapsedTime, Double distance) {
     this.departureHub = departureHub;
     this.arrivalHub = arrivalHub;
@@ -58,5 +63,12 @@ public class InterHub extends BaseEntity {
     isDelete = true;
     deletedAt = LocalDateTime.now();
     deletedBy = email;
+  }
+
+  public InterHub(Hub departureHub, Hub arrivalHub, Double distance, Long elapsedTime) {
+    this.departureHub = departureHub;
+    this.arrivalHub = arrivalHub;
+    this.distance = distance;
+    this.elapsedTime = elapsedTime;
   }
 }
