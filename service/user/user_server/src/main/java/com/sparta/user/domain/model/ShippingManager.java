@@ -9,6 +9,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
 import java.util.UUID;
@@ -18,6 +19,7 @@ import java.util.UUID;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "p_shipping_managers")
+@SQLDelete(sql = "UPDATE p_shipping_managers SET is_delete = true where id=?")
 @SQLRestriction(value = "is_delete is false")
 public class ShippingManager extends BaseEntity {
 
