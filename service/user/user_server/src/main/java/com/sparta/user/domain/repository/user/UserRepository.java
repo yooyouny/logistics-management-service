@@ -1,4 +1,4 @@
-package com.sparta.user.domain.repository;
+package com.sparta.user.domain.repository.user;
 
 import com.sparta.user.application.dto.UserInfo;
 import com.sparta.user.domain.model.User;

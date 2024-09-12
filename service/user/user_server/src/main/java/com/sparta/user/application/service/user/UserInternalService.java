@@ -1,11 +1,11 @@
-package com.sparta.user.application.service;
+package com.sparta.user.application.service.user;
 
 import static com.sparta.user.exception.UserErrorCode.USER_CONFLICT;
 import static com.sparta.user.exception.UserErrorCode.USER_NOT_FOUND;
 
 import com.sparta.commons.domain.exception.BusinessException;
 import com.sparta.user.domain.model.User;
-import com.sparta.user.domain.repository.UserRepository;
+import com.sparta.user.domain.repository.user.UserRepository;
 import com.sparta.user.dto.user_dto.UserDto;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;

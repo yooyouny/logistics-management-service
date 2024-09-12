@@ -1,13 +1,9 @@
-package com.sparta.user.infrastructure.repository;
+package com.sparta.user.infrastructure.repository.user;
 
 import static com.sparta.user.domain.model.QUser.user;
 
 import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
-import com.querydsl.core.types.Path;
-import com.querydsl.core.types.dsl.Expressions;
-import com.querydsl.core.types.dsl.PathBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.sparta.user.application.dto.UserInfo;
 import com.sparta.user.domain.model.User;

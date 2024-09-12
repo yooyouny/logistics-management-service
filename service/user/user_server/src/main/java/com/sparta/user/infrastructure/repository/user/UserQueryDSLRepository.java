@@ -1,4 +1,4 @@
-package com.sparta.user.infrastructure.repository;
+package com.sparta.user.infrastructure.repository.user;
 
 import com.sparta.user.application.dto.UserInfo;
 import org.springframework.data.domain.Page;

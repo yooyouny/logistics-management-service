@@ -1,10 +1,10 @@
-package com.sparta.user.presentation.controller;
+package com.sparta.user.presentation.controller.user;
 
 import com.sparta.commons.domain.jwt.JwtClaim;
 import com.sparta.commons.domain.response.ResponseBody;
 import com.sparta.commons.domain.response.SuccessResponseBody;
 import com.sparta.user.application.dto.UserInfo;
-import com.sparta.user.application.service.UserService;
+import com.sparta.user.application.service.user.UserService;
 import com.sparta.user.presentation.request.UpdateAuthorityRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

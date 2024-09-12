@@ -1,9 +1,9 @@
-package com.sparta.user.domain.repository;
+package com.sparta.user.domain.repository.user;
 
 import com.sparta.user.application.dto.UserInfo;
 import com.sparta.user.domain.model.User;
-import com.sparta.user.infrastructure.repository.UserJpaRepository;
-import com.sparta.user.infrastructure.repository.UserQueryDSLRepository;
+import com.sparta.user.infrastructure.repository.user.UserJpaRepository;
+import com.sparta.user.infrastructure.repository.user.UserQueryDSLRepository;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

@@ -3,6 +3,7 @@ package com.sparta.user.domain.model;
 import com.sparta.commons.domain.jpa.BaseEntity;
 import com.sparta.user.domain.model.vo.ShippingManagerType;
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -44,5 +45,25 @@ public class ShippingManager extends BaseEntity {
     this.isDelete = false;
     this.slackId = slackId;
     this.type = type;
+  }
+
+  public static ShippingManager create(String slackId, ShippingManagerType type, UUID hubId) {
+    return ShippingManager.builder()
+        .slackId(slackId)
+        .type(type)
+        .hubId(hubId)
+        .build();
+  }
+
+  public void update(String slackId, ShippingManagerType type, UUID hubId) {
+    this.slackId = slackId;
+    this.type = type;
+    this.hubId = hubId;
+  }
+
+  public void softDelete(String username) {
+    this.isDelete = true;
+    this.deletedAt = LocalDateTime.now();
+    this.deletedBy = username;
   }
 }

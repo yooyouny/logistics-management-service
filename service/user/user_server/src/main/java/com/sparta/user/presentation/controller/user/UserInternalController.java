@@ -1,13 +1,10 @@
-package com.sparta.user.presentation.controller;
+package com.sparta.user.presentation.controller.user;
 
-import com.sparta.commons.domain.response.ResponseBody;
-import com.sparta.user.application.service.UserInternalService;
-import com.sparta.user.application.service.UserService;
+import com.sparta.user.application.service.user.UserInternalService;
 import com.sparta.user.dto.user_dto.UserCreateDto;
 import com.sparta.user.dto.user_dto.UserDto;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
