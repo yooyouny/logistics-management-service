@@ -60,7 +60,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
   private void handleServiceException(HttpServletResponse response, JwtAuthenticationException e)
       throws IOException {
-    response.setStatus(e.getErrorCode().getStatus().value());
+    response.setStatus(e.getErrorCode().getStatus());
     response.setContentType("application/json;charset=UTF-8");
     ObjectMapper objectMapper = new ObjectMapper();
     String errorResponse = objectMapper.writeValueAsString(

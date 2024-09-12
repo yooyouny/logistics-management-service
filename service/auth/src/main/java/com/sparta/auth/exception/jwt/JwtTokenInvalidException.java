@@ -1,14 +1,14 @@
 package com.sparta.auth.exception.jwt;
 
-import com.sparta.auth.exception.ErrorCode;
+import com.sparta.auth.exception.AuthErrorCode;
 
 public class JwtTokenInvalidException extends JwtAuthenticationException {
 
   public JwtTokenInvalidException() {
-    super(ErrorCode.JWT_INVALID);
+    super(AuthErrorCode.JWT_INVALID);
   }
 
   public JwtTokenInvalidException(Throwable cause) {
-    super(cause, ErrorCode.JWT_INVALID);
+    super(cause, AuthErrorCode.JWT_INVALID);
   }
 }

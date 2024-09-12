@@ -1,7 +1,7 @@
 package com.sparta.auth.exception.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sparta.auth.exception.ErrorCode;
+import com.sparta.auth.exception.AuthErrorCode;
 import com.sparta.commons.domain.response.FailedResponseBody;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -28,7 +28,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
     response.setContentType(MediaType.APPLICATION_JSON_VALUE);
     response.setCharacterEncoding("UTF-8");
     objectMapper.writeValue(response.getWriter(),
-        new FailedResponseBody(ErrorCode.NEED_AUTHORIZED.getCode(),
-            ErrorCode.NEED_AUTHORIZED.getMessage()));
+        new FailedResponseBody(AuthErrorCode.NEED_AUTHORIZED.getCode(),
+            AuthErrorCode.NEED_AUTHORIZED.getMessage()));
   }
 }

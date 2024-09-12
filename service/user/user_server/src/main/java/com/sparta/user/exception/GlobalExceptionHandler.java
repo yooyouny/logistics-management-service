@@ -1,5 +1,7 @@
 package com.sparta.user.exception;
 
+import com.sparta.commons.domain.exception.BusinessException;
+import com.sparta.commons.domain.exception.ErrorCode;
 import com.sparta.commons.domain.response.FailedResponseBody;
 import com.sparta.commons.domain.response.ResponseBody;
 import jakarta.servlet.http.HttpServletRequest;
@@ -28,7 +30,7 @@ public class GlobalExceptionHandler {
 
     log.error("MethodArgumentNotValidException : {}", errorMessage);
     return ResponseEntity.badRequest()
-        .body(new FailedResponseBody(ErrorCode.INVALID_INPUT_VALUE.getCode(), errorMessage));
+        .body(new FailedResponseBody(UserErrorCode.INVALID_INPUT_VALUE.getCode(), errorMessage));
   }
 
   @ExceptionHandler(Exception.class)
@@ -36,7 +38,7 @@ public class GlobalExceptionHandler {
       Exception e) {
     log.error("Exception : {}", e.getMessage());
     return ResponseEntity.internalServerError()
-        .body(new FailedResponseBody(ErrorCode.INTERNAL_SERVER_ERROR.getCode(),
-            ErrorCode.INVALID_INPUT_VALUE.getMessage()));
+        .body(new FailedResponseBody(UserErrorCode.INTERNAL_SERVER_ERROR.getCode(),
+            UserErrorCode.INVALID_INPUT_VALUE.getMessage()));
   }
 }

@@ -2,9 +2,9 @@ package com.sparta.auth.infrastructure.feign;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sparta.auth.exception.BusinessException;
-import com.sparta.auth.exception.ErrorCode;
+import com.sparta.auth.exception.AuthErrorCode;
 import com.sparta.auth.exception.FeignClientException;
+import com.sparta.commons.domain.exception.BusinessException;
 import com.sparta.commons.domain.response.FailedResponseBody;
 import feign.Response;
 import feign.codec.ErrorDecoder;
@@ -27,7 +27,7 @@ public class UserErrorDecoder implements ErrorDecoder {
               errorData.get().getMsg());
       }
     }
-    return new BusinessException(ErrorCode.INTERNAL_SERVER_ERROR);
+    return new BusinessException(AuthErrorCode.INTERNAL_SERVER_ERROR);
   }
 
   private Optional<FailedResponseBody> parse(Response response) {

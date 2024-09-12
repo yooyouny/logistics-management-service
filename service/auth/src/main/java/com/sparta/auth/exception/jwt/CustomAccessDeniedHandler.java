@@ -1,7 +1,7 @@
 package com.sparta.auth.exception.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sparta.auth.exception.ErrorCode;
+import com.sparta.auth.exception.AuthErrorCode;
 import com.sparta.commons.domain.response.FailedResponseBody;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -29,7 +29,7 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
     response.setContentType(MediaType.APPLICATION_JSON_VALUE);
     response.setCharacterEncoding("UTF-8");
     objectMapper.writeValue(response.getWriter(),
-        new FailedResponseBody(ErrorCode.ACCESS_DENIED.getCode(),
-            ErrorCode.ACCESS_DENIED.getMessage()));
+        new FailedResponseBody(AuthErrorCode.ACCESS_DENIED.getCode(),
+            AuthErrorCode.ACCESS_DENIED.getMessage()));
   }
 }
