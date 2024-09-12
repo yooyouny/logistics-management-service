@@ -6,6 +6,12 @@ include(':service:gateway:gateway_server')
 include(':service:gateway:gateway_domain')
 
 include(':service:company')
+
+include(':service:hub:hub-service')
+include(':service:hub:hub_dto')
+include(':service:order')
+include(':service:user')
+
 include(':service:hub')
 
 include(':service:user:user_dto')
