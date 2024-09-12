@@ -3,9 +3,9 @@ spring:
     name: company
   # Hub service datasource
   datasource:
-    url: jdbc:postgresql://localhost:5432/company
-    username: postgres
-    password: 1234
+    url: ${DATASOURCE_URL}
+    username: ${DATASOURCE_USERNAME}
+    password: ${DATASOURCE_PASSWORD}
     driver-class-name: org.postgresql.Driver
 
   jpa:
@@ -23,3 +23,8 @@ eureka:
 
 server:
   port: 19095
+
+logging:
+  level:
+    feign.client: DEBUG
+
