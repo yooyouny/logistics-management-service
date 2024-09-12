@@ -2,10 +2,11 @@ package com.sparta.user.infrastructure.configuration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.user.SecurityContextFilter;
+import com.sparta.user.exception.CustomAccessDeniedHandler;
+import com.sparta.user.exception.CustomAuthenticationEntryPoint;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -19,6 +20,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class SecurityConfig {
 
+  private final CustomAuthenticationEntryPoint authenticationEntryPoint;
+  private final CustomAccessDeniedHandler accessDeniedHandler;
+
   @Bean
   public SecurityFilterChain httpSecurity(HttpSecurity http, ObjectMapper objectMapper) throws Exception {
     http
@@ -30,9 +34,12 @@ public class SecurityConfig {
         .logout(AbstractHttpConfigurer::disable)
         .requestCache(RequestCacheConfigurer::disable)
 
-
         .addFilterAfter(new SecurityContextFilter(objectMapper),
             UsernamePasswordAuthenticationFilter.class)
+
+        .exceptionHandling(e -> e
+            .authenticationEntryPoint(authenticationEntryPoint)
+            .accessDeniedHandler(accessDeniedHandler))
     ;
 
     return http.build();
