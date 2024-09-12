@@ -1,18 +1,6 @@
-package com.sparta.order.domain.model;
+package com.sparta.delivery.domain.model;
 
 public class State {
-  public enum OrderState {
-    CREATED("주문생성"),
-    SHIPPED("배송중"),
-    DELIVERED("배송완료"),
-    CANCELLED("주문취소");
-
-    final String description;
-
-    OrderState(String description) {
-      this.description = description;
-    }
-  }
 
   public enum DeliveryState {
     PENDING("배송대기"),

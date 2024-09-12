@@ -1,7 +1,7 @@
-package com.sparta.order.domain.model;
+package com.sparta.delivery.domain.model;
 
 import com.sparta.commons.domain.jpa.BaseEntity;
-import com.sparta.order.domain.model.State.DeliveryState;
+import com.sparta.delivery.domain.model.State.DeliveryState;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -36,9 +36,8 @@ public class Delivery extends BaseEntity {
   @Column(name = "delivery_id")
   private UUID deliveryId;
 
-  @OneToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "order_id", nullable = false)
-  private Order order;
+  @Column(nullable = false)
+  private UUID orderId;
 
   @Column(nullable = false)
   private UUID departureHubId;
@@ -72,13 +71,13 @@ public class Delivery extends BaseEntity {
 
   @Builder
   private Delivery(
-      Order order,
+      UUID orderId,
       UUID departureHubId,
       UUID arrivalHubId,
       String shippingAddress,
       UUID shippingManagerId,
       String shippingManagerSlackId) {
-    setOrder(order);
+    this.orderId = orderId;
     this.departureHubId = departureHubId;
     this.arrivalHubId = arrivalHubId;
     this.shippingAddress = shippingAddress;
@@ -94,8 +93,4 @@ public class Delivery extends BaseEntity {
     this.deliveryState = state;
   }
 
-  private void setOrder(Order order) {
-    this.order = order;
-    order.setDelivery(this);
-  }
 }

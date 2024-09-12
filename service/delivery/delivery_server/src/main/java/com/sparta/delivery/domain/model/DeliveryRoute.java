@@ -1,7 +1,7 @@
-package com.sparta.order.domain.model;
+package com.sparta.delivery.domain.model;
 
 import com.sparta.commons.domain.jpa.BaseEntity;
-import com.sparta.order.domain.model.State.RouteState;
+import com.sparta.delivery.domain.model.State.RouteState;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;

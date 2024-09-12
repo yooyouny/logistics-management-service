@@ -16,5 +16,7 @@ include(':service:auth')
 include(':service:order:order_server')
 include(':service:order:order_dto')
 
+include(':service:delivery:delivery_server')
+include(':service:delivery:delivery_dto')
 
 include(':common:domain')
