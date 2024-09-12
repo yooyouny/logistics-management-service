@@ -1,4 +1,4 @@
-package com.sparta.user;
+package com.sparta.user.filter;
 
 import static com.sparta.gateway.domain.GatewayConstant.X_USER_CLAIMS;
 

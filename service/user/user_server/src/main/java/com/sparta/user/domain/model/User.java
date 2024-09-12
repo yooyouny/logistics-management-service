@@ -62,4 +62,8 @@ public class User extends BaseEntity {
         .role(UserRole.ROLE_HUB_COMPANY)
         .build();
   }
+
+  public void updateAuthority(UserRole role) {
+    this.role = role;
+  }
 }

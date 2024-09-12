@@ -1,4 +1,4 @@
-package com.sparta.user;
+package com.sparta.user.filter;
 
 import com.sparta.commons.domain.jwt.JwtClaim;
 import java.util.Collection;
@@ -19,7 +19,7 @@ public record JwtAuthentication(
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
-    return Collections.singleton(new SimpleGrantedAuthority(this.role()));
+    return Collections.singleton(new SimpleGrantedAuthority(role));
   }
 
   @Override
