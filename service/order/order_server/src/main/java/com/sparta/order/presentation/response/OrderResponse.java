@@ -1,7 +1,7 @@
 package com.sparta.order.presentation.response;
 
 import com.sparta.order.domain.model.Order;
-import com.sparta.order.domain.model.State.OrderState;
+import com.sparta.order.domain.model.OrderState;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
