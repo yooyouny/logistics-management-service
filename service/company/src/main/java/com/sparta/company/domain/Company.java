@@ -1,6 +1,8 @@
 package com.sparta.company.domain;
 
 import com.sparta.commons.domain.jpa.BaseEntity;
+import com.sparta.company.application.dto.CompanyUpdateRequest;
+import com.sparta.company.exception.AlreadyDeletedException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -8,6 +10,8 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.Valid;
+import java.time.LocalDateTime;
 import java.util.UUID;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -40,7 +44,24 @@ public class Company extends BaseEntity {
   @Column(nullable = false)
   private String companyAddress;
   private boolean isDelete = false;
-  private UUID HubId;
+  private UUID hubId;
   private Long userId;
 
+  public void update(CompanyUpdateRequest request) {
+    companyName = request.getCompanyName();
+    companyAddress = request.getCompanyAddress();
+    companyType = request.getCompanyType();
+    hubId = request.getHubId();
+    userId = request.getUserId();
+    super.updatedAt = LocalDateTime.now();
+  }
+
+  public void delete() {
+    if(isDelete) {
+      throw new AlreadyDeletedException("Company already deleted");
+    }
+    this.isDelete = true;
+    super.updatedAt = LocalDateTime.now();
+
+  }
 }
