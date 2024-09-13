@@ -1,5 +1,6 @@
 package com.sparta.hub.application.dto.interhub;
 
+import com.sparta.hub.dto.InterHubStopResponse;
 import java.io.Serializable;
 import java.util.List;
 import lombok.Data;

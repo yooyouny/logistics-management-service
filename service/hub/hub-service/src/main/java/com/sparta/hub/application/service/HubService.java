@@ -76,4 +76,9 @@ public class HubService {
     }
     return list;
   }
+
+  public boolean checkHubExists(UUID hubId) {
+    System.out.println("checkHubExists : = " + hubId);
+    return hubRepository.findById(hubId).isPresent();
+  }
 }
