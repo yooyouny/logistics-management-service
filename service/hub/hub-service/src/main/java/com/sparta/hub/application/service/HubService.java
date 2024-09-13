@@ -11,6 +11,8 @@ import com.sparta.hub.infrastructure.repository.hub.HubRepository;
 import jakarta.persistence.EntityNotFoundException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
+import javax.swing.text.html.Option;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -93,7 +95,6 @@ public class HubService {
   }
 
   public boolean checkHubExists(UUID hubId) {
-    System.out.println("checkHubExists : = " + hubId);
     return hubRepository.findById(hubId).isPresent();
   }
 }
