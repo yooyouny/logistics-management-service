@@ -35,13 +35,18 @@ dependencies {
 	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation project(':common:domain')
 	implementation project(':service:hub:hub_dto')
+	implementation project(':service:gateway:gateway_domain')
+
 
 	// p6spy 추가
 	implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.9.0'
 	// QueryDSL 추가
 	implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
+
+	testImplementation 'org.springframework.security:spring-security-test'
 	annotationProcessor "com.querydsl:querydsl-apt:5.0.0:jakarta"
 	annotationProcessor "jakarta.annotation:jakarta.annotation-api"
 	annotationProcessor "jakarta.persistence:jakarta.persistence-api"
