@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.UUID;
 import lombok.AccessLevel;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
@@ -30,6 +31,7 @@ import org.hibernate.annotations.SQLRestriction;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @SQLRestriction("is_delete is false")
 @SQLDelete(sql = "UPDATE p_deliveries SET deleted_at = NOW() where delivery_id = ?")
+@Getter
 public class Delivery extends BaseEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)
@@ -61,8 +63,11 @@ public class Delivery extends BaseEntity {
   @OneToMany(mappedBy = "delivery", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<DeliveryRoute> routes = new ArrayList<>();
 
+  private long estimatedElapsedTime;
+  private double estimatedDistance;
+
   @Column(name = "shipping_start_date")
-  private LocalDateTime shippingStartDate; //TODO :: 배송요청에서 허브이동중으로 변경되었을때 초기화
+  private LocalDateTime shippingStartDate; //TODO :: 배송대기에서 배송요청으로 변경되었을때 초기화
 
   @Column(name = "shipping_end_date")
   private LocalDateTime shippingEndDate; //TODO :: 업체배송중에서 업체배송완료로 변경되었을때 초기화
@@ -83,6 +88,11 @@ public class Delivery extends BaseEntity {
     this.shippingAddress = shippingAddress;
     this.shippingManagerId = shippingManagerId;
     this.shippingManagerSlackId = shippingManagerSlackId;
+  }
+  public void setEstimatedDeliveryData(long estimatedElapsedTime, double estimatedDistance){
+    this.estimatedElapsedTime = estimatedElapsedTime;
+    this.estimatedDistance = estimatedDistance;
+    this.shippingStartDate = LocalDateTime.now();
   }
 
   public void setDeliveryRoutes(List<DeliveryRoute> routes){

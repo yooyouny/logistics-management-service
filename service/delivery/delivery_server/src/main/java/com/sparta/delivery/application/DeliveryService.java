@@ -1,7 +1,11 @@
 package com.sparta.delivery.application;
 
+import com.sparta.commons.domain.exception.BusinessException;
+import com.sparta.delivery.domain.model.Delivery;
+import com.sparta.delivery.domain.model.State.DeliveryState;
 import com.sparta.delivery.infrastructure.repository.DeliveryRepository;
-import com.sparta.delivery.infrastructure.repository.DeliveryRouteRepository;
+import com.sparta.delivery.presentation.exception.DeliveryErrorCode;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,33 +15,13 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class DeliveryService {
   private final DeliveryRepository deliveryRepository;
-  private final DeliveryRouteRepository deliveryRouteRepository;
 
-  //  public DeliveryDto create(UUID shippingManagerId, String shippingManagerSlackId, String
-  // shippingAddress, Order order, List<InterHubDto> interHubs){
-  // UUID departureHubId = interHubs.get(0).getHubId();
-  // UUID arrivalHubId = interHubs.get(interHubs.size() - 1).getHubId;
-  //    Delivery delivery = Delivery.builder()
-  //        .departureHubId(departureHubId)
-  //        .arrivalHubId(arrivalHubId)
-  //        .order(order)
-  //        .shippingManagerId(shippingManagerId)
-  //        .shippingManagerSlackId(shippingManagerSlackId)
-  //        .shippingAddress(shippingAddress)
-  //        .build();
-  //    deliveryRepository.save(delivery);
-  //    List<DeliveryRoute> routes = interHubs.stream()
-  //        .map(interHub -> DeliveryRoute.builder()
-  //            .departureHubId(interHub.getDepartureHubId)
-  //            .arrivalHubId(interHub.getArrivalHubId)
-  //            .delivery(delivery)
-  //            .expectedElapsedTime(interHub.getElapsedTime)
-  //            .expectedDistance(interHub.getDistance)
-  //            .sequence())
-  //        .collect(Collectors.toList());
-  //    deliveryRouteRepository.saveAll(routes);
-  //    delivery.setDeliveryRoutes(routes);
-
-  //    return DeliveryDto.
-  // }
+  public Delivery updateDeliveryState(UUID deliveryId) {
+    Delivery delivery =
+        deliveryRepository
+            .findByDeliveryId(deliveryId)
+            .orElseThrow(() -> new BusinessException(DeliveryErrorCode.NOT_FOUND_DELIVERY));
+    delivery.updateDeliveryState(DeliveryState.REQUESTED);
+    return delivery;
+  }
 }
