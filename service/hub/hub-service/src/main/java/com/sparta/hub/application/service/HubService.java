@@ -9,12 +9,15 @@ import com.sparta.hub.domain.Hub;
 import com.sparta.hub.exception.AlreadyDeletedException;
 import com.sparta.hub.infrastructure.repository.hub.HubRepository;
 import jakarta.persistence.EntityNotFoundException;
+import java.util.Arrays;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -70,11 +73,23 @@ public class HubService {
   @Transactional(readOnly = true)
   @Cacheable(cacheNames = "hubAllCache", key = "#pageable.pageNumber + '-' + #pageable.pageSize + '-' + #cond.name + '-' + #cond.address")
   public Page<HubResponse> getAllHub(Pageable pageable, HubSearchCond cond) {
+    int pageSize = validatePageSize(pageable.getPageSize());
+
+    // 검증된 pageSize로 새로운 Pageable 객체 생성
+    Pageable validatedPageable = PageRequest.of(pageable.getPageNumber(), pageSize);
     Page<HubResponse> list = hubRepository.searchHub(pageable, cond);
     if (list.isEmpty()) {
       throw new EntityNotFoundException("허브가 존재하지 않습니다");
     }
     return list;
+  }
+
+  private int validatePageSize(int pageSize) {
+    List<Integer> allowedSizes = Arrays.asList(10, 30, 50);
+    if (!allowedSizes.contains(pageSize)) {
+      return 10; // 기본 값 10으로 설정
+    }
+    return pageSize;
   }
 
   public boolean checkHubExists(UUID hubId) {

@@ -11,9 +11,12 @@ import com.sparta.company.infrastructure.client.HubClient;
 import com.sparta.company.infrastructure.repository.CompanyRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -68,10 +71,22 @@ public class CompanyService {
 
   @Transactional(readOnly = true)
   public Page<CompanyResponse> findAllCompanies(Pageable pageable, CompanySearchCond cond) {
-    Page<CompanyResponse> response = companyRepository.searchCompany(pageable, cond);
+    int pageSize = validatePageSize(pageable.getPageSize());
+
+    // 검증된 pageSize로 새로운 Pageable 객체 생성
+    Pageable validatedPageable = PageRequest.of(pageable.getPageNumber(), pageSize);
+    Page<CompanyResponse> response = companyRepository.searchCompany(validatedPageable, cond);
     if (response == null) {
       throw new EntityNotFoundException("해당하는 업체가 존재하지 않습니다");
     }
     return response;
+  }
+
+  private int validatePageSize(int pageSize) {
+    List<Integer> allowedSizes = Arrays.asList(10, 30, 50);
+    if (!allowedSizes.contains(pageSize)) {
+      return 10; // 기본 값 10으로 설정
+    }
+    return pageSize;
   }
 }
