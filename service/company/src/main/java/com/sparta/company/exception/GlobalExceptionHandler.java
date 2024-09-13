@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-  /*  @ExceptionHandler(AlreadyDeletedException.class)
+    @ExceptionHandler(AlreadyDeletedException.class)
     public ResponseEntity<FailedResponseBody> handleAlreadyDeletedException(AlreadyDeletedException e) {
         FailedResponseBody error = new FailedResponseBody(ErrorCode.ERROR_ALREADY_DELETED.getCode(), e.getMessage());
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
-    }*/
+    }
 
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<FailedResponseBody> handleEntityNotFoundException(EntityNotFoundException e) {
