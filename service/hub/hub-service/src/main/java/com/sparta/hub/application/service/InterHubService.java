@@ -10,6 +10,7 @@ import com.sparta.hub.dto.InterHubResponse;
 import com.sparta.hub.infrastructure.repository.hub.HubRepository;
 import com.sparta.hub.infrastructure.repository.interhub.InterHubRepository;
 import jakarta.persistence.EntityNotFoundException;
+import java.util.Arrays;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
@@ -115,6 +116,7 @@ public class InterHubService {
   @Transactional(readOnly = true)
   @Cacheable(cacheNames = "interHubAllCache", key = "#pageable.pageNumber + '-' + #pageable.pageSize + '-' + #cond.departureHubId + '-' + #cond.arrivalHubId + '-' + #cond.departureHubName + '-' + #cond.arrivalHubName")
   public Page<InterHubResponse> getAllHubRoute(InterHubSearchCond cond, Pageable pageable) {
+    int pageSize = validatePageSize(pageable.getPageSize());
     Page<InterHubResponse> list = interHubRepository.searchHub(pageable, cond);
     if (list.isEmpty()) {
       throw new EntityNotFoundException("허브 간 이동 정보가 존재하지 않습니다");
@@ -127,5 +129,13 @@ public class InterHubService {
         arrivalHubId)
         .orElseThrow( () -> new EntityNotFoundException("허브 이동 간 정보가 존재하지 않습니다"));
     return interHubMapper.toResponse(interHub);
+  }
+
+  private int validatePageSize(int pageSize) {
+    List<Integer> allowedSizes = Arrays.asList(10, 30, 50);
+    if (!allowedSizes.contains(pageSize)) {
+      return 10; // 기본 값 10으로 설정
+    }
+    return pageSize;
   }
 }

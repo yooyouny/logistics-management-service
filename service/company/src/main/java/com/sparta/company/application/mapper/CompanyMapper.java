@@ -1,6 +1,6 @@
 package com.sparta.company.application.mapper;
 
-import com.sparta.company.application.dto.CompanyRequest;
+import com.sparta.company.application.dto.CompanyCreateRequest;
 import com.sparta.company.application.dto.CompanyResponse;
 import com.sparta.company.domain.Company;
 import lombok.NoArgsConstructor;
@@ -8,13 +8,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CompanyMapper {
 
-  public Company createRequestToEntity(CompanyRequest companyRequest) {
+  public Company createRequestToEntity(CompanyCreateRequest companyCreateRequest) {
     return Company.builder()
-        .companyType(companyRequest.getCompanyType())
-        .HubId(companyRequest.getHubId())
-        .companyAddress(companyRequest.getCompanyAddress())
-        .companyName(companyRequest.getCompanyName())
-        .userId(companyRequest.getUserId())
+        .companyType(companyCreateRequest.getCompanyType())
+        .hubId(companyCreateRequest.getHubId())
+        .companyAddress(companyCreateRequest.getCompanyAddress())
+        .companyName(companyCreateRequest.getCompanyName())
+        .userId(companyCreateRequest.getUserId())
         .isDelete(false)
         .build();
   }
