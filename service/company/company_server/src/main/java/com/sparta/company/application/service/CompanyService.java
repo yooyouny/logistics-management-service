@@ -32,8 +32,8 @@ public class CompanyService {
   private final CompanyMapper companyMapper = new CompanyMapper();
 
   public CompanyResponse createCompany(CompanyCreateRequest companyCreateRequest) {
-    ResponseEntity<Void> clientResponse = hubClient.checkHubExists(companyCreateRequest.getHubId());
-    if (clientResponse.getStatusCode() == HttpStatus.NOT_FOUND) {
+    boolean checkHub = hubClient.checkHubExists(companyCreateRequest.getHubId());
+    if (!checkHub) {
       throw new HubNotFoundException("해당 허브 Id가 존재하지 않습니다");
     }
     Company company = companyMapper.createRequestToEntity(companyCreateRequest);
@@ -42,8 +42,8 @@ public class CompanyService {
   }
 
   public CompanyResponse updateCompany(CompanyUpdateRequest request, UUID companyId) {
-    ResponseEntity<Void> clientResponse = hubClient.checkHubExists(request.getHubId());
-    if (clientResponse.getStatusCode() == HttpStatus.NOT_FOUND) {
+    boolean checkHub = hubClient.checkHubExists(request.getHubId());
+    if (!checkHub) {
       throw new HubNotFoundException("해당 허브 Id가 존재하지 않습니다");
     }
     Company company = companyRepository.findById(companyId).orElseThrow(

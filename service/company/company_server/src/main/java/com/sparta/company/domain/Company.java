@@ -2,8 +2,6 @@ package com.sparta.company.domain;
 
 import com.sparta.commons.domain.jpa.BaseEntity;
 import com.sparta.company.application.dto.company.CompanyUpdateRequest;
-import com.sparta.company.domain.CompanyType;
-import com.sparta.company.domain.Product;
 import com.sparta.company.exception.AlreadyDeletedException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
