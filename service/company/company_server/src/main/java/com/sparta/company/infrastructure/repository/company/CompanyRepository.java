@@ -1,4 +1,4 @@
-package com.sparta.company.infrastructure.repository;
+package com.sparta.company.infrastructure.repository.company;
 
 import com.sparta.company.domain.Company;
 import java.util.UUID;

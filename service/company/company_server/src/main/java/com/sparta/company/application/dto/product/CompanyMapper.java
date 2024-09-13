@@ -1,4 +1,4 @@
-package com.sparta.company.application.mapper;
+package com.sparta.company.application.dto.product;
 
 import com.sparta.company.application.dto.company.CompanyCreateRequest;
 import com.sparta.company.application.dto.company.CompanyResponse;

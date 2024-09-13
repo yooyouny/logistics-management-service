@@ -1,7 +1,7 @@
-package com.sparta.company.infrastructure.repository;
+package com.sparta.company.infrastructure.repository.company;
 
-import com.sparta.company.application.dto.CompanyResponse;
-import com.sparta.company.application.dto.CompanySearchCond;
+import com.sparta.company.application.dto.company.CompanyResponse;
+import com.sparta.company.application.dto.company.CompanySearchCond;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

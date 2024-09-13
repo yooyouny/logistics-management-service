@@ -1,4 +1,4 @@
-package com.sparta.company.application.dto;
+package com.sparta.company.application.dto.company;
 
 import com.sparta.company.domain.CompanyType;
 import jakarta.validation.constraints.NotBlank;
@@ -7,15 +7,16 @@ import java.util.UUID;
 import lombok.Data;
 
 @Data
-public class CompanyUpdateRequest {
+public class CompanyCreateRequest {
+
   @NotNull
   private Long userId;
   @NotNull
   private UUID hubId;
   @NotBlank
   private String companyName;
-  @NotBlank
-  private String companyAddress;
   @NotNull
   private CompanyType companyType;
+  @NotBlank
+  private String companyAddress;
 }

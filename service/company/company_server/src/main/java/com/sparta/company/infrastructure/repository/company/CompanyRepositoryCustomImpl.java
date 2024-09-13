@@ -1,4 +1,4 @@
-package com.sparta.company.infrastructure.repository;
+package com.sparta.company.infrastructure.repository.company;
 
 import static com.sparta.company.domain.QCompany.*;
 import static org.springframework.util.StringUtils.*;
@@ -6,19 +6,17 @@ import static org.springframework.util.StringUtils.*;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.sparta.company.application.dto.CompanyResponse;
-import com.sparta.company.application.dto.CompanySearchCond;
+import com.sparta.company.application.dto.company.CompanyResponse;
+import com.sparta.company.application.dto.company.CompanySearchCond;
 import com.sparta.company.application.mapper.CompanyMapper;
 import com.sparta.company.domain.Company;
 import com.sparta.company.domain.CompanyType;
-import com.sparta.company.domain.QCompany;
 import jakarta.persistence.EntityManager;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
-import org.springframework.util.StringUtils;
 
 
 public class CompanyRepositoryCustomImpl implements CompanyRepositoryCustom {

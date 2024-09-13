@@ -2,12 +2,11 @@ package com.sparta.company.presentation.controller;
 
 import com.sparta.commons.domain.response.ResponseBody;
 import com.sparta.commons.domain.response.SuccessResponseBody;
-import com.sparta.company.application.dto.CompanyCreateRequest;
-import com.sparta.company.application.dto.CompanyResponse;
-import com.sparta.company.application.dto.CompanySearchCond;
-import com.sparta.company.application.dto.CompanyUpdateRequest;
+import com.sparta.company.application.dto.company.CompanyCreateRequest;
+import com.sparta.company.application.dto.company.CompanyResponse;
+import com.sparta.company.application.dto.company.CompanySearchCond;
+import com.sparta.company.application.dto.company.CompanyUpdateRequest;
 import com.sparta.company.application.service.CompanyService;
-import feign.Response;
 import jakarta.validation.Valid;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;

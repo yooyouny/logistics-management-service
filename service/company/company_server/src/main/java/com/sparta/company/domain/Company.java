@@ -1,7 +1,9 @@
 package com.sparta.company.domain;
 
 import com.sparta.commons.domain.jpa.BaseEntity;
-import com.sparta.company.application.dto.CompanyUpdateRequest;
+import com.sparta.company.application.dto.company.CompanyUpdateRequest;
+import com.sparta.company.domain.CompanyType;
+import com.sparta.company.domain.Product;
 import com.sparta.company.exception.AlreadyDeletedException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -9,9 +11,10 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.validation.Valid;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -46,6 +49,9 @@ public class Company extends BaseEntity {
   private boolean isDelete = false;
   private UUID hubId;
   private Long userId;
+  @OneToMany(mappedBy = "company")
+  private List<Product> products;
+
 
   public void update(CompanyUpdateRequest request) {
     companyName = request.getCompanyName();

@@ -1,16 +1,15 @@
 package com.sparta.company.application.service;
 
-import com.sparta.company.application.dto.CompanyCreateRequest;
-import com.sparta.company.application.dto.CompanyResponse;
-import com.sparta.company.application.dto.CompanySearchCond;
-import com.sparta.company.application.dto.CompanyUpdateRequest;
+import com.sparta.company.application.dto.company.CompanyCreateRequest;
+import com.sparta.company.application.dto.company.CompanyResponse;
+import com.sparta.company.application.dto.company.CompanySearchCond;
+import com.sparta.company.application.dto.company.CompanyUpdateRequest;
 import com.sparta.company.application.mapper.CompanyMapper;
 import com.sparta.company.domain.Company;
 import com.sparta.company.exception.HubNotFoundException;
 import com.sparta.company.infrastructure.client.HubClient;
-import com.sparta.company.infrastructure.repository.CompanyRepository;
+import com.sparta.company.infrastructure.repository.company.CompanyRepository;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.validation.Valid;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
