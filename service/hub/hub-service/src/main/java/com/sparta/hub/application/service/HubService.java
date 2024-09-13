@@ -56,11 +56,11 @@ public class HubService {
   @Caching(evict = {
       @CacheEvict(cacheNames = "hubCache", key = "args[0]"),
       @CacheEvict(cacheNames = "hubAllCache", allEntries = true)})
-  public void deleteHub(UUID hubId, String email) {
+  public void deleteHub(UUID hubId, String username) {
     Hub hub = hubRepository.findById(hubId)
         .orElseThrow(() -> new BusinessException(HubErrorCode.NOT_FOUND));
     if (!hub.getIsDelete()) {
-      hub.delete(email);
+      hub.delete(username);
     } else {
       throw new BusinessException(HubErrorCode.ALREADY_DELETED);
     }
