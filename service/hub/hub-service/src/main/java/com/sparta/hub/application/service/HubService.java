@@ -7,14 +7,11 @@ import com.sparta.hub.application.dto.hub.HubSearchCond;
 import com.sparta.hub.application.dto.hub.HubUpdateRequest;
 import com.sparta.hub.application.mapper.HubMapper;
 import com.sparta.hub.domain.Hub;
-import com.sparta.hub.exception.AlreadyDeletedException;
 import com.sparta.hub.exception.HubErrorCode;
+import com.sparta.hub.infrastructure.config.AuthenticationImpl;
 import com.sparta.hub.infrastructure.repository.hub.HubRepository;
-import jakarta.persistence.EntityNotFoundException;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
-import javax.swing.text.html.Option;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -23,6 +20,7 @@ import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -53,10 +51,12 @@ public class HubService {
 
   }
 
-  @Caching(evict = {
-      @CacheEvict(cacheNames = "hubCache", key = "args[0]"),
+  @Caching(evict = {@CacheEvict(cacheNames = "hubCache", key = "args[0]"),
       @CacheEvict(cacheNames = "hubAllCache", allEntries = true)})
-  public void deleteHub(UUID hubId, String username) {
+  public void deleteHub(UUID hubId) {
+    AuthenticationImpl authentication = (AuthenticationImpl) SecurityContextHolder.getContext()
+        .getAuthentication();
+    String username = authentication.getName();
     Hub hub = hubRepository.findById(hubId)
         .orElseThrow(() -> new BusinessException(HubErrorCode.NOT_FOUND));
     if (!hub.getIsDelete()) {

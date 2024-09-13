@@ -46,9 +46,7 @@ public class HubController {
   @DeleteMapping("/{hubId}")
   public ResponseBody<UUID> deleteHub(
      @PathVariable UUID hubId) {
-    AuthenticationImpl authentication = (AuthenticationImpl) SecurityContextHolder.getContext().getAuthentication();
-    String username = authentication.getName();
-    hubService.deleteHub(hubId, username);
+    hubService.deleteHub(hubId);
     return new SuccessResponseBody<>(hubId);
   }
 
