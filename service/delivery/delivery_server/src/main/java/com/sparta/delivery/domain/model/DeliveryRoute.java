@@ -15,11 +15,13 @@ import java.time.Duration;
 import java.util.UUID;
 import lombok.AccessLevel;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "P_DELIVERY_ROUTES")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 public class DeliveryRoute extends BaseEntity {
 
   @Id
@@ -40,8 +42,8 @@ public class DeliveryRoute extends BaseEntity {
   @Column(nullable = false)
   private UUID arrivalHubId;
 
-  private Integer expectedDistance;
-  private String expectedElapsedTime;
+  private double estimatedDistance;
+  private long estimatedElapsedTime;
 
   private Integer realDistance;
 
@@ -55,16 +57,16 @@ public class DeliveryRoute extends BaseEntity {
       int sequence,
       UUID departureHubId,
       UUID arrivalHubId,
-      Integer expectedDistance,
-      String expectedElapsedTime,
+      double estimatedDistance,
+      long estimatedElapsedTime,
       Integer realDistance,
       Duration realElapsedTime) {
     this.delivery = delivery;
     this.sequence = sequence;
     this.departureHubId = departureHubId;
     this.arrivalHubId = arrivalHubId;
-    this.expectedDistance = expectedDistance;
-    this.expectedElapsedTime = expectedElapsedTime;
+    this.estimatedDistance = estimatedDistance;
+    this.estimatedElapsedTime = estimatedElapsedTime;
     this.realDistance = realDistance;
     this.realElapsedTime = realElapsedTime;
   }
