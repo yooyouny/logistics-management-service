@@ -61,7 +61,7 @@ public class Company extends BaseEntity {
       throw new AlreadyDeletedException("Company already deleted");
     }
     this.isDelete = true;
-    super.updatedAt = LocalDateTime.now();
+    super.deletedAt = LocalDateTime.now();
 
   }
 }
