@@ -1,5 +1,6 @@
 package com.sparta.hub.presentation;
 
+import com.sparta.hub.application.service.HubInternalService;
 import com.sparta.hub.application.service.HubService;
 import com.sparta.hub.domain.Hub;
 import java.util.Optional;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/internal/hubs")
 public class InternalHubController {
 
-  private final HubService hubService;
+  private final HubInternalService hubService;
 
   @GetMapping("/{hubId}")
   public boolean checkHubExists(@PathVariable UUID hubId) {

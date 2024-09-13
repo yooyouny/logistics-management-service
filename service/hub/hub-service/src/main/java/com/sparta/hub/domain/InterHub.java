@@ -1,7 +1,9 @@
 package com.sparta.hub.domain;
 
+import com.sparta.commons.domain.exception.BusinessException;
 import com.sparta.commons.domain.jpa.BaseEntity;
 import com.sparta.hub.exception.AlreadyDeletedException;
+import com.sparta.hub.exception.InterHubErrorCode;
 import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -58,7 +60,7 @@ public class InterHub extends BaseEntity {
   //TODO deletedBy 임의로 헤더에서 emial을 넣는걸로 설정, 이후 수정
   public void delete(String email) {
     if (isDelete) {
-      throw new AlreadyDeletedException("이미 삭제 된 허브 간 이동 정보입니다.");
+      throw new BusinessException(InterHubErrorCode.ALREADY_DELETED);
     }
     isDelete = true;
     deletedAt = LocalDateTime.now();

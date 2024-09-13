@@ -1,5 +1,6 @@
 package com.sparta.hub.application.service;
 
+import com.sparta.commons.domain.exception.BusinessException;
 import com.sparta.hub.application.dto.interhub.InterHubCreateRequest;
 import com.sparta.hub.application.dto.interhub.InterHubSearchCond;
 import com.sparta.hub.application.dto.interhub.InterHubUpdateRequest;
@@ -7,6 +8,8 @@ import com.sparta.hub.application.mapper.InterHubMapper;
 import com.sparta.hub.domain.Hub;
 import com.sparta.hub.domain.InterHub;
 import com.sparta.hub.dto.InterHubResponse;
+import com.sparta.hub.exception.HubErrorCode;
+import com.sparta.hub.exception.InterHubErrorCode;
 import com.sparta.hub.infrastructure.repository.hub.HubRepository;
 import com.sparta.hub.infrastructure.repository.interhub.InterHubRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -39,9 +42,9 @@ public class InterHubService {
   @CacheEvict(cacheNames = "interHubAllCache", allEntries = true)
   public List<InterHubResponse> createRoute(InterHubCreateRequest requestDto) {
     Hub departureHub = hubRepository.findById(requestDto.getDepartureHubId()).orElseThrow(
-        () -> new EntityNotFoundException("해당허브가 존재하지 않습니다"));
+        () -> new BusinessException(HubErrorCode.NOT_FOUND));
     Hub arrivalHub = hubRepository.findById(requestDto.getArrivalHubId()).orElseThrow(
-        () -> new EntityNotFoundException("해당허브가 존재하지 않습니다"));
+        () -> new BusinessException(HubErrorCode.NOT_FOUND));
 
     if (departureHub == arrivalHub) {
       throw new IllegalStateException("출발 허브와 도착 허브가 같습니다");
@@ -52,7 +55,7 @@ public class InterHubService {
     long elapsedTime = (long) ((distance / 70.0) * 60);
 
     if (elapsedTime == 0) {
-      throw new IllegalStateException("출발 허브와 도착 허브가 같습니다");
+      throw new BusinessException(InterHubErrorCode.INVALID_ROUTE_SAME_START_END);
     }
 
     InterHub interHub = new InterHub(departureHub, arrivalHub, distance, elapsedTime);
@@ -86,11 +89,11 @@ public class InterHubService {
   @CacheEvict(cacheNames = "interHubAllCache", allEntries = true)
   public InterHubResponse updateRoute(InterHubUpdateRequest requestDto, UUID interHubId) {
     InterHub interHub = interHubRepository.findById(interHubId)
-        .orElseThrow(() -> new EntityNotFoundException("해당 허브 간 이동 정보가 없습니다"));
+        .orElseThrow(() -> new BusinessException(InterHubErrorCode.NOT_FOUND));
     Hub departureHub = hubRepository.findById(requestDto.getDepartureHubId())
-        .orElseThrow(() -> new EntityNotFoundException("출발 허브 정보가 없습니다"));
+        .orElseThrow(() -> new BusinessException(HubErrorCode.NOT_FOUND));
     Hub arrivalHub = hubRepository.findById(requestDto.getArrivalHubId())
-        .orElseThrow(() -> new EntityNotFoundException("도착 허브 정보가 없습니다"));
+        .orElseThrow(() -> new BusinessException(HubErrorCode.NOT_FOUND));
     double distance = CalculateDistance(departureHub, arrivalHub);
     interHub.update(departureHub, arrivalHub, requestDto.getElapsedTime(), distance);
     return interHubMapper.toResponse(interHub);
@@ -101,7 +104,7 @@ public class InterHubService {
       @CacheEvict(cacheNames = "interHubAllCache", allEntries = true)})
   public void delete(UUID interHubId, String email) {
     InterHub interHub = interHubRepository.findById(interHubId)
-        .orElseThrow(() -> new EntityNotFoundException("해당 허브 간 이동 정보가 없습니다"));
+        .orElseThrow(() -> new BusinessException(InterHubErrorCode.NOT_FOUND));
     interHub.delete(email);
   }
 
@@ -109,7 +112,7 @@ public class InterHubService {
   @Cacheable(cacheNames = "interHubCache", key = "args[0]")
   public InterHubResponse getOneHubRoute(UUID interHubId) {
     InterHub interHub = interHubRepository.findById(interHubId)
-        .orElseThrow(() -> new EntityNotFoundException("해당 허브 간 이동 정보가 없습니다"));
+        .orElseThrow(() -> new BusinessException(InterHubErrorCode.NOT_FOUND));
     return interHubMapper.toResponse(interHub);
   }
 
@@ -119,7 +122,7 @@ public class InterHubService {
     int pageSize = validatePageSize(pageable.getPageSize());
     Page<InterHubResponse> list = interHubRepository.searchHub(pageable, cond);
     if (list.isEmpty()) {
-      throw new EntityNotFoundException("허브 간 이동 정보가 존재하지 않습니다");
+      throw new BusinessException(InterHubErrorCode.NOT_FOUND);
     }
     return list;
   }
@@ -127,7 +130,7 @@ public class InterHubService {
   public InterHubResponse findInterHubByDpHubAndAvHub(UUID departureHubId, UUID arrivalHubId) {
     InterHub interHub = interHubRepository.findByDpHubAndAvHub(departureHubId,
         arrivalHubId)
-        .orElseThrow( () -> new EntityNotFoundException("허브 이동 간 정보가 존재하지 않습니다"));
+        .orElseThrow( () -> new BusinessException(InterHubErrorCode.NOT_FOUND));
     return interHubMapper.toResponse(interHub);
   }
 

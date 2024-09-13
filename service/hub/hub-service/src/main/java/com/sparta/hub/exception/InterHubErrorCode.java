@@ -1,4 +1,4 @@
-package com.sparta.company.exception;
+package com.sparta.hub.exception;
 
 import com.sparta.commons.domain.exception.ErrorCode;
 import lombok.Getter;
@@ -7,10 +7,10 @@ import org.springframework.http.HttpStatus;
 
 @RequiredArgsConstructor
 @Getter
-public enum ProductErrorCode implements ErrorCode {
-  OUT_OF_STOCK(HttpStatus.BAD_REQUEST, "PRODUCT_0002", "재고가 부족합니다."),
-  ORDER_QUANTITY_EXCEEDS_STOCK(HttpStatus.BAD_REQUEST, "PRODUCT_0003", "주문 수량이 재고 수량보다 많습니다."),
-  NOT_FOUND(HttpStatus.NOT_FOUND, "PRODUCT_0001", "해당 상품이 존재하지 않습니다")
+public enum InterHubErrorCode implements ErrorCode {
+  NOT_FOUND(HttpStatus.NOT_FOUND, "HUB_001", "해당 허브 간 이동정보가 존재하지 않습니다"),
+  ALREADY_DELETED(HttpStatus.BAD_REQUEST, "HUB_002", "이미 삭제된 허브 간 이동정보입니다"),
+  INVALID_ROUTE_SAME_START_END(HttpStatus.BAD_REQUEST, "HUB_003", "출발지와 목적지가 같습니다")
   ;
 
   private final HttpStatus status;

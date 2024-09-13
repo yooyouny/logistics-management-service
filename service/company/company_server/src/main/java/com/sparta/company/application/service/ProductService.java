@@ -1,5 +1,6 @@
 package com.sparta.company.application.service;
 
+import com.sparta.commons.domain.exception.BusinessException;
 import com.sparta.company.application.dto.product.ProductCreateRequest;
 import com.sparta.company.application.dto.product.ProductResponse;
 import com.sparta.company.application.dto.product.ProductSearchCond;
@@ -7,7 +8,9 @@ import com.sparta.company.application.dto.product.ProductUpdateRequest;
 import com.sparta.company.application.mapper.ProductMapper;
 import com.sparta.company.domain.Company;
 import com.sparta.company.domain.Product;
-import com.sparta.company.exception.HubNotFoundException;
+import com.sparta.company.exception.CompanyErrorCode;
+import com.sparta.company.exception.HubErrorCode;
+import com.sparta.company.exception.ProductErrorCode;
 import com.sparta.company.infrastructure.client.HubClient;
 import com.sparta.company.infrastructure.repository.company.CompanyRepository;
 import com.sparta.company.infrastructure.repository.product.ProductRepository;
@@ -19,8 +22,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,7 +40,7 @@ public class ProductService {
 
     boolean checkHub = hubClient.checkHubExists(request.getHubId());
     if (!checkHub) {
-      throw new HubNotFoundException("관리 허브가 존재하지 않습니다");
+      throw new BusinessException(HubErrorCode.NOT_FOUND);
     }
 
     Product product = productMapper.createDtoToEntity(request, company);
@@ -86,12 +87,12 @@ public class ProductService {
 
   private Company getCompany(UUID companyId) {
     return companyRepository.findById(companyId)
-        .orElseThrow(() -> new EntityNotFoundException("해당 ID의 업체가 존재하지 않습니다"));
+        .orElseThrow(() -> new BusinessException(CompanyErrorCode.NOT_FOUND));
   }
 
   private Product getProduct(UUID productId) {
     return productRepository.findById(productId)
-        .orElseThrow(() -> new EntityNotFoundException("찾는 상품이 존재하지 않습니다"));
+        .orElseThrow(() -> new BusinessException(ProductErrorCode.NOT_FOUND));
   }
 
 
