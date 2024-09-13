@@ -21,16 +21,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class InterHubInternalController {
 
   private final InterHubService interHubService;
-  private final CompanyClient companyClient;
   private final HubService hubService;
 
   @GetMapping
   public Optional<InterHubResponse> getDeliveryRoutes(
-      @RequestParam("supplierCompanyId") UUID supplierCompanyId,
-      @RequestParam("receiverCompanyId") UUID receiverCompanyId
+      @RequestParam("departureHubId") UUID departureHubId,
+      @RequestParam("arrivalHubId") UUID arrivalHubId
   ){
-    UUID departureHubId = companyClient.findHubByCompanyId(supplierCompanyId);
-    UUID arrivalHubId = companyClient.findHubByCompanyId(receiverCompanyId);
     InterHubResponse interHubResponse = interHubService.findInterHubByDpHubAndAvHub(
         departureHubId, arrivalHubId);
     return Optional.ofNullable(interHubResponse);

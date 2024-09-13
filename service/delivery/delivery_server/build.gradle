@@ -23,6 +23,7 @@ ext {
 
 dependencies {
     implementation project(':common:domain')
+    implementation project(':service:hub:hub_dto')
     implementation project(':service:delivery:delivery_dto')
     implementation project(':service:gateway:gateway_domain')
 
