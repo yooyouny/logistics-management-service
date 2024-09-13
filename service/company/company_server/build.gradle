@@ -58,6 +58,14 @@ dependencyManagement {
 	}
 }
 
+sourceSets {
+	main {
+		java {
+			srcDirs = ['src/main/java', 'build/generated/sources/annotationProcessor/java/main']  // Q타입 생성 경로 추가
+		}
+	}
+}
+
 tasks.named('test') {
 	useJUnitPlatform()
 }
