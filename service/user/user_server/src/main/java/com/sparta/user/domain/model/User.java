@@ -3,6 +3,7 @@ package com.sparta.user.domain.model;
 import com.sparta.commons.domain.jpa.BaseEntity;
 import com.sparta.user.domain.model.vo.UserRole;
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -61,5 +62,20 @@ public class User extends BaseEntity {
         .password(password)
         .role(UserRole.ROLE_HUB_COMPANY)
         .build();
+  }
+
+  public void updateAuthority(UserRole role) {
+    this.role = role;
+  }
+
+  public void assignShippingManagerWithRoleUpgrade(ShippingManager shippingManager) {
+    this.shippingManager = shippingManager;
+    this.role = UserRole.ROLE_HUB_SHIPPING_MANAGER;
+  }
+
+  public void softDelete(String username) {
+    this.isDelete = true;
+    this.deletedAt = LocalDateTime.now();
+    this.deletedBy = username;
   }
 }

@@ -1,19 +1,18 @@
-package com.sparta.auth.exception.jwt;
+package com.sparta.user.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sparta.auth.exception.AuthErrorCode;
 import com.sparta.commons.domain.response.FailedResponseBody;
+import com.sparta.user.exception.UserErrorCode;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
-
-import java.io.IOException;
 
 @RequiredArgsConstructor
 @Component
@@ -28,7 +27,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
     response.setContentType(MediaType.APPLICATION_JSON_VALUE);
     response.setCharacterEncoding("UTF-8");
     objectMapper.writeValue(response.getWriter(),
-        new FailedResponseBody(AuthErrorCode.NEED_AUTHORIZED.getCode(),
-            AuthErrorCode.NEED_AUTHORIZED.getMessage()));
+        new FailedResponseBody(UserErrorCode.NEED_AUTHORIZED.getCode(),
+            UserErrorCode.NEED_AUTHORIZED.getMessage()));
   }
 }

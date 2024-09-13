@@ -1,9 +1,9 @@
 package com.sparta.auth.application.service;
 
 import com.sparta.auth.application.dtos.SingInResponse;
+import com.sparta.commons.domain.exception.BusinessException;
 import com.sparta.commons.domain.jwt.JwtClaim;
-import com.sparta.auth.exception.BusinessException;
-import com.sparta.auth.exception.ErrorCode;
+import com.sparta.auth.exception.AuthErrorCode;
 import com.sparta.auth.infrastructure.utils.JwtHandler;
 import com.sparta.user.dto.user_dto.UserCreateDto;
 import com.sparta.user.dto.user_dto.UserDto;
@@ -31,7 +31,7 @@ public class AuthService {
     Optional<UserDto> userDto = userService.getUserDto(username);
 
     if (userDto.isEmpty() || !passwordEncoder.matches(password, userDto.get().password())) {
-      throw new BusinessException(ErrorCode.SIGN_IN_FAIL);
+      throw new BusinessException(AuthErrorCode.SIGN_IN_FAIL);
     }
 
     String token = jwtHandler.createToken(
