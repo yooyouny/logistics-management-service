@@ -1,6 +1,7 @@
 package com.sparta.company.exception;
 
 import com.sparta.commons.domain.exception.BusinessException;
+import com.sparta.commons.domain.exception.ErrorCode;
 import com.sparta.commons.domain.response.FailedResponseBody;
 import com.sparta.commons.domain.response.ResponseBody;
 import com.sparta.company.exception.AlreadyDeletedException;
@@ -18,7 +19,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(BusinessException.class) // custom 에러
     public ResponseEntity<ResponseBody<Void>> handleServiceException(HttpServletRequest request,
         BusinessException e) {
-        com.sparta.commons.domain.exception.ErrorCode errorCode = e.getErrorCode();
+        ErrorCode errorCode = e.getErrorCode();
         return ResponseEntity.status(errorCode.getStatus())
             .body(new FailedResponseBody(errorCode.getCode(), errorCode.getMessage()));
     }
