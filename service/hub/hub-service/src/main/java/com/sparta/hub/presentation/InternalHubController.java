@@ -1,6 +1,8 @@
 package com.sparta.hub.presentation;
 
 import com.sparta.hub.application.service.HubService;
+import com.sparta.hub.domain.Hub;
+import java.util.Optional;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,9 +19,8 @@ public class InternalHubController {
   private final HubService hubService;
 
   @GetMapping("/{hubId}")
-  public ResponseEntity<Void> checkHubExists(@PathVariable UUID hubId) {
-    boolean exists = hubService.checkHubExists(hubId);
-    return exists ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
+  public boolean checkHubExists(@PathVariable UUID hubId) {
+    return hubService.checkHubExists(hubId);
   }
 
 }

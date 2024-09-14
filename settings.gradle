@@ -5,7 +5,8 @@ include(':service:eureka')
 include(':service:gateway:gateway_server')
 include(':service:gateway:gateway_domain')
 
-include(':service:company')
+include(':service:company:company_server')
+include(':service:company:company_dto')
 
 include(':service:hub:hub-service')
 include(':service:hub:hub_dto')
