@@ -1,10 +1,8 @@
 package com.sparta.company.domain.strategy.product.update;
 
 import com.sparta.commons.domain.exception.BusinessException;
-import com.sparta.company.domain.strategy.company.update.CompanyUpdateStrategy;
 import com.sparta.company.exception.CompanyErrorCode;
 import com.sparta.company.infrastructure.client.HubClient;
-import com.sparta.company.infrastructure.client.UserClient;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor

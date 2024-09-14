@@ -1,6 +1,5 @@
 package com.sparta.company.domain.strategy.product.update;
 
-import com.sparta.company.application.dto.company.CompanyUpdateRequest;
 import com.sparta.company.application.dto.product.ProductUpdateRequest;
 import com.sparta.company.domain.Company;
 import com.sparta.company.domain.Product;

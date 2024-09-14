@@ -1,7 +1,6 @@
 package com.sparta.company.presentation.controller;
 
 import com.sparta.company.application.service.CompanyInternalService;
-import com.sparta.company.application.service.CompanyService;
 import java.util.Optional;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;

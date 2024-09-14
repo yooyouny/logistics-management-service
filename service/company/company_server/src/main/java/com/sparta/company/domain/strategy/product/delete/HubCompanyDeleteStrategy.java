@@ -1,10 +1,7 @@
 package com.sparta.company.domain.strategy.product.delete;
 
 import com.sparta.commons.domain.exception.BusinessException;
-import com.sparta.company.application.dto.product.ProductUpdateRequest;
-import com.sparta.company.domain.Company;
 import com.sparta.company.domain.Product;
-import com.sparta.company.domain.strategy.product.update.ProductUpdateStrategy;
 import com.sparta.company.exception.ProductErrorCode;
 
 public class HubCompanyDeleteStrategy implements ProductDeleteStrategy {

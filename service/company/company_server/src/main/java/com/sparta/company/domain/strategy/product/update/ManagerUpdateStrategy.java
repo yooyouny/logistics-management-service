@@ -1,17 +1,13 @@
 package com.sparta.company.domain.strategy.product.update;
 
 import com.sparta.commons.domain.exception.BusinessException;
-import com.sparta.company.application.dto.company.CompanyUpdateRequest;
 import com.sparta.company.application.dto.product.ProductUpdateRequest;
 import com.sparta.company.domain.Company;
 import com.sparta.company.domain.Product;
-import com.sparta.company.domain.strategy.company.update.CompanyUpdateStrategy;
 import com.sparta.company.exception.CompanyErrorCode;
 import com.sparta.company.exception.ProductErrorCode;
 import com.sparta.company.infrastructure.client.HubClient;
-import com.sparta.company.infrastructure.client.UserClient;
 import com.sparta.hub.dto.HubResponse;
-import com.sparta.user.dto.user_dto.UserDto;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 

@@ -7,7 +7,6 @@ import com.sparta.company.exception.CompanyErrorCode;
 import com.sparta.company.infrastructure.client.HubClient;
 import com.sparta.company.infrastructure.client.UserClient;
 import com.sparta.hub.dto.HubResponse;
-import com.sparta.user.dto.user_dto.UserDto;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 

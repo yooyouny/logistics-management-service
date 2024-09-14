@@ -1,13 +1,10 @@
 package com.sparta.company.domain.strategy.company.update;
 
 import com.sparta.commons.domain.exception.BusinessException;
-import com.sparta.commons.domain.jwt.JwtClaim;
 import com.sparta.company.application.dto.company.CompanyUpdateRequest;
 import com.sparta.company.domain.Company;
 import com.sparta.company.exception.CompanyErrorCode;
 import com.sparta.company.infrastructure.client.UserClient;
-import com.sparta.user.dto.user_dto.UserDto;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor

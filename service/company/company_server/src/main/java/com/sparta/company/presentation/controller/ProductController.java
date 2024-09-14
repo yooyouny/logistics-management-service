@@ -8,7 +8,6 @@ import com.sparta.company.application.dto.product.ProductSearchCond;
 import com.sparta.company.application.dto.product.ProductUpdateRequest;
 import com.sparta.company.application.service.ProductService;
 import jakarta.validation.Valid;
-import jakarta.ws.rs.Path;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
