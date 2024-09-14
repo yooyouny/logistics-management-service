@@ -2,7 +2,11 @@ package com.sparta.delivery.dto;
 
 import java.time.Duration;
 import java.util.UUID;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@Getter
+@NoArgsConstructor
 public class DeliveryRouteDto {
   private UUID deliveryRouteId;
   private int sequence;
