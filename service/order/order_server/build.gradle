@@ -30,6 +30,8 @@ ext {
 dependencies {
     implementation project(':common:domain')
     implementation project(':service:order:order_dto')
+    implementation project(':service:delivery:delivery_dto')
+    implementation project(':service:company:company_dto')
     implementation project(':service:gateway:gateway_domain')
 
     implementation 'org.springframework.boot:spring-boot-starter-actuator'

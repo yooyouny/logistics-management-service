@@ -1,6 +1,7 @@
 package com.sparta.order.infrastructure.configuration;
 
-import com.sparta.order.infrastructure.messaging.OrderProductDeductProducer;
+import com.sparta.order.infrastructure.messaging.DeliveryCreateProducer;
+import com.sparta.order.infrastructure.messaging.ProductDeductProducer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
@@ -14,8 +15,13 @@ public class KafkaConfig {
   private final KafkaTemplate<String, Object> kafkaTemplate;
 
   @Bean
-  public OrderProductDeductProducer orderProductDeductProducer() {
-    return new OrderProductDeductProducer(kafkaTemplate);
+  public ProductDeductProducer orderProductDeductProducer() {
+    return new ProductDeductProducer(kafkaTemplate);
+  }
+
+  @Bean
+  public DeliveryCreateProducer deliveryCreateProducer() {
+    return new DeliveryCreateProducer(kafkaTemplate);
   }
 
 }
