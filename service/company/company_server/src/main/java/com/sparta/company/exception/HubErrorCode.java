@@ -26,11 +26,11 @@ public enum HubErrorCode implements ErrorCode {
 
   @Override
   public String getCode() {
-    return null;
+    return code;
   }
 
   @Override
   public String getMessage() {
-    return null;
+    return message;
   }
 }
