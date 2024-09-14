@@ -7,12 +7,13 @@ import com.sparta.company.application.dto.company.CompanyResponse;
 import com.sparta.company.application.dto.company.CompanySearchCond;
 import com.sparta.company.application.dto.company.CompanyUpdateRequest;
 import com.sparta.company.application.service.CompanyService;
+import com.sparta.company.infrastructure.configuration.AuthenticationImpl;
 import jakarta.validation.Valid;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,7 +40,8 @@ public class CompanyController {
   @PutMapping("/{companyId}")
   public ResponseBody<CompanyResponse> updateCompany(
       @Valid @RequestBody CompanyUpdateRequest request, @PathVariable UUID companyId) {
-    CompanyResponse companyResponse = companyService.updateCompany(request, companyId);
+    AuthenticationImpl authentication = (AuthenticationImpl) SecurityContextHolder.getContext().getAuthentication();
+    CompanyResponse companyResponse = companyService.updateCompany(request, companyId,authentication);
     return new SuccessResponseBody<>(companyResponse);
   }
 
