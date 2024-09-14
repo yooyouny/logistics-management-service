@@ -7,11 +7,8 @@ import org.springframework.http.HttpStatus;
 
 @RequiredArgsConstructor
 @Getter
-public enum CompanyErrorCode implements ErrorCode {
-  NOT_FOUND(HttpStatus.NOT_FOUND, "COMPANY_001", "해당 업체가 존재하지 않습니다"),
-  USER_NOT_FOUND(HttpStatus.NOT_FOUND, "USER_0001", "존재하지 않는 사용자입니다."),
-  ACCESS_DENIED(HttpStatus.FORBIDDEN, "SECURITY_0002", "권한이 없습니다.")
-
+public enum HubErrorCode implements ErrorCode {
+  NOT_FOUND(HttpStatus.NOT_FOUND, "HUB_001", "해당 허브가 존재하지 않습니다"),
   ;
 
   private final HttpStatus status;

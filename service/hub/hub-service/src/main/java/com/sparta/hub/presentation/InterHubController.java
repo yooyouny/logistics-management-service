@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,6 +26,7 @@ public class InterHubController {
 
   private final InterHubService interHubService;
 
+  @PreAuthorize("isAuthenticated() and hasRole('ROLE_MASTER')")
   @PostMapping
   public ResponseBody<List<InterHubResponse>> createInterHubRoute(
       @Valid @RequestBody InterHubCreateRequest requestDto) {
@@ -32,6 +34,7 @@ public class InterHubController {
     return new SuccessResponseBody<>(route);
   }
 
+  @PreAuthorize("isAuthenticated() and hasRole('ROLE_MASTER')")
   @PutMapping("/{interHubId}")
   public ResponseBody<InterHubResponse> updateInterHubRoute(
       @Valid @RequestBody InterHubUpdateRequest requestDto, @PathVariable UUID interHubId) {
@@ -39,6 +42,7 @@ public class InterHubController {
     return new SuccessResponseBody<>(interHubResponse);
   }
 
+  @PreAuthorize("isAuthenticated() and hasRole('ROLE_MASTER')")
   @DeleteMapping("/{interHubId}")
   public ResponseBody<UUID> deleteInterHubRoute(@PathVariable UUID interHubId,
       @RequestHeader(value = "X_Email", required = false) String email) {

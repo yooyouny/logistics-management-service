@@ -1,70 +1,114 @@
 package com.sparta.company.application.service;
 
+
+import com.sparta.commons.domain.exception.BusinessException;
 import com.sparta.company.application.dto.company.CompanyCreateRequest;
 import com.sparta.company.application.dto.company.CompanyResponse;
 import com.sparta.company.application.dto.company.CompanySearchCond;
 import com.sparta.company.application.dto.company.CompanyUpdateRequest;
 import com.sparta.company.application.mapper.CompanyMapper;
 import com.sparta.company.domain.Company;
-import com.sparta.company.exception.HubNotFoundException;
+import com.sparta.company.domain.strategy.company.update.CompanyUpdateStrategy;
+import com.sparta.company.domain.strategy.company.update.CompanyUpdateStrategyFactory;
+import com.sparta.company.exception.CompanyErrorCode;
+import com.sparta.company.exception.HubErrorCode;
 import com.sparta.company.infrastructure.client.HubClient;
+import com.sparta.company.infrastructure.client.UserClient;
+import com.sparta.company.infrastructure.configuration.AuthenticationImpl;
 import com.sparta.company.infrastructure.repository.company.CompanyRepository;
-import jakarta.persistence.EntityNotFoundException;
+import com.sparta.user.dto.user_dto.UserDto;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
-import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@RequiredArgsConstructor
 @Transactional
+@Slf4j
 public class CompanyService {
 
   private final CompanyRepository companyRepository;
   private final HubClient hubClient;
   private final CompanyMapper companyMapper = new CompanyMapper();
 
+  private final UserClient userClient;
+  private final CompanyUpdateStrategyFactory strategyFactory;
+
+  public CompanyService(CompanyRepository companyRepository, HubClient hubClient,
+      UserClient userClient) {
+    this.companyRepository = companyRepository;
+    this.hubClient = hubClient;
+    this.userClient = userClient;
+    this.strategyFactory = new CompanyUpdateStrategyFactory(hubClient, userClient);
+  }
+
+  @PreAuthorize("isAuthenticated() and hasAnyRole('ROLE_MASTER', 'ROLE_HUB_COMPANY', 'ROLE_HUB_MANAGER')")
   public CompanyResponse createCompany(CompanyCreateRequest companyCreateRequest) {
-    boolean checkHub = hubClient.checkHubExists(companyCreateRequest.getHubId());
-    if (!checkHub) {
-      throw new HubNotFoundException("해당 허브 Id가 존재하지 않습니다");
-    }
+    checkHubExists(companyCreateRequest.getHubId());
     Company company = companyMapper.createRequestToEntity(companyCreateRequest);
     companyRepository.save(company);
     return companyMapper.toResponse(company);
   }
 
-  public CompanyResponse updateCompany(CompanyUpdateRequest request, UUID companyId) {
-    boolean checkHub = hubClient.checkHubExists(request.getHubId());
-    if (!checkHub) {
-      throw new HubNotFoundException("해당 허브 Id가 존재하지 않습니다");
-    }
-    Company company = companyRepository.findById(companyId).orElseThrow(
-        () -> new EntityNotFoundException("해당 회사 id가 존재하지 않습니다")
-    );
-    company.update(request);
+  @PreAuthorize("isAuthenticated() and hasAnyRole('ROLE_MASTER', 'ROLE_HUB_COMPANY', 'ROLE_HUB_MANAGER')")
+  public CompanyResponse updateCompany(CompanyUpdateRequest request, UUID companyId, AuthenticationImpl authentication) {
+    checkHubExists(request.getHubId());
+
+    String username = authentication.getName();
+    String role = authentication.role();
+    Company company = getCompany(companyId);
+    Long userId = authentication.userId();
+
+    CompanyUpdateStrategy strategy = strategyFactory.createStrategy(role);
+    strategy.update(request, company, username,userId);
+
     return companyMapper.toResponse(company);
   }
 
+  private Long getUserIdFromUsername(String username) {
+    Optional<UserDto> userDto = userClient.getUserDto(username);
+    UserDto user = userDto.orElseThrow(
+        () -> new BusinessException(CompanyErrorCode.USER_NOT_FOUND));
+    Long userId = user.userId();
+    return userId;
+  }
+
+  @PreAuthorize("isAuthenticated() and hasAnyRole('ROLE_MASTER', 'ROLE_HUB_COMPANY', 'ROLE_HUB_MANAGER')")
   public void deleteCompany(UUID companyId) {
+    AuthenticationImpl authentication = (AuthenticationImpl) SecurityContextHolder.getContext().getAuthentication();
+    String username = authentication.getName();
+    String role = authentication.role();
+
+    Company company = getCompany(companyId);
+    if(role.equals("ROLE_HUB_COMPANY")) {
+      Long userId = getUserIdFromUsername(username);
+      if(!userId.equals(company.getUserId())) {
+        company.delete(username);
+      }else{
+        throw new BusinessException(CompanyErrorCode.ACCESS_DENIED);
+      }
+    }
+    company.delete(username);
+  }
+
+  private Company getCompany(UUID companyId) {
     Company company = companyRepository.findById(companyId).orElseThrow(
-        () -> new EntityNotFoundException("해당 회사 id가 존재하지 않습니다")
+        () -> new BusinessException(CompanyErrorCode.NOT_FOUND)
     );
-    company.delete();
+    return company;
   }
 
   @Transactional(readOnly = true)
   public CompanyResponse findOneCompany(UUID companyId) {
-    Company company = companyRepository.findById(companyId).orElseThrow(
-        () -> new EntityNotFoundException("해당 회사 id가 존재하지 않습니다")
-    );
+    Company company = getCompany(companyId);
     return companyMapper.toResponse(company);
   }
 
@@ -76,7 +120,7 @@ public class CompanyService {
     Pageable validatedPageable = PageRequest.of(pageable.getPageNumber(), pageSize);
     Page<CompanyResponse> response = companyRepository.searchCompany(validatedPageable, cond);
     if (response == null) {
-      throw new EntityNotFoundException("해당하는 업체가 존재하지 않습니다");
+      throw new BusinessException(CompanyErrorCode.NOT_FOUND);
     }
     return response;
   }
@@ -88,4 +132,12 @@ public class CompanyService {
     }
     return pageSize;
   }
+
+  private void checkHubExists(UUID hubId) {
+    boolean checkHub = hubClient.checkHubExists(hubId);
+    if (!checkHub) {
+      throw new BusinessException(HubErrorCode.NOT_FOUND);
+    }
+  }
+
 }

@@ -1,14 +1,15 @@
 package com.sparta.hub.application.service;
 
+import com.sparta.commons.domain.exception.BusinessException;
 import com.sparta.hub.application.dto.hub.HubCreateRequest;
 import com.sparta.hub.application.dto.hub.HubResponse;
 import com.sparta.hub.application.dto.hub.HubSearchCond;
 import com.sparta.hub.application.dto.hub.HubUpdateRequest;
 import com.sparta.hub.application.mapper.HubMapper;
 import com.sparta.hub.domain.Hub;
-import com.sparta.hub.exception.AlreadyDeletedException;
+import com.sparta.hub.exception.HubErrorCode;
+import com.sparta.hub.infrastructure.config.AuthenticationImpl;
 import com.sparta.hub.infrastructure.repository.hub.HubRepository;
-import jakarta.persistence.EntityNotFoundException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -21,6 +22,7 @@ import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -45,22 +47,24 @@ public class HubService {
   @CacheEvict(cacheNames = "hubAllCache", allEntries = true)
   public HubResponse updateHub(HubUpdateRequest requestDto, UUID hubId) {
     Hub hub = hubRepository.findByHubIdAndIsDeleteFalse(hubId)
-        .orElseThrow(() -> new EntityNotFoundException("해당 허브를 찾을 수 없습니다"));
+        .orElseThrow(() -> new BusinessException(HubErrorCode.NOT_FOUND));
     hub.update(requestDto);
     return hubMapper.toResponse(hub);
 
   }
 
-  @Caching(evict = {
-      @CacheEvict(cacheNames = "hubCache", key = "args[0]"),
+  @Caching(evict = {@CacheEvict(cacheNames = "hubCache", key = "args[0]"),
       @CacheEvict(cacheNames = "hubAllCache", allEntries = true)})
-  public void deleteHub(UUID hubId, String email) {
+  public void deleteHub(UUID hubId) {
+    AuthenticationImpl authentication = (AuthenticationImpl) SecurityContextHolder.getContext()
+        .getAuthentication();
+    String username = authentication.getName();
     Hub hub = hubRepository.findById(hubId)
-        .orElseThrow(() -> new EntityNotFoundException("해당 허브를 찾을 수 없습니다"));
+        .orElseThrow(() -> new BusinessException(HubErrorCode.NOT_FOUND));
     if (!hub.getIsDelete()) {
-      hub.delete(email);
+      hub.delete(username);
     } else {
-      throw new AlreadyDeletedException("이미 삭제된 허브입니다");
+      throw new BusinessException(HubErrorCode.ALREADY_DELETED);
     }
   }
 
@@ -68,7 +72,7 @@ public class HubService {
   @Cacheable(cacheNames = "hubCache", key = "args[0]")
   public HubResponse getSingleHub(UUID hubId) {
     Hub hub = hubRepository.findByHubIdAndIsDeleteFalse(hubId)
-        .orElseThrow(() -> new EntityNotFoundException("해당 허브를 찾을 수 없습니다"));
+        .orElseThrow(() -> new BusinessException(HubErrorCode.NOT_FOUND));
     return hubMapper.toResponse(hub);
   }
 
@@ -81,7 +85,7 @@ public class HubService {
     Pageable validatedPageable = PageRequest.of(pageable.getPageNumber(), pageSize);
     Page<HubResponse> list = hubRepository.searchHub(pageable, cond);
     if (list.isEmpty()) {
-      throw new EntityNotFoundException("허브가 존재하지 않습니다");
+      throw new BusinessException(HubErrorCode.NOT_FOUND);
     }
     return list;
   }
@@ -94,7 +98,4 @@ public class HubService {
     return pageSize;
   }
 
-  public boolean checkHubExists(UUID hubId) {
-    return hubRepository.findById(hubId).isPresent();
-  }
 }

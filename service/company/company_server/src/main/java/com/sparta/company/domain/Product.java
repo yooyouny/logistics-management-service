@@ -57,7 +57,7 @@ public class Product extends BaseEntity {
 
   public void deductQuantity(int quantity) {
     if (stockQuantity < quantity) {
-      throw new BusinessException(ProductErrorCode.ORDER_QUANTITY_EXCEEDS_STOCK);
+      throw new BusinessException(ProductErrorCode.OUT_OF_STOCK);
     }
     if (stockQuantity == 0) {
       throw new BusinessException(ProductErrorCode.OUT_OF_STOCK);
@@ -75,8 +75,10 @@ public class Product extends BaseEntity {
     super.updatedAt = LocalDateTime.now();
   }
 
-  public void delete() {
+
+  public void delete(String username) {
     isDelete = true;
     super.deletedAt = LocalDateTime.now();
+    deletedBy = username;
   }
 }
