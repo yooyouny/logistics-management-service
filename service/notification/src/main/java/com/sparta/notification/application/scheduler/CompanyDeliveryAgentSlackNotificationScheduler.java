@@ -2,6 +2,8 @@ package com.sparta.notification.application.scheduler;
 
 import com.sparta.notification.application.utils.SlackNotificationSender;
 import com.sparta.notification.application.utils.WeatherSummary;
+import com.sparta.notification.domain.model.SlackNotification;
+import com.sparta.notification.domain.repository.SlackNotificationRepository;
 import com.sparta.notification.infrastructure.configuration.properties.WeatherProperties;
 import com.sparta.notification.infrastructure.feign.ai.GeminiFeignClient;
 import com.sparta.notification.infrastructure.feign.ai.GenerateContentRequest;
@@ -37,9 +39,9 @@ public class CompanyDeliveryAgentSlackNotificationScheduler {
   private final DeliveryFeignClient deliveryFeignClient;
   private final GeminiFeignClient geminiFeignClient;
   private final SlackNotificationSender slackNotificationSender;
+  private final SlackNotificationRepository slackNotificationRepository;
 
-
-  //  @Scheduled(cron = "*/10 * * * * ?") // test
+//  @Scheduled(cron = "*/10 * * * * ?") // test
   @Scheduled(cron = "0 0 6 * * ?")
   public void run() throws IOException {
     // 1. 공공 데이터 포털의 날씨 API를 사용하여 해당일의 날씨 정보를 가져오기
@@ -58,6 +60,10 @@ public class CompanyDeliveryAgentSlackNotificationScheduler {
 
       // 5. 슬랙 알림 보내기
       notifySlack(responseText);
+
+      // 6. mongodb 로 정보 저장
+      // TODO. deliveryList 에 있는 slackId 로 대체
+      saveSlackNotification("slackId", responseText, LocalDateTime.now());
     }
   }
 
@@ -154,5 +160,9 @@ public class CompanyDeliveryAgentSlackNotificationScheduler {
       case 4 -> "소나기";
       default -> "알 수 없음";
     };
+  }
+
+  private void saveSlackNotification(String slackId, String responseText, LocalDateTime now) {
+    slackNotificationRepository.save(SlackNotification.create(slackId, responseText, now));
   }
 }
