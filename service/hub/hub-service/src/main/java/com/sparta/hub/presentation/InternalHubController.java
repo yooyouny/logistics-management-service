@@ -20,14 +20,14 @@ public class InternalHubController {
 
   private final HubInternalService hubService;
 
-  @GetMapping("/{hubId}")
+  @GetMapping("/{hubId}/exists")
   public boolean checkHubExists(@PathVariable UUID hubId) {
     return hubService.checkHubExists(hubId);
   }
 
-  @GetMapping("/{hubId}/manager")
-  public Optional<HubResponse> getHubByCompany(@PathVariable("hubId") UUID hubId) {
-    return hubService.getHubByCompany(hubId);
+  @GetMapping("/{hubId}")
+  public Optional<HubResponse> getHubByCompany(@PathVariable("hubId") UUID companyId) {
+    return hubService.getHubByCompany(companyId);
   }
 
 }
