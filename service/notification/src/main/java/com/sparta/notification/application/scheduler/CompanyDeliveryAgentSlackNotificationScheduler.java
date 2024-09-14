@@ -48,7 +48,8 @@ public class CompanyDeliveryAgentSlackNotificationScheduler {
     List<Item> items = fetchWeatherData();
 
     // 2. 유저서버로 부터 허브 배송 담당자 id 목록 받아오기
-    List<UUID> hubDeliveryAgentIdList = userFeignClient.getHubDeliveryAgentIdList();
+    List<UUID> hubDeliveryAgentIdList = userFeignClient.getDeliveryAgentIdList("HUB_DELIVERY_AGENT");
+    log.info("hubDeliveryAgentIdList : {}", hubDeliveryAgentIdList);
 
     for (UUID hubDeliveryAgentId : hubDeliveryAgentIdList) {
       // 3. 배송 서버로부터 해당 배송 담당자 id 기반 배송 목록 받아오기

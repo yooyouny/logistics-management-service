@@ -2,8 +2,10 @@ package com.sparta.user.domain.repository.shipping_manager;
 
 import com.sparta.user.application.dto.SippingManagerInfo;
 import com.sparta.user.domain.model.ShippingManager;
+import com.sparta.user.domain.model.vo.ShippingManagerType;
 import com.sparta.user.infrastructure.repository.shipping_manager.ShippingManagerJpaRepository;
 import com.sparta.user.infrastructure.repository.shipping_manager.ShippingManagerQueryDSLRepository;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
@@ -32,5 +34,10 @@ public class ShippingManagerRepositoryImpl implements ShippingManagerRepository 
   @Override
   public boolean existsBySlackId(String slackId) {
     return shippingManagerJpaRepository.existsBySlackId(slackId);
+  }
+
+  @Override
+  public List<UUID> findIdsByType(ShippingManagerType shippingManagerType) {
+    return shippingManagerJpaRepository.findIdsByType(shippingManagerType);
   }
 }
