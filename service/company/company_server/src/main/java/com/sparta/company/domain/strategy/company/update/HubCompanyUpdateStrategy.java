@@ -1,6 +1,7 @@
 package com.sparta.company.domain.strategy.company.update;
 
 import com.sparta.commons.domain.exception.BusinessException;
+import com.sparta.commons.domain.jwt.JwtClaim;
 import com.sparta.company.application.dto.company.CompanyUpdateRequest;
 import com.sparta.company.domain.Company;
 import com.sparta.company.exception.CompanyErrorCode;
@@ -15,22 +16,12 @@ public class HubCompanyUpdateStrategy implements CompanyUpdateStrategy {
   private final UserClient userClient;
 
   @Override
-  public Company update(CompanyUpdateRequest request, Company company, String username) {
-    Long userId = getUserIdFromUsername(username);
-
+  public Company update(CompanyUpdateRequest request, Company company, String username, Long userId) {
     if (userId.equals(company.getUserId())) {
       company.update(request);
       return company;
     } else {
       throw new BusinessException(CompanyErrorCode.ACCESS_DENIED);
     }
-  }
-
-  private Long getUserIdFromUsername(String username) {
-    Optional<UserDto> userDto = userClient.getUserDto(username);
-    UserDto user = userDto.orElseThrow(
-        () -> new BusinessException(CompanyErrorCode.USER_NOT_FOUND));
-    Long userId = user.userId();
-    return userId;
   }
 }

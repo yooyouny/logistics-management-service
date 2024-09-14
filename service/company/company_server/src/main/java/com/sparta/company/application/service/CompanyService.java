@@ -55,16 +55,16 @@ public class CompanyService {
   }
 
 
-  public CompanyResponse updateCompany(CompanyUpdateRequest request, UUID companyId) {
+  public CompanyResponse updateCompany(CompanyUpdateRequest request, UUID companyId, AuthenticationImpl authentication) {
     checkHubExists(request.getHubId());
 
-    AuthenticationImpl authentication = (AuthenticationImpl) SecurityContextHolder.getContext().getAuthentication();
     String username = authentication.getName();
     String role = authentication.role();
     Company company = getCompany(companyId);
+    Long userId = authentication.userId();
 
     CompanyUpdateStrategy strategy = strategyFactory.createStrategy(role);
-    strategy.update(request, company, username);
+    strategy.update(request, company, username,userId);
 
     return companyMapper.toResponse(company);
   }

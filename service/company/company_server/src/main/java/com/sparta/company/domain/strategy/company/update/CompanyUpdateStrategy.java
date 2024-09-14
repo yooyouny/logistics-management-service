@@ -6,6 +6,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public interface CompanyUpdateStrategy {
-  Company update(CompanyUpdateRequest request, Company company, String username);
+  Company update(CompanyUpdateRequest request, Company company, String username, Long userId);
 
 }
