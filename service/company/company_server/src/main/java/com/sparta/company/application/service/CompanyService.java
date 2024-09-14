@@ -7,28 +7,45 @@ import com.sparta.company.application.dto.company.CompanySearchCond;
 import com.sparta.company.application.dto.company.CompanyUpdateRequest;
 import com.sparta.company.application.mapper.CompanyMapper;
 import com.sparta.company.domain.Company;
+import com.sparta.company.domain.strategy.company.update.CompanyUpdateStrategy;
+import com.sparta.company.domain.strategy.company.update.CompanyUpdateStrategyFactory;
 import com.sparta.company.exception.CompanyErrorCode;
 import com.sparta.company.exception.HubErrorCode;
 import com.sparta.company.infrastructure.client.HubClient;
+import com.sparta.company.infrastructure.client.UserClient;
+import com.sparta.company.infrastructure.configuration.AuthenticationImpl;
 import com.sparta.company.infrastructure.repository.company.CompanyRepository;
+import com.sparta.user.dto.user_dto.UserDto;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
-import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@RequiredArgsConstructor
 @Transactional
+@Slf4j
 public class CompanyService {
 
   private final CompanyRepository companyRepository;
   private final HubClient hubClient;
   private final CompanyMapper companyMapper = new CompanyMapper();
+  private final UserClient userClient;
+  private final CompanyUpdateStrategyFactory strategyFactory;
+
+  public CompanyService(CompanyRepository companyRepository, HubClient hubClient,
+      UserClient userClient) {
+    this.companyRepository = companyRepository;
+    this.hubClient = hubClient;
+    this.userClient = userClient;
+    this.strategyFactory = new CompanyUpdateStrategyFactory(hubClient, userClient);
+  }
 
   public CompanyResponse createCompany(CompanyCreateRequest companyCreateRequest) {
     checkHubExists(companyCreateRequest.getHubId());
@@ -40,14 +57,41 @@ public class CompanyService {
 
   public CompanyResponse updateCompany(CompanyUpdateRequest request, UUID companyId) {
     checkHubExists(request.getHubId());
+
+    AuthenticationImpl authentication = (AuthenticationImpl) SecurityContextHolder.getContext().getAuthentication();
+    String username = authentication.getName();
+    String role = authentication.role();
     Company company = getCompany(companyId);
-    company.update(request);
+
+    CompanyUpdateStrategy strategy = strategyFactory.createStrategy(role);
+    strategy.update(request, company, username);
+
     return companyMapper.toResponse(company);
   }
 
+  private Long getUserIdFromUsername(String username) {
+    Optional<UserDto> userDto = userClient.getUserDto(username);
+    UserDto user = userDto.orElseThrow(
+        () -> new BusinessException(CompanyErrorCode.USER_NOT_FOUND));
+    Long userId = user.userId();
+    return userId;
+  }
+
   public void deleteCompany(UUID companyId) {
+    AuthenticationImpl authentication = (AuthenticationImpl) SecurityContextHolder.getContext().getAuthentication();
+    String username = authentication.getName();
+    String role = authentication.role();
+
     Company company = getCompany(companyId);
-    company.delete();
+    if(role.equals("ROLE_HUB_COMPANY")) {
+      Long userId = getUserIdFromUsername(username);
+      if(!userId.equals(company.getUserId())) {
+        company.delete(username);
+      }else{
+        throw new BusinessException(CompanyErrorCode.ACCESS_DENIED);
+      }
+    }
+    company.delete(username);
   }
 
   private Company getCompany(UUID companyId) {

@@ -75,8 +75,9 @@ public class Product extends BaseEntity {
     super.updatedAt = LocalDateTime.now();
   }
 
-  public void delete() {
+  public void delete(String username) {
     isDelete = true;
     super.deletedAt = LocalDateTime.now();
+    deletedBy = username;
   }
 }

@@ -1,5 +1,6 @@
 package com.sparta.hub.presentation;
 
+import com.sparta.hub.application.dto.hub.HubResponse;
 import com.sparta.hub.application.service.HubInternalService;
 import com.sparta.hub.application.service.HubService;
 import com.sparta.hub.domain.Hub;
@@ -22,6 +23,11 @@ public class InternalHubController {
   @GetMapping("/{hubId}")
   public boolean checkHubExists(@PathVariable UUID hubId) {
     return hubService.checkHubExists(hubId);
+  }
+
+  @GetMapping("/{hubId}/manager")
+  public Optional<HubResponse> getHubByCompany(@PathVariable("hubId") UUID hubId) {
+    return hubService.getHubByCompany(hubId);
   }
 
 }

@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,10 +32,10 @@ public class ProductController {
 
   private final ProductService productService;
 
+  @PreAuthorize("isAuthenticated() and (hasRole('ROLE_MASTER') or hasRole('ROLE_HUB_COMPANY'))")
   @PostMapping
   public ResponseBody<ProductResponse> createProduct(
       @Valid @RequestBody ProductCreateRequest request) {
-    log.info("???");
     ProductResponse response = productService.createProduct(request);
     return new SuccessResponseBody<>(response);
   }
@@ -52,12 +53,14 @@ public class ProductController {
     return new SuccessResponseBody<>(response);
   }
 
+  @PreAuthorize("isAuthenticated() and (hasRole('ROLE_MASTER') or hasRole('ROLE_HUB_COMPANY') or hasRole('ROLE_HUB_MANAGER'))")
   @PutMapping("/{productId}")
   public ResponseBody<ProductResponse> updateProduct(@RequestBody ProductUpdateRequest request,@PathVariable UUID productId) {
     ProductResponse response = productService.updateProduct(request,productId);
     return new SuccessResponseBody<>(response);
   }
 
+  @PreAuthorize("isAuthenticated() and (hasRole('ROLE_MASTER') or hasRole('ROLE_HUB_COMPANY') or hasRole('ROLE_HUB_MANAGER'))")
   @DeleteMapping("/{productId}")
   public ResponseBody<UUID> deleteProduct(@PathVariable UUID productId) {
     productService.deleteProduct(productId);

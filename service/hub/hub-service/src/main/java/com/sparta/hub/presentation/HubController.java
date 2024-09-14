@@ -34,7 +34,7 @@ public class HubController {
     return new SuccessResponseBody<>(response);
   }
 
-  @PreAuthorize("isAuthenticated() and hasRole('ROLE_MASTER')")
+  @PreAuthorize("isAuthenticated() and hasRole('MASTER')")
   @PutMapping("/{hubId}")
   public ResponseBody<HubResponse> updateHub(@Valid @RequestBody HubUpdateRequest requestDto,
       @PathVariable UUID hubId) {
