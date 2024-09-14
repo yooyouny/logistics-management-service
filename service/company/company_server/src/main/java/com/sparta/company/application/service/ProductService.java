@@ -20,6 +20,7 @@ import com.sparta.company.infrastructure.client.HubClient;
 import com.sparta.company.infrastructure.configuration.AuthenticationImpl;
 import com.sparta.company.infrastructure.repository.company.CompanyRepository;
 import com.sparta.company.infrastructure.repository.product.ProductRepository;
+import com.sparta.company_dto.ProductDeductDto;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -107,6 +108,15 @@ public class ProductService {
     ProductDeleteStrategyFactory strategyFactory = new ProductDeleteStrategyFactory();
     ProductDeleteStrategy strategy = strategyFactory.createStrategy(authentication.role());
     strategy.delete(product, authentication.userId(), authentication.username());
+  }
+
+  public void deductProductQuantity(List<ProductDeductDto> requests){
+    requests.stream()
+        .forEach(dto -> {
+          Product product = getProduct(dto.getProductId());
+          product.deductQuantity(dto.getQuantity());
+          log.info("deduct product {} by createOrder", product.getProductName());
+        });
   }
 
   private int validatePageSize(int pageSize) {

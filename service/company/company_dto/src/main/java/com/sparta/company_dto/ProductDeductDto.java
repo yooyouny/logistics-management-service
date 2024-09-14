@@ -1,4 +1,4 @@
-package com.sparta.order.dto;
+package com.sparta.company_dto;
 
 import java.util.UUID;
 import lombok.AllArgsConstructor;
