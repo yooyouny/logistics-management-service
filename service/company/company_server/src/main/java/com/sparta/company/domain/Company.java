@@ -60,12 +60,12 @@ public class Company extends BaseEntity {
     super.updatedAt = LocalDateTime.now();
   }
 
-  public void delete() {
+  public void delete(String username) {
     if(isDelete) {
       throw new AlreadyDeletedException("Company already deleted");
     }
     this.isDelete = true;
-    super.deletedAt = LocalDateTime.now();
-
+    deletedAt = LocalDateTime.now();
+    deletedBy = username;
   }
 }
