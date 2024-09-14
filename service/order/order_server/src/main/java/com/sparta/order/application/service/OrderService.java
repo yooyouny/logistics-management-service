@@ -1,9 +1,12 @@
 package com.sparta.order.application.service;
 
+import com.sparta.commons.domain.exception.BusinessException;
 import com.sparta.order.domain.model.Order;
 import com.sparta.order.domain.model.OrderDetail;
+import com.sparta.order.domain.model.OrderState;
 import com.sparta.order.infrastructure.repository.OrderDetailRepository;
 import com.sparta.order.infrastructure.repository.OrderRepository;
+import com.sparta.order.presentation.exception.OrderErrorCode;
 import com.sparta.order.presentation.request.OrderDetailRequest;
 import com.sparta.order.presentation.response.OrderResponse;
 import java.time.LocalDateTime;
@@ -47,5 +50,14 @@ public class OrderService {
 
     order.setOrderDetails(orderDetails);
     return OrderResponse.fromEntity(order);
+  }
+
+  public void cancelOrder(UUID orderId) {
+    Order order =
+        orderRepository
+            .findByOrderId(orderId)
+            .orElseThrow(() -> new BusinessException(OrderErrorCode.NOT_FOUND_ORDER));
+
+    order.updateOrderState(OrderState.CANCELLED);
   }
 }
