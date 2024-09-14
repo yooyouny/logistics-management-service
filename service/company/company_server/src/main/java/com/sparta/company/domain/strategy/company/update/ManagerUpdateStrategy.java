@@ -18,8 +18,7 @@ public class ManagerUpdateStrategy implements CompanyUpdateStrategy {
   private final UserClient userClient;
 
   @Override
-  public Company update(CompanyUpdateRequest request, Company company, String username) {
-    Long userId = getUserIdFromUsername(username);
+  public Company update(CompanyUpdateRequest request, Company company, String username, Long userId) {
     Optional<HubResponse> hubResponse = hubClient.getHubByCompany(request.getHubId());
     HubResponse response = hubResponse.orElseThrow(
         () -> new BusinessException(CompanyErrorCode.NOT_FOUND));
@@ -29,13 +28,5 @@ public class ManagerUpdateStrategy implements CompanyUpdateStrategy {
     } else {
       throw new BusinessException(CompanyErrorCode.ACCESS_DENIED);
     }
-  }
-
-  private Long getUserIdFromUsername(String username) {
-    Optional<UserDto> userDto = userClient.getUserDto(username);
-    UserDto user = userDto.orElseThrow(
-        () -> new BusinessException(CompanyErrorCode.USER_NOT_FOUND));
-    Long userId = user.userId();
-    return userId;
   }
 }
