@@ -1,4 +1,4 @@
-package com.sparta.hub.infrastructure.config;
+package com.sparta.company.infrastructure.configuration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;

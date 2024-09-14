@@ -1,11 +1,10 @@
-package com.sparta.hub;
+package com.sparta.company.infrastructure.configuration;
 
 import static com.sparta.gateway.domain.GatewayConstant.X_USER_CLAIMS;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.commons.domain.jwt.JwtClaim;
-import com.sparta.hub.infrastructure.config.AuthenticationImpl;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
