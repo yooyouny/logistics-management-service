@@ -1,5 +1,6 @@
 package com.sparta.company.application.service;
 
+
 import com.sparta.commons.domain.exception.BusinessException;
 import com.sparta.company.application.dto.product.ProductCreateRequest;
 import com.sparta.company.application.dto.product.ProductResponse;
@@ -8,6 +9,7 @@ import com.sparta.company.application.dto.product.ProductUpdateRequest;
 import com.sparta.company.application.mapper.ProductMapper;
 import com.sparta.company.domain.Company;
 import com.sparta.company.domain.Product;
+
 import com.sparta.company.domain.strategy.company.update.CompanyUpdateStrategyFactory;
 import com.sparta.company.domain.strategy.product.delete.ProductDeleteStrategy;
 import com.sparta.company.domain.strategy.product.delete.ProductDeleteStrategyFactory;
@@ -25,6 +27,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -34,6 +37,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+
 @Transactional
 @Slf4j
 @RequiredArgsConstructor
@@ -49,6 +53,7 @@ public class ProductService {
 
     boolean checkHub = hubClient.checkHubExists(request.getHubId());
     if (!checkHub) {
+
       throw new BusinessException(HubErrorCode.NOT_FOUND);
     }
     AuthenticationImpl authentication = (AuthenticationImpl) SecurityContextHolder.getContext()
@@ -84,6 +89,7 @@ public class ProductService {
     return response;
   }
 
+
   public ProductResponse updateProduct(ProductUpdateRequest request, UUID productId) {
     Product product = getProduct(productId);
     Company company = getCompany(request.getCompanyId());
@@ -103,6 +109,7 @@ public class ProductService {
 
   public void deleteProduct(UUID productId) {
     Product product = getProduct(productId);
+
     AuthenticationImpl authentication = (AuthenticationImpl) SecurityContextHolder.getContext()
         .getAuthentication();
     ProductDeleteStrategyFactory strategyFactory = new ProductDeleteStrategyFactory();

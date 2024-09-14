@@ -1,5 +1,6 @@
 package com.sparta.company.application.service;
 
+
 import com.sparta.commons.domain.exception.BusinessException;
 import com.sparta.company.application.dto.company.CompanyCreateRequest;
 import com.sparta.company.application.dto.company.CompanyResponse;
@@ -36,6 +37,7 @@ public class CompanyService {
   private final CompanyRepository companyRepository;
   private final HubClient hubClient;
   private final CompanyMapper companyMapper = new CompanyMapper();
+
   private final UserClient userClient;
   private final CompanyUpdateStrategyFactory strategyFactory;
 
@@ -134,4 +136,5 @@ public class CompanyService {
       throw new BusinessException(HubErrorCode.NOT_FOUND);
     }
   }
+
 }

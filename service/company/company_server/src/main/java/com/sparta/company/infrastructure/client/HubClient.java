@@ -1,5 +1,6 @@
 package com.sparta.company.infrastructure.client;
 
+
 import com.sparta.hub.dto.HubResponse;
 import java.util.Optional;
 import java.util.UUID;
@@ -16,5 +17,4 @@ public interface HubClient {
 
   @GetMapping("/internal/hubs/{hubId}/manager")
   Optional<HubResponse> getHubByCompany(@PathVariable("hubId") UUID hubId);
-
 }

@@ -12,6 +12,8 @@ import com.sparta.hub.infrastructure.config.AuthenticationImpl;
 import com.sparta.hub.infrastructure.repository.hub.HubRepository;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
+import javax.swing.text.html.Option;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -95,6 +97,5 @@ public class HubService {
     }
     return pageSize;
   }
-
 
 }
