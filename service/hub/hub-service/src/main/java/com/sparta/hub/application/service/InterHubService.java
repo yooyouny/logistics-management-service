@@ -12,9 +12,9 @@ import com.sparta.hub.exception.HubErrorCode;
 import com.sparta.hub.exception.InterHubErrorCode;
 import com.sparta.hub.infrastructure.repository.hub.HubRepository;
 import com.sparta.hub.infrastructure.repository.interhub.InterHubRepository;
-import jakarta.persistence.EntityNotFoundException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -24,8 +24,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
