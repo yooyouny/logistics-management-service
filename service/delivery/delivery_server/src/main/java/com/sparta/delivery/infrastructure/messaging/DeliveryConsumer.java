@@ -2,6 +2,7 @@ package com.sparta.delivery.infrastructure.messaging;
 
 import com.sparta.commons.domain.jpa.KafkaTopicConstant;
 import com.sparta.delivery.application.DeliveryFacadeService;
+import com.sparta.delivery.application.DeliveryService;
 import com.sparta.delivery.dto.DeliveryCreateDto;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
@@ -15,12 +16,13 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Transactional
-@Slf4j(topic = "DeliveryCreateConsumer in DeliveryServer")
-public class DeliveryCreateConsumer {
+@Slf4j(topic = " in DeliveryServer")
+public class DeliveryConsumer {
   private final DeliveryFacadeService deliveryFacadeService;
+  private final DeliveryService deliveryService;
   private final KafkaTemplate<String, Object> kafkaTemplate;
 
-  @KafkaListener(topics = KafkaTopicConstant.CREATE_DELIVERY, groupId = "delivery")
+  @KafkaListener(topics = KafkaTopicConstant.CREATE_DELIVERY, groupId = "create-delivery")
   public void consume(
       @Header(name = "kafka_receivedMessageKey") String key, DeliveryCreateDto deliveryCreateDto) {
     UUID orderId = UUID.fromString(key);
@@ -31,5 +33,12 @@ public class DeliveryCreateConsumer {
           KafkaTopicConstant.ERROR_IN_CREATE_DELIVERY, orderId.toString(), e.getMessage());
       log.error("Error occurred while create delivery : {}", e.getMessage());
     }
+  }
+
+  @KafkaListener(topics = KafkaTopicConstant.DELETE_DELIVERY, groupId = "delete-delivery")
+  public void consume(@Header(name = "kafka_receivedMessageKey") String key) {
+    UUID orderId = UUID.fromString(key);
+    deliveryService.deleteDelivery(orderId);
+    log.info("Delete Delivery from OrderServer caused by ERROR_IN_DEDUCT_PRODUCT_QUANTITY");
   }
 }

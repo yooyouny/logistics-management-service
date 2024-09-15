@@ -17,7 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class DeliveryService {
   private final DeliveryRepository deliveryRepository;
 
-  public void createDelivery(UUID departureHubId, UUID arrivalHubId, DeliveryCreateDto request, UUID orderId){
+  public void createDelivery(
+      UUID departureHubId, UUID arrivalHubId, DeliveryCreateDto request, UUID orderId) {
     Delivery delivery =
         Delivery.builder()
             .departureHubId(departureHubId)
@@ -29,6 +30,7 @@ public class DeliveryService {
             .build();
     deliveryRepository.save(delivery);
   }
+
   public Delivery updateDeliveryState(UUID deliveryId) {
     Delivery delivery =
         deliveryRepository
@@ -36,5 +38,13 @@ public class DeliveryService {
             .orElseThrow(() -> new BusinessException(DeliveryErrorCode.NOT_FOUND_DELIVERY));
     delivery.updateDeliveryState(DeliveryState.REQUESTED);
     return delivery;
+  }
+
+  public void deleteDelivery(UUID orderId) {
+    Delivery delivery =
+        deliveryRepository
+            .findByOrderId(orderId)
+            .orElseThrow(() -> new BusinessException(DeliveryErrorCode.NOT_FOUND_DELIVERY));
+    deliveryRepository.delete(delivery);
   }
 }
