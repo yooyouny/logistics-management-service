@@ -39,6 +39,9 @@ dependencies {
 	implementation project(':service:user:user_dto')
 	implementation project(':service:hub:hub_dto')
 
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0'
+	implementation 'io.micrometer:micrometer-registry-prometheus'
+
 	// p6spy 추가
 	implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.9.0'
 	// QueryDSL 추가

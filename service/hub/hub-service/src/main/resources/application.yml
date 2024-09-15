@@ -30,3 +30,16 @@ eureka:
 
 server:
   port: 19094
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+    prometheus:
+      enabled: true
+  server:
+    port: 29094
