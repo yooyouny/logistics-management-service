@@ -16,8 +16,10 @@ import com.sparta.company.domain.strategy.product.update.ProductUpdateStrategyFa
 import com.sparta.company.exception.CompanyErrorCode;
 import com.sparta.company.exception.HubErrorCode;
 import com.sparta.company.exception.ProductErrorCode;
+import com.sparta.company.infrastructure.ai.GoogleAiService;
 import com.sparta.company.infrastructure.client.HubClient;
 import com.sparta.company.infrastructure.configuration.AuthenticationImpl;
+import com.sparta.company.infrastructure.metrics.StockMetrics;
 import com.sparta.company.infrastructure.repository.company.CompanyRepository;
 import com.sparta.company.infrastructure.repository.product.ProductRepository;
 import java.util.Arrays;
@@ -42,10 +44,14 @@ public class ProductService {
   private final CompanyRepository companyRepository;
   private final HubClient hubClient;
   private final ProductMapper productMapper = new ProductMapper();
+  private final StockMetrics stockMetrics;
+  private final GoogleAiService aiService;
 
   public ProductResponse createProduct(ProductCreateRequest request) {
     Company company = getCompany(request.getCompanyId());
 
+    String description = aiService.generateContent(request.getProductName() + "에 대한 설명을 30자 내외로 간단하게 해줘");
+    request.setProductDescription(description + request.getProductDescription());
     boolean checkHub = hubClient.checkHubExists(request.getHubId());
     if (!checkHub) {
       throw new BusinessException(HubErrorCode.NOT_FOUND);
@@ -63,6 +69,7 @@ public class ProductService {
     }
     Product product = productMapper.createDtoToEntity(request, company);
     productRepository.save(product);
+    stockMetrics.registerStockQuantity(product.getProductName(), product.getStockQuantity());
     return productMapper.toResponse(product);
   }
 
@@ -95,7 +102,7 @@ public class ProductService {
     ProductUpdateStrategyFactory strategyFactory = new ProductUpdateStrategyFactory(hubClient);
     ProductUpdateStrategy strategy = strategyFactory.createStrategy(role);
     strategy.update(request, company, product, userId);
-
+    stockMetrics.registerStockQuantity(product.getProductName(), product.getStockQuantity());
     log.info("update complete");
     return productMapper.toResponse(product);
   }
@@ -126,6 +133,7 @@ public class ProductService {
     return productRepository.findById(productId)
         .orElseThrow(() -> new BusinessException(ProductErrorCode.NOT_FOUND));
   }
+
 
 
 }
