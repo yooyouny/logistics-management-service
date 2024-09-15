@@ -19,6 +19,7 @@ public class AiResponse{
   @Getter
   @Setter
   @NoArgsConstructor
+  // response에서 role, usagemetirc (?) 등 정의 되지 않은 필드들이 있어 넣었습니당
   @JsonIgnoreProperties(ignoreUnknown = true)
   public static class Candidate {
     private Content content;
