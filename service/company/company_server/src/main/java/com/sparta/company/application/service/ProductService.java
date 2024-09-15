@@ -115,7 +115,16 @@ public class ProductService {
         .forEach(dto -> {
           Product product = getProduct(dto.getProductId());
           product.deductQuantity(dto.getQuantity());
-          log.info("deduct product {} by createOrder", product.getProductName());
+          log.info("deduct product {} quantity by createOrder", product.getProductName());
+        });
+  }
+
+  public void revertProductQuantity(List<ProductDeductDto> requests){
+    requests.stream()
+        .forEach(dto -> {
+          Product product = getProduct(dto.getProductId());
+          product.revertQuantity(dto.getQuantity());
+          log.info("revert product {} quantity by createOrder", product.getProductName());
         });
   }
 
@@ -136,6 +145,4 @@ public class ProductService {
     return productRepository.findById(productId)
         .orElseThrow(() -> new BusinessException(ProductErrorCode.NOT_FOUND));
   }
-
-
 }

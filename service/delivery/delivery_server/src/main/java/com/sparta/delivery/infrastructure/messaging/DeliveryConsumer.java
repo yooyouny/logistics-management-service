@@ -30,7 +30,7 @@ public class DeliveryConsumer {
       deliveryFacadeService.createDelivery(deliveryCreateDto, orderId);
     } catch (Exception e) {
       kafkaTemplate.send(
-          KafkaTopicConstant.ERROR_IN_CREATE_DELIVERY, orderId.toString(), e.getMessage());
+          KafkaTopicConstant.ERROR_IN_CREATE_DELIVERY, orderId.toString(), deliveryCreateDto);
       log.error("Error occurred while create delivery : {}", e.getMessage());
     }
   }
