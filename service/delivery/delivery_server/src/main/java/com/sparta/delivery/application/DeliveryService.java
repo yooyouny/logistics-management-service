@@ -5,7 +5,10 @@ import com.sparta.delivery.domain.model.Delivery;
 import com.sparta.delivery.domain.model.State.DeliveryState;
 import com.sparta.delivery.dto.DeliveryCreateDto;
 import com.sparta.delivery.infrastructure.repository.DeliveryRepository;
+import com.sparta.delivery.infrastructure.repository.DeliveryRepositoryImpl;
 import com.sparta.delivery.presentation.exception.DeliveryErrorCode;
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class DeliveryService {
   private final DeliveryRepository deliveryRepository;
+  private final DeliveryRepositoryImpl deliveryQueryRepository;
 
   public void createDelivery(
       UUID departureHubId, UUID arrivalHubId, DeliveryCreateDto request, UUID orderId) {
@@ -46,5 +50,10 @@ public class DeliveryService {
             .findByOrderId(orderId)
             .orElseThrow(() -> new BusinessException(DeliveryErrorCode.NOT_FOUND_DELIVERY));
     deliveryRepository.delete(delivery);
+  }
+
+  public List<Delivery> getDeliveriesByShippingManager(
+      UUID shippingManagerId, LocalDateTime shippingStartDate) {
+    return deliveryQueryRepository.findDeliveries(shippingManagerId, shippingStartDate);
   }
 }
