@@ -54,7 +54,6 @@ public class Order extends BaseEntity {
 
   private int totalQuantity = 0;
 
-  @Column(nullable = false)
   private UUID deliveryId;
 
   private boolean isDelete = false;

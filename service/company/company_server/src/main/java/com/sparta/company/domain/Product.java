@@ -65,6 +65,10 @@ public class Product extends BaseEntity {
     this.stockQuantity -= quantity;
   }
 
+  public void revertQuantity(int quantity) {
+    this.stockQuantity += quantity;
+  }
+
   public void update(ProductUpdateRequest request, Company company) {
     productName = request.getProductName();
     productDescription = request.getProductDescription();
