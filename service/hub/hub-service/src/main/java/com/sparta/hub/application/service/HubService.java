@@ -10,6 +10,7 @@ import com.sparta.hub.domain.Hub;
 import com.sparta.hub.exception.HubErrorCode;
 import com.sparta.hub.infrastructure.config.AuthenticationImpl;
 import com.sparta.hub.infrastructure.repository.hub.HubRepository;
+import io.micrometer.core.annotation.Timed;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -36,6 +37,7 @@ public class HubService {
   private final HubRepository hubRepository;
   private final HubMapper hubMapper;
 
+  @Timed("hub")
   @CacheEvict(cacheNames = "hubAllCache", allEntries = true)
   public HubResponse createHub(HubCreateRequest hubCreateRequest) {
     Hub hub = hubMapper.createRequestToEntity(hubCreateRequest);
