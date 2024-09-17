@@ -6,43 +6,56 @@ scrape_configs:
     static_configs:
     - targets: [ 'localhost:9090' ]
 
-  - job_name: 'gateway-service'        # GATEWAY 서비스
+  - job_name: 'eureka-services'
+    eureka_sd_configs:
+      - server: 'http://192.168.0.19:19090/eureka'  # Eureka 서버 주소
     metrics_path: '/actuator/prometheus'
-    static_configs:
-    - targets: [ 'host.docker.internal:19091' ]
+    relabel_configs:
+      - source_labels: [ '__meta_eureka_app_name' ]
+        target_label: 'job'
+      - source_labels: [ '__meta_eureka_instance_ip_addr' ]
+        target_label: 'instance'
+      - source_labels: [ '__meta_eureka_app_instance_status' ]
+        action: keep
+        regex: 'UP'  # 서비스 상태가 "UP"인 인스턴스만 스크랩
 
-  - job_name: 'user-service'           # USER 서비스
-    metrics_path: '/actuator/prometheus'
-    static_configs:
-      - targets: [ 'host.docker.internal:19092' ]
-
-  - job_name: 'order-service'           # ORDER 서비스
-    metrics_path: '/actuator/prometheus'
-    static_configs:
-      - targets: [ 'host.docker.internal:19093' ]
-
-  - job_name: 'hub-service'            # HUB 서비스
-    metrics_path: '/actuator/prometheus'
-    static_configs:
-      - targets: [ 'host.docker.internal:29094' ]
-
-  - job_name: 'company-service'        # COMPANY 서비스
-    metrics_path: '/actuator/prometheus'
-    static_configs:
-      - targets: [ 'host.docker.internal:29095' ]
-
-  - job_name: 'auth-service'           # AUTH 서비스
-    metrics_path: '/actuator/prometheus'
-    static_configs:
-      - targets: ['host.docker.internal:19096']
-
-  - job_name: 'delivery-service'        # DELIVERY 서비스
-    metrics_path: '/actuator/prometheus'
-    static_configs:
-      - targets: [ 'host.docker.internal:19097' ]
-
-  - job_name: 'notification-service'        # NOTIFICATION 서비스
-    metrics_path: '/actuator/prometheus'
-    static_configs:
-      - targets: [ 'host.docker.internal:19098' ]
+#  - job_name: 'gateway-service'        # GATEWAY 서비스
+#    metrics_path: '/actuator/prometheus'
+#    static_configs:
+#    - targets: [ 'host.docker.internal:19091' ]
+#
+#  - job_name: 'user-service'           # USER 서비스
+#    metrics_path: '/actuator/prometheus'
+#    static_configs:
+#      - targets: [ 'host.docker.internal:19092' ]
+#
+#  - job_name: 'order-service'           # ORDER 서비스
+#    metrics_path: '/actuator/prometheus'
+#    static_configs:
+#      - targets: [ 'host.docker.internal:19093' ]
+#
+#  - job_name: 'hub-service'            # HUB 서비스
+#    metrics_path: '/actuator/prometheus'
+#    static_configs:
+#      - targets: [ 'host.docker.internal:29094' ]
+#
+#  - job_name: 'company-service'        # COMPANY 서비스
+#    metrics_path: '/actuator/prometheus'
+#    static_configs:
+#      - targets: [ 'host.docker.internal:29095' ]
+#
+#  - job_name: 'auth-service'           # AUTH 서비스
+#    metrics_path: '/actuator/prometheus'
+#    static_configs:
+#      - targets: ['host.docker.internal:19096']
+#
+#  - job_name: 'delivery-service'        # DELIVERY 서비스
+#    metrics_path: '/actuator/prometheus'
+#    static_configs:
+#      - targets: [ 'host.docker.internal:19097' ]
+#
+#  - job_name: 'notification-service'        # NOTIFICATION 서비스
+#    metrics_path: '/actuator/prometheus'
+#    static_configs:
+#      - targets: [ 'host.docker.internal:19098' ]
 

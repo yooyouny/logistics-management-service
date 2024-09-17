@@ -39,8 +39,8 @@ management:
       show-details: always
     prometheus:
       enabled: true
-  server:
-    port: 29095
+#  server:
+#    port: 29095
 
 google:
   api:

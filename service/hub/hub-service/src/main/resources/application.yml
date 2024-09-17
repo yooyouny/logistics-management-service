@@ -41,5 +41,3 @@ management:
       show-details: always
     prometheus:
       enabled: true
-  server:
-    port: 29094
