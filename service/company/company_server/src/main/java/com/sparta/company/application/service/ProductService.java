@@ -22,6 +22,7 @@ import com.sparta.company.infrastructure.configuration.AuthenticationImpl;
 import com.sparta.company.infrastructure.metrics.StockMetrics;
 import com.sparta.company.infrastructure.repository.company.CompanyRepository;
 import com.sparta.company.infrastructure.repository.product.ProductRepository;
+import com.sparta.company_dto.ProductDeductDto;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -116,6 +117,24 @@ public class ProductService {
     strategy.delete(product, authentication.userId(), authentication.username());
   }
 
+  public void deductProductQuantity(List<ProductDeductDto> requests){
+    requests.stream()
+        .forEach(dto -> {
+          Product product = getProduct(dto.getProductId());
+          product.deductQuantity(dto.getQuantity());
+          log.info("deduct product {} quantity by createOrder", product.getProductName());
+        });
+  }
+
+  public void revertProductQuantity(List<ProductDeductDto> requests){
+    requests.stream()
+        .forEach(dto -> {
+          Product product = getProduct(dto.getProductId());
+          product.revertQuantity(dto.getQuantity());
+          log.info("revert product {} quantity by createOrder", product.getProductName());
+        });
+  }
+
   private int validatePageSize(int pageSize) {
     List<Integer> allowedSizes = Arrays.asList(10, 30, 50);
     if (!allowedSizes.contains(pageSize)) {
@@ -133,7 +152,4 @@ public class ProductService {
     return productRepository.findById(productId)
         .orElseThrow(() -> new BusinessException(ProductErrorCode.NOT_FOUND));
   }
-
-
-
 }
