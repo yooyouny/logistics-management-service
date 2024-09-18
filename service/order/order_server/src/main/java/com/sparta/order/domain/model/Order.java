@@ -55,14 +55,16 @@ public class Order extends BaseEntity {
   private int totalQuantity = 0;
 
   private UUID deliveryId;
+  private UUID managementHubId;
 
   private boolean isDelete = false;
 
   @Builder
-  private Order(UUID supplierCompanyId, UUID receiverCompanyId, LocalDateTime orderDate) {
+  private Order(UUID supplierCompanyId, UUID receiverCompanyId, UUID managementHubId, LocalDateTime orderDate) {
     this.supplierCompanyId = supplierCompanyId;
     this.receiverCompanyId = receiverCompanyId;
     this.orderDate = orderDate;
+    this.managementHubId = managementHubId;
   }
 
   public void setOrderDetails(List<OrderDetail> orderDetailList) {

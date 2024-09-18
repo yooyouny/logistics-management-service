@@ -17,6 +17,7 @@ public class OrderResponse {
   private UUID orderId;
   private UUID supplierCompanyId;
   private UUID receiverCompanyId;
+  private UUID managementHubId;
   private OrderState orderState;
   private LocalDateTime orderDate;
   private BigDecimal totalAmount;
@@ -28,6 +29,7 @@ public class OrderResponse {
       UUID orderId,
       UUID supplierCompanyId,
       UUID receiverCompanyId,
+      UUID managementHubId,
       OrderState orderState,
       LocalDateTime orderDate,
       List<OrderDetailResponse> details,
@@ -36,6 +38,7 @@ public class OrderResponse {
     this.orderId = orderId;
     this.supplierCompanyId = supplierCompanyId;
     this.receiverCompanyId = receiverCompanyId;
+    this.managementHubId = managementHubId;
     this.orderState = orderState;
     this.orderDate = orderDate;
     this.orderDetails = details;
@@ -48,6 +51,7 @@ public class OrderResponse {
         .orderId(order.getOrderId())
         .supplierCompanyId(order.getSupplierCompanyId())
         .receiverCompanyId(order.getReceiverCompanyId())
+        .managementHubId(order.getManagementHubId())
         .orderState(order.getOrderState())
         .orderDate(order.getOrderDate())
         .details(

@@ -25,12 +25,13 @@ public class OrderService {
   private final OrderDetailRepository orderDetailRepository;
 
   public OrderResponse create(
-      UUID supplierCompanyId, UUID receiverCompanyId, List<OrderDetailRequest> requests) {
+      UUID supplierCompanyId, UUID receiverCompanyId, UUID managementHubId, List<OrderDetailRequest> requests) {
     Order order =
         Order.builder()
             .supplierCompanyId(supplierCompanyId)
             .receiverCompanyId(receiverCompanyId)
             .orderDate(LocalDateTime.now())
+            .managementHubId(managementHubId)
             .build();
     orderRepository.save(order);
 
