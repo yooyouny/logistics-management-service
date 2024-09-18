@@ -31,7 +31,10 @@ public class OrderService {
   private final OrderDetailRepository orderDetailRepository;
 
   public OrderResponse create(
-      UUID supplierCompanyId, UUID receiverCompanyId, UUID managementHubId, List<OrderDetailRequest> requests) {
+      UUID supplierCompanyId,
+      UUID receiverCompanyId,
+      UUID managementHubId,
+      List<OrderDetailRequest> requests) {
     Order order =
         Order.builder()
             .supplierCompanyId(supplierCompanyId)
@@ -95,15 +98,25 @@ public class OrderService {
   }
 
   @Transactional(readOnly = true)
-  public Page<OrderDto> getOrderListByHubId(UUID managementHubId, int offset, int limit){
+  public Page<OrderDto> getOrderListByHubId(UUID managementHubId, int offset, int limit) {
     Pageable pageable = PageRequest.of(offset, limit, Sort.by("orderDate").descending());
-    return orderRepository.findAllByManagementHubId(managementHubId, pageable)
+    return orderRepository
+        .findAllByManagementHubId(managementHubId, pageable)
         .map(OrderMapper::toOrderDto);
   }
 
   public OrderResponse cancelOrder(UUID orderId) {
     Order order = getOrder(orderId);
+    if(order.getOrderState() == OrderState.SHIPPED){
+      throw new BusinessException(OrderErrorCode.CONFLICT_CANCEL_ORDER);
+    }
     order.updateOrderState(OrderState.CANCELLED);
+    return OrderResponse.fromEntity(order);
+  }
+
+  public OrderResponse confirmOrder(UUID orderId) {
+    Order order = getOrder(orderId);
+    order.updateOrderState(OrderState.CONFIRMED);
     return OrderResponse.fromEntity(order);
   }
 

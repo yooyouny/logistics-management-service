@@ -53,4 +53,9 @@ public class OrderController {
   public SuccessResponseBody<OrderResponse> cancel(@NotNull @PathVariable("orderId") UUID orderId) {
     return new SuccessResponseBody<>(orderFacadeService.cancel(orderId));
   }
+
+  @PutMapping("/{orderId}/confirm")
+  public SuccessResponseBody<OrderResponse> confirm(@NotNull @PathVariable("orderId") UUID orderId) {
+    return new SuccessResponseBody<>(orderFacadeService.confirm(orderId));
+  }
 }

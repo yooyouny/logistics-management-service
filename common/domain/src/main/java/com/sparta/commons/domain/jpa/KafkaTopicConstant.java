@@ -8,6 +8,7 @@ public class KafkaTopicConstant {
   public static final String DELETE_DELIVERY = "delete_delivery";
   public static final String REVERT_PRODUCT_QUANTITY = "revert_product_quantity";
   public static final String SET_DELIVERY_IN_ORDER = "set_delivery_in_order";
+  public static final String UPDATE_ORDER_STATE = "update_order_state";
 
   private KafkaTopicConstant() {}
 }
