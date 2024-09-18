@@ -57,6 +57,7 @@ public class OrderService {
     order.setOrderDetails(orderDetails);
     return OrderResponse.fromEntity(order);
   }
+
   @Transactional(readOnly = true)
   public OrderResponse get(UUID orderId){
     return orderRepository.findByOrderId(orderId)
@@ -71,12 +72,20 @@ public class OrderService {
         .map(OrderMapper::toOrderDto);
   }
 
-  public void cancelOrder(UUID orderId) {
-    Order order =
-        orderRepository
-            .findByOrderId(orderId)
-            .orElseThrow(() -> new BusinessException(OrderErrorCode.NOT_FOUND_ORDER));
-
+  public OrderResponse cancelOrder(UUID orderId) {
+    Order order = getOrder(orderId);
     order.updateOrderState(OrderState.CANCELLED);
+    return OrderResponse.fromEntity(order);
+  }
+
+  public void setDelivery(UUID orderId, UUID deliveryId){
+    Order order = getOrder(orderId);
+    order.setDeliveryId(deliveryId);
+  }
+
+  private Order getOrder(UUID orderId){
+    return orderRepository
+        .findByOrderId(orderId)
+        .orElseThrow(() -> new BusinessException(OrderErrorCode.NOT_FOUND_ORDER));
   }
 }

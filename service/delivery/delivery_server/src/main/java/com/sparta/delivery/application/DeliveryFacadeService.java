@@ -28,10 +28,10 @@ public class DeliveryFacadeService {
   private final CompanyClient companyClient;
 
   @Transactional
-  public void createDelivery(DeliveryCreateDto request, UUID orderId) {
+  public DeliveryResponse createDelivery(DeliveryCreateDto request, UUID orderId) {
     UUID supplierHubId = getHubId(request.getSupplierCompanyId());
     UUID arrivalHubId = getHubId(request.getReceiverCompanyId());
-    deliveryService.createDelivery(supplierHubId, arrivalHubId, request, orderId);
+    return DeliveryResponse.fromEntity(deliveryService.createDelivery(supplierHubId, arrivalHubId, request, orderId));
   }
 
   @Transactional

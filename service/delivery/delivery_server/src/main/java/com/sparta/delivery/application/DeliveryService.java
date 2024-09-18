@@ -6,7 +6,10 @@ import com.sparta.delivery.domain.model.State.DeliveryState;
 import com.sparta.delivery.dto.DeliveryCreateDto;
 import com.sparta.delivery.infrastructure.repository.DeliveryRepository;
 import com.sparta.delivery.infrastructure.repository.DeliveryRepositoryImpl;
+import com.sparta.delivery.presentation.dto.DeliveryResponse;
 import com.sparta.delivery.presentation.exception.DeliveryErrorCode;
+import java.time.LocalDateTime;
+import java.util.List;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -21,7 +24,7 @@ public class DeliveryService {
   private final DeliveryRepository deliveryRepository;
   private final DeliveryRepositoryImpl deliveryQueryRepository;
 
-  public void createDelivery(
+  public Delivery createDelivery(
       UUID departureHubId, UUID arrivalHubId, DeliveryCreateDto request, UUID orderId) {
     Delivery delivery =
         Delivery.builder()
@@ -32,7 +35,7 @@ public class DeliveryService {
             .shippingManagerId(request.getShippingManagerId())
             .shippingManagerSlackId(request.getShippingManagerSlackId())
             .build();
-    deliveryRepository.save(delivery);
+    return deliveryRepository.save(delivery);
   }
 
   public Delivery updateDeliveryState(UUID deliveryId) {
@@ -42,6 +45,14 @@ public class DeliveryService {
             .orElseThrow(() -> new BusinessException(DeliveryErrorCode.NOT_FOUND_DELIVERY));
     delivery.updateDeliveryState(DeliveryState.REQUESTED);
     return delivery;
+  }
+
+  @Transactional(readOnly = true)
+  public DeliveryResponse get(UUID deliveryId) {
+    return deliveryRepository
+        .findByDeliveryId(deliveryId)
+        .map(DeliveryResponse::fromEntity)
+        .orElseThrow(() -> new BusinessException(DeliveryErrorCode.NOT_FOUND_DELIVERY));
   }
 
   public void deleteDelivery(UUID orderId) {
