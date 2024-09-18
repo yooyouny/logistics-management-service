@@ -99,6 +99,8 @@ public class ProductService {
         .getAuthentication();
     String role = authentication.role();
     Long userId = authentication.userId();
+    String description = aiService.generateContent(request.getProductName() + "에 대한 설명을 50자 내외로 소비자가 구매할 수 있도록 장점을 부각해서 해줘");
+    request.setProductDescription(description + request.getProductDescription());
 
     ProductUpdateStrategyFactory strategyFactory = new ProductUpdateStrategyFactory(hubClient);
     ProductUpdateStrategy strategy = strategyFactory.createStrategy(role);

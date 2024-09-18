@@ -27,7 +27,7 @@ public class AiRequest {
 
   // 요청 본문 생성 메서드
   public static AiRequest generateBody(String text) {
-    Part part = new Part(text);  // 텍스트를 포함하는 객체 생성
+    Part part = new Part(text);
     Content content = new Content(List.of(part));  // 내용 생성
     return new AiRequest(List.of(content));  // 최종 요청 객체 생성
   }
