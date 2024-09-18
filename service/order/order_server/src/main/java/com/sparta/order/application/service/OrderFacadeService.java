@@ -27,7 +27,10 @@ public class OrderFacadeService {
   public OrderResponse create(OrderCreateRequest request) {
     OrderResponse order =
         orderService.create(
-            request.supplierCompanyId(), request.receiverCompanyId(), request.orderDetails());
+            request.supplierCompanyId(),
+            request.receiverCompanyId(),
+            request.managementHubId(),
+            request.orderDetails());
 
     log.info("orderId: {}", order.getOrderId());
     List<ProductDeductDto> productDto = getProductDto(order.getOrderDetails());
@@ -35,8 +38,7 @@ public class OrderFacadeService {
 
     productProducer.send(
         KafkaTopicConstant.DEDUCT_PRODUCT_QUANTITY, order.getOrderId(), productDto);
-    deliveryProducer.send(
-        KafkaTopicConstant.CREATE_DELIVERY, order.getOrderId(), deliveryDto);
+    deliveryProducer.send(KafkaTopicConstant.CREATE_DELIVERY, order.getOrderId(), deliveryDto);
     return order;
   }
 

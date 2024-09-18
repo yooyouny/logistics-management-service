@@ -45,8 +45,6 @@ public class DeliveryRoute extends BaseEntity {
   private double estimatedDistance;
   private long estimatedElapsedTime;
 
-  private Integer realDistance;
-
   private Duration realElapsedTime;
 
   private RouteState routeState = RouteState.PENDING;
@@ -59,7 +57,6 @@ public class DeliveryRoute extends BaseEntity {
       UUID arrivalHubId,
       double estimatedDistance,
       long estimatedElapsedTime,
-      Integer realDistance,
       Duration realElapsedTime) {
     this.delivery = delivery;
     this.sequence = sequence;
@@ -67,7 +64,6 @@ public class DeliveryRoute extends BaseEntity {
     this.arrivalHubId = arrivalHubId;
     this.estimatedDistance = estimatedDistance;
     this.estimatedElapsedTime = estimatedElapsedTime;
-    this.realDistance = realDistance;
     this.realElapsedTime = realElapsedTime;
   }
 

@@ -3,12 +3,16 @@ package com.sparta.delivery.application;
 import com.sparta.commons.domain.exception.BusinessException;
 import com.sparta.delivery.domain.model.Delivery;
 import com.sparta.delivery.dto.DeliveryCreateDto;
+import com.sparta.delivery.dto.DeliveryDto;
 import com.sparta.delivery.infrastructure.client.CompanyClient;
 import com.sparta.delivery.infrastructure.client.HubClient;
 import com.sparta.delivery.presentation.dto.DeliveryResponse;
 import com.sparta.delivery.presentation.exception.DeliveryErrorCode;
 import com.sparta.hub.dto.InterHubResponse;
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -42,7 +46,16 @@ public class DeliveryFacadeService {
     return DeliveryResponse.fromEntity(delivery);
   }
 
-  private UUID getHubId(UUID companyId){
+  public List<DeliveryDto> findDeliveriesByShippingManagerId(
+      UUID shippingManagerId, LocalDateTime requestedDateTime) {
+    return deliveryService
+        .getDeliveriesByShippingManager(shippingManagerId, requestedDateTime)
+        .stream()
+        .map(DeliveryMapper::toDeliveryDto)
+        .collect(Collectors.toList());
+  }
+
+  private UUID getHubId(UUID companyId) {
     return companyClient
         .getHubIdByCompanyId(companyId)
         .orElseThrow(() -> new BusinessException(DeliveryErrorCode.NOT_FOUND_HUB));
