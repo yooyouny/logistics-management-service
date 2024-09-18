@@ -52,7 +52,6 @@ public class CompanyService {
   }
 
   @Timed("company")
-  @PreAuthorize("isAuthenticated() and hasAnyRole('ROLE_MASTER', 'ROLE_HUB_COMPANY', 'ROLE_HUB_MANAGER')")
   public CompanyResponse createCompany(CompanyCreateRequest companyCreateRequest) {
     checkHubExists(companyCreateRequest.getHubId());
     Company company = companyMapper.createRequestToEntity(companyCreateRequest);
@@ -61,7 +60,6 @@ public class CompanyService {
     return companyMapper.toResponse(company);
   }
 
-  @PreAuthorize("isAuthenticated() and hasAnyRole('ROLE_MASTER', 'ROLE_HUB_COMPANY', 'ROLE_HUB_MANAGER')")
   public CompanyResponse updateCompany(CompanyUpdateRequest request, UUID companyId, AuthenticationImpl authentication) {
     checkHubExists(request.getHubId());
 
@@ -85,7 +83,6 @@ public class CompanyService {
   }
 
   @Timed("company")
-  @PreAuthorize("isAuthenticated() and hasAnyRole('ROLE_MASTER','ROLE_HUB_COMPANY')")
   public void deleteCompany(UUID companyId) {
     AuthenticationImpl authentication = (AuthenticationImpl) SecurityContextHolder.getContext().getAuthentication();
     String username = authentication.getName();

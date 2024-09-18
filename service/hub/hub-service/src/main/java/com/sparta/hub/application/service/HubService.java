@@ -23,6 +23,7 @@ import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -84,8 +85,8 @@ public class HubService {
     int pageSize = validatePageSize(pageable.getPageSize());
 
     // 검증된 pageSize로 새로운 Pageable 객체 생성
-    Pageable validatedPageable = PageRequest.of(pageable.getPageNumber(), pageSize);
-    Page<HubResponse> list = hubRepository.searchHub(pageable, cond);
+    Pageable validatedPageable = PageRequest.of(pageable.getPageNumber(), pageSize, Sort.unsorted());
+    Page<HubResponse> list = hubRepository.searchHub(validatedPageable, cond);
     if (list.isEmpty()) {
       throw new BusinessException(HubErrorCode.NOT_FOUND);
     }

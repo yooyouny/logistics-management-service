@@ -13,6 +13,7 @@ import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,6 +31,7 @@ public class CompanyController {
 
   private final CompanyService companyService;
 
+  @PreAuthorize("isAuthenticated() and hasAnyRole('ROLE_MASTER', 'ROLE_HUB_COMPANY', 'ROLE_HUB_MANAGER')")
   @PostMapping
   public ResponseBody<CompanyResponse> createCompany(
       @Valid @RequestBody CompanyCreateRequest companyCreateRequest) {
@@ -37,6 +39,7 @@ public class CompanyController {
     return new SuccessResponseBody<>(response);
   }
 
+  @PreAuthorize("isAuthenticated() and hasAnyRole('ROLE_MASTER', 'ROLE_HUB_COMPANY', 'ROLE_HUB_MANAGER')")
   @PutMapping("/{companyId}")
   public ResponseBody<CompanyResponse> updateCompany(
       @Valid @RequestBody CompanyUpdateRequest request, @PathVariable UUID companyId) {
@@ -46,6 +49,7 @@ public class CompanyController {
   }
 
   @DeleteMapping("/{companyId}")
+  @PreAuthorize("isAuthenticated() and hasAnyRole('ROLE_MASTER','ROLE_HUB_COMPANY')")
   public ResponseBody<UUID> deleteCompany(@PathVariable UUID companyId) {
     companyService.deleteCompany(companyId);
     return new SuccessResponseBody<>(companyId);
