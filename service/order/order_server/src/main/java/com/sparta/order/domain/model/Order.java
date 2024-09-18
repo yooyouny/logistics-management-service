@@ -10,6 +10,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Index;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
@@ -20,11 +21,15 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
 @Entity
-@Table(name = "P_ORDERS")
+@Table(name = "P_ORDERS",
+    indexes = {
+    @Index(name = "idx_management_hub_id", columnList = "management_hub_id")
+})
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @SQLRestriction("is_delete is false")
 @SQLDelete(sql = "UPDATE p_orders SET deleted_at = NOW() where order_id = ?")
@@ -54,7 +59,10 @@ public class Order extends BaseEntity {
 
   private int totalQuantity = 0;
 
+  @Column(name = "delivery_id")
   private UUID deliveryId;
+
+  @Column(nullable = false, name = "management_hub_id")
   private UUID managementHubId;
 
   private boolean isDelete = false;
