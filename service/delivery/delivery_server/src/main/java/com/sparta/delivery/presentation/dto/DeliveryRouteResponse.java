@@ -14,7 +14,6 @@ public class DeliveryRouteResponse {
   private RouteState routeState;
   private double estimatedDistance;
   private long estimatedElapsedTime;
-  private Integer realDistance;
   private Duration realElapsedTime;
 
   @Builder
@@ -25,7 +24,6 @@ public class DeliveryRouteResponse {
       UUID arrivalHubId,
       double estimatedDistance,
       long estimatedElapsedTime,
-      Integer realDistance,
       Duration realElapsedTime,
       RouteState routeState) {
     this.deliveryRouteId = deliveryRouteId;
@@ -34,7 +32,6 @@ public class DeliveryRouteResponse {
     this.arrivalHubId = arrivalHubId;
     this.estimatedDistance = estimatedDistance;
     this.estimatedElapsedTime = estimatedElapsedTime;
-    this.realDistance = realDistance;
     this.realElapsedTime = realElapsedTime;
     this.routeState = routeState;
   }
@@ -48,7 +45,6 @@ public class DeliveryRouteResponse {
         .routeState(route.getRouteState())
         .estimatedDistance(route.getEstimatedDistance())
         .estimatedElapsedTime(route.getEstimatedElapsedTime())
-        .realDistance(route.getRealDistance())
         .realElapsedTime(route.getRealElapsedTime())
         .build();
   }

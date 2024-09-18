@@ -48,8 +48,6 @@ public class QDeliveryRoute extends EntityPathBase<DeliveryRoute> {
 
     public final NumberPath<Long> estimatedElapsedTime = createNumber("estimatedElapsedTime", Long.class);
 
-    public final NumberPath<Integer> realDistance = createNumber("realDistance", Integer.class);
-
     public final ComparablePath<java.time.Duration> realElapsedTime = createComparable("realElapsedTime", java.time.Duration.class);
 
     public final EnumPath<State.RouteState> routeState = createEnum("routeState", State.RouteState.class);
