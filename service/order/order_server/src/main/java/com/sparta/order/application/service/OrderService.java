@@ -4,6 +4,7 @@ import com.sparta.commons.domain.exception.BusinessException;
 import com.sparta.order.domain.model.Order;
 import com.sparta.order.domain.model.OrderDetail;
 import com.sparta.order.domain.model.OrderState;
+import com.sparta.order.dto.OrderDto;
 import com.sparta.order.infrastructure.repository.OrderDetailRepository;
 import com.sparta.order.infrastructure.repository.OrderRepository;
 import com.sparta.order.presentation.exception.OrderErrorCode;
@@ -14,6 +15,10 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -51,6 +56,13 @@ public class OrderService {
 
     order.setOrderDetails(orderDetails);
     return OrderResponse.fromEntity(order);
+  }
+
+  @Transactional(readOnly = true)
+  public Page<OrderDto> getOrderListByHubId(UUID managementHubId, int offset, int limit){
+    Pageable pageable = PageRequest.of(offset, limit, Sort.by("orderDate").descending());
+    return orderRepository.findAllByManagementHubId(managementHubId, pageable)
+        .map(OrderMapper::toOrderDto);
   }
 
   public void cancelOrder(UUID orderId) {
