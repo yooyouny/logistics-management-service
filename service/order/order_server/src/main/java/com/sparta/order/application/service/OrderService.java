@@ -57,6 +57,12 @@ public class OrderService {
     order.setOrderDetails(orderDetails);
     return OrderResponse.fromEntity(order);
   }
+  @Transactional(readOnly = true)
+  public OrderResponse get(UUID orderId){
+    return orderRepository.findByOrderId(orderId)
+        .map(OrderResponse::fromEntity)
+        .orElseThrow(() -> new BusinessException(OrderErrorCode.NOT_FOUND_ORDER));
+  }
 
   @Transactional(readOnly = true)
   public Page<OrderDto> getOrderListByHubId(UUID managementHubId, int offset, int limit){
