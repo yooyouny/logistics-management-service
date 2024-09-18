@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Transactional
-@Slf4j(topic = " in DeliveryServer")
+@Slf4j(topic = "DeliveryConsumer in DeliveryServer")
 public class DeliveryConsumer {
   private final DeliveryFacadeService deliveryFacadeService;
   private final DeliveryService deliveryService;

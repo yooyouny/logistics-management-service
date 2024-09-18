@@ -55,16 +55,24 @@ public class DeliveryService {
         .orElseThrow(() -> new BusinessException(DeliveryErrorCode.NOT_FOUND_DELIVERY));
   }
 
-  public void deleteDelivery(UUID orderId) {
-    Delivery delivery =
-        deliveryRepository
-            .findByOrderId(orderId)
-            .orElseThrow(() -> new BusinessException(DeliveryErrorCode.NOT_FOUND_DELIVERY));
+  public void deleteDelivery(UUID deliveryId) {
+    Delivery delivery = getDelivery(deliveryId);
     deliveryRepository.delete(delivery);
+  }
+
+  public void confirm(UUID deliveryId){
+    Delivery delivery = getDelivery(deliveryId);
+    delivery.updateDeliveryState(DeliveryState.CONFIRMED);
   }
 
   public List<Delivery> getDeliveriesByShippingManager(
       UUID shippingManagerId, LocalDateTime shippingStartDate) {
     return deliveryQueryRepository.findDeliveries(shippingManagerId, shippingStartDate);
+  }
+
+  private Delivery getDelivery(UUID deliveryId){
+    return deliveryRepository
+            .findByDeliveryId(deliveryId)
+            .orElseThrow(() -> new BusinessException(DeliveryErrorCode.NOT_FOUND_DELIVERY));
   }
 }
