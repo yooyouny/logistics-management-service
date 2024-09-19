@@ -100,7 +100,7 @@ public class Delivery extends BaseEntity {
   }
 
   public void setDeliveryRoutes(List<DeliveryRoute> routes){
-    this.routes = routes;
+    routes.forEach(route -> this.routes.add(route));
   }
 
   public void updateDeliveryState(DeliveryState state){
