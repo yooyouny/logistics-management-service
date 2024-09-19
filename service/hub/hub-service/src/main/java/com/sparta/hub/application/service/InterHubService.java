@@ -35,7 +35,6 @@ public class InterHubService {
   private final InterHubMapper interHubMapper;
 
 
-  //TODO 허브 생성/수정/삭제 등에 의한 이동 정보 수정 자동화 (도전?)
   //이동 간 정보 생성 시 역방향 정보도 함께 생성
   @CacheEvict(cacheNames = "interHubAllCache", allEntries = true)
   public List<InterHubResponse> createRoute(InterHubCreateRequest requestDto) {
@@ -100,10 +99,10 @@ public class InterHubService {
   @Caching(evict = {
       @CacheEvict(cacheNames = "interHubCache", key = "args[0]"),
       @CacheEvict(cacheNames = "interHubAllCache", allEntries = true)})
-  public void delete(UUID interHubId, String email) {
+  public void delete(UUID interHubId, String username) {
     InterHub interHub = interHubRepository.findById(interHubId)
         .orElseThrow(() -> new BusinessException(InterHubErrorCode.NOT_FOUND));
-    interHub.delete(email);
+    interHub.delete(username);
   }
 
   @Transactional(readOnly = true)

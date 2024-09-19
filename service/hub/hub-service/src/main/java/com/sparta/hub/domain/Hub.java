@@ -66,7 +66,6 @@ public class Hub extends BaseEntity {
   public void delete(String username) {
     isDelete = true;
     deletedAt = LocalDateTime.now();
-    // TODO deletedBy 수동 설정
     deletedBy = username;
   }
 }

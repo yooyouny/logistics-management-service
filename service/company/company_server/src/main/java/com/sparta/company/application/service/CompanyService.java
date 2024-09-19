@@ -17,6 +17,8 @@ import com.sparta.company.infrastructure.client.UserClient;
 import com.sparta.company.infrastructure.configuration.AuthenticationImpl;
 import com.sparta.company.infrastructure.repository.company.CompanyRepository;
 import com.sparta.user.dto.user_dto.UserDto;
+import io.micrometer.core.annotation.Timed;
+import io.micrometer.core.instrument.MeterRegistry;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -38,27 +40,26 @@ public class CompanyService {
   private final CompanyRepository companyRepository;
   private final HubClient hubClient;
   private final CompanyMapper companyMapper = new CompanyMapper();
-
   private final UserClient userClient;
   private final CompanyUpdateStrategyFactory strategyFactory;
 
   public CompanyService(CompanyRepository companyRepository, HubClient hubClient,
-      UserClient userClient) {
+      UserClient userClient, MeterRegistry registry) {
     this.companyRepository = companyRepository;
     this.hubClient = hubClient;
     this.userClient = userClient;
     this.strategyFactory = new CompanyUpdateStrategyFactory(hubClient, userClient);
   }
 
-  @PreAuthorize("isAuthenticated() and hasAnyRole('ROLE_MASTER', 'ROLE_HUB_COMPANY', 'ROLE_HUB_MANAGER')")
+  @Timed("company")
   public CompanyResponse createCompany(CompanyCreateRequest companyCreateRequest) {
     checkHubExists(companyCreateRequest.getHubId());
     Company company = companyMapper.createRequestToEntity(companyCreateRequest);
     companyRepository.save(company);
+
     return companyMapper.toResponse(company);
   }
 
-  @PreAuthorize("isAuthenticated() and hasAnyRole('ROLE_MASTER', 'ROLE_HUB_COMPANY', 'ROLE_HUB_MANAGER')")
   public CompanyResponse updateCompany(CompanyUpdateRequest request, UUID companyId, AuthenticationImpl authentication) {
     checkHubExists(request.getHubId());
 
@@ -81,7 +82,7 @@ public class CompanyService {
     return userId;
   }
 
-  @PreAuthorize("isAuthenticated() and hasAnyRole('ROLE_MASTER', 'ROLE_HUB_COMPANY', 'ROLE_HUB_MANAGER')")
+  @Timed("company")
   public void deleteCompany(UUID companyId) {
     AuthenticationImpl authentication = (AuthenticationImpl) SecurityContextHolder.getContext().getAuthentication();
     String username = authentication.getName();
@@ -89,8 +90,8 @@ public class CompanyService {
 
     Company company = getCompany(companyId);
     if(role.equals("ROLE_HUB_COMPANY")) {
-      Long userId = getUserIdFromUsername(username);
-      if(!userId.equals(company.getUserId())) {
+      Long userId = authentication.userId();
+      if(userId.equals(company.getUserId())) {
         company.delete(username);
       }else{
         throw new BusinessException(CompanyErrorCode.ACCESS_DENIED);

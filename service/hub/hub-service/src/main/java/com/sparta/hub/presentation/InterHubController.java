@@ -7,12 +7,14 @@ import com.sparta.hub.application.dto.interhub.InterHubSearchCond;
 import com.sparta.hub.application.dto.interhub.InterHubUpdateRequest;
 import com.sparta.hub.application.service.InterHubService;
 import com.sparta.hub.dto.InterHubResponse;
+import com.sparta.hub.infrastructure.config.AuthenticationImpl;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -34,7 +36,7 @@ public class InterHubController {
     return new SuccessResponseBody<>(route);
   }
 
-  @PreAuthorize("isAuthenticated() and hasRole('ROLE_MASTER')")
+  @PreAuthorize("hasRole('ROLE_MASTER')")
   @PutMapping("/{interHubId}")
   public ResponseBody<InterHubResponse> updateInterHubRoute(
       @Valid @RequestBody InterHubUpdateRequest requestDto, @PathVariable UUID interHubId) {
@@ -44,9 +46,11 @@ public class InterHubController {
 
   @PreAuthorize("isAuthenticated() and hasRole('ROLE_MASTER')")
   @DeleteMapping("/{interHubId}")
-  public ResponseBody<UUID> deleteInterHubRoute(@PathVariable UUID interHubId,
-      @RequestHeader(value = "X_Email", required = false) String email) {
-    interHubService.delete(interHubId, email);
+  public ResponseBody<UUID> deleteInterHubRoute(@PathVariable UUID interHubId) {
+    AuthenticationImpl authentication = (AuthenticationImpl) SecurityContextHolder.getContext()
+        .getAuthentication();
+    String username = authentication.getName();
+    interHubService.delete(interHubId, username);
     return new SuccessResponseBody<>(interHubId);
   }
 
@@ -57,7 +61,7 @@ public class InterHubController {
   }
 
   @GetMapping
-  public ResponseBody<Page<InterHubResponse>> getAllInterHubRoutes(InterHubSearchCond cond,
+  public ResponseBody<Page<InterHubResponse>> getAllInterHubRoutes(@ModelAttribute InterHubSearchCond cond,
       Pageable pageable) {
     Page<InterHubResponse> allHubRoute = interHubService.getAllHubRoute(cond, pageable);
     return new SuccessResponseBody<>(allHubRoute);

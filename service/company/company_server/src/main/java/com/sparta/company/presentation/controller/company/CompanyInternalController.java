@@ -1,4 +1,4 @@
-package com.sparta.company.presentation.controller;
+package com.sparta.company.presentation.controller.company;
 
 import com.sparta.company.application.service.CompanyInternalService;
 import java.util.Optional;

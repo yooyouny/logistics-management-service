@@ -1,4 +1,4 @@
-package com.sparta.company.presentation.controller;
+package com.sparta.company.presentation.controller.product;
 
 import com.sparta.commons.domain.response.ResponseBody;
 import com.sparta.commons.domain.response.SuccessResponseBody;
