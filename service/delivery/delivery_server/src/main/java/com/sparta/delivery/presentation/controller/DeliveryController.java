@@ -27,7 +27,7 @@ public class DeliveryController {
   @PreAuthorize("isAuthenticated() and (hasRole('ROLE_MASTER') or hasRole('ROLE_HUB_MANAGER') or hasRole('ROLE_HUB_COMPANY'))")
   @PostMapping("/{deliveryId}/requested")
   public ResponseEntity<SuccessResponseBody<DeliveryResponse>> requestDeliveryAndCreateRoute(
-      @PathVariable("deliveryId") UUID deliveryId) {
+      @NotNull @PathVariable("deliveryId") UUID deliveryId) {
     return ResponseEntity.status(HttpStatus.CREATED)
         .body(
             new SuccessResponseBody<>(
