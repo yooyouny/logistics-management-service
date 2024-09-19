@@ -49,22 +49,24 @@ public class OrderFacadeService {
 
   public OrderResponse cancel(UUID orderId) {
     OrderResponse order = orderService.cancelOrder(orderId);
-    UpdateStateRequest request = UpdateStateRequest.builder()
-        .requestedId(orderId.toString())
-        .targetId(order.getDeliveryId().toString())
-        .stateName(OrderState.CANCELLED.name())
-        .build();
+    UpdateStateRequest request =
+        UpdateStateRequest.builder()
+            .requestedId(orderId.toString())
+            .targetId(order.getDeliveryId().toString())
+            .stateName(OrderState.CANCELLED.name())
+            .build();
     stateProducer.send(KafkaTopicConstant.UPDATE_ORDER_STATE, order.getOrderId(), request);
     return order;
   }
 
-  public OrderResponse confirm(UUID orderId){
+  public OrderResponse confirm(UUID orderId) {
     OrderResponse order = orderService.confirmOrder(orderId);
-    UpdateStateRequest request = UpdateStateRequest.builder()
-        .requestedId(orderId.toString())
-        .targetId(order.getDeliveryId().toString())
-        .stateName(OrderState.CONFIRMED.name())
-        .build();
+    UpdateStateRequest request =
+        UpdateStateRequest.builder()
+            .requestedId(orderId.toString())
+            .targetId(order.getDeliveryId().toString())
+            .stateName(OrderState.CONFIRMED.name())
+            .build();
     stateProducer.send(KafkaTopicConstant.UPDATE_ORDER_STATE, order.getOrderId(), request);
     return order;
   }
