@@ -9,6 +9,7 @@ import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class DeliveryController {
   private final DeliveryFacadeService deliveryFacadeService;
   private final DeliveryService deliveryService;
-
+  @PreAuthorize("isAuthenticated() and (hasRole('ROLE_MASTER') or hasRole('ROLE_HUB_MANAGER') or hasRole('ROLE_HUB_COMPANY'))")
   @PostMapping("/{deliveryId}/requested")
   public ResponseEntity<SuccessResponseBody<DeliveryResponse>> requestDeliveryAndCreateRoute(
       @PathVariable("deliveryId") UUID deliveryId) {
@@ -32,7 +33,7 @@ public class DeliveryController {
             new SuccessResponseBody<>(
                 deliveryFacadeService.requestDeliveryAndCreateRoute(deliveryId)));
   }
-
+  @PreAuthorize("isAuthenticated()")
   @GetMapping("/{deliveryId}")
   public SuccessResponseBody<DeliveryResponse> get(
       @NotNull @PathVariable("deliveryId") UUID deliveryId) {
