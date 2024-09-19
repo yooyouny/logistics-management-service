@@ -2,6 +2,9 @@ server:
   port: 19098
 
 spring:
+  config:
+    import: optional:file:/service/notification/.env[.properties]
+
   application:
     name: notification-service
 
@@ -24,3 +27,13 @@ eureka:
   client:
     service-url:
       defaultZone: http://localhost:19090/eureka/
+
+weather:
+  service-key: ${WEATHER_SERVICE_KEY}
+
+gemini:
+  api-key: ${JEMINI_API_KEY}
+
+slack:
+  token: ${SLACK_TOKEN}
+  channel: ${SLACK_CHANNEL}

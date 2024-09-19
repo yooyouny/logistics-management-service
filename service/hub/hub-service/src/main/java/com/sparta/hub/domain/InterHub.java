@@ -63,14 +63,13 @@ public class InterHub extends BaseEntity {
     this.elapsedTime = elapsedTime;
   }
 
-  //TODO deletedBy 임의로 헤더에서 emial을 넣는걸로 설정, 이후 수정
-  public void delete(String email) {
+  public void delete(String username) {
     if (isDelete) {
       throw new BusinessException(InterHubErrorCode.ALREADY_DELETED);
     }
     isDelete = true;
     deletedAt = LocalDateTime.now();
-    deletedBy = email;
+    deletedBy = username;
   }
 
   public InterHub(Hub departureHub, Hub arrivalHub, Double distance, Long elapsedTime) {

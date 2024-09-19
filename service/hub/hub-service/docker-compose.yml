@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:15
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: logistics
+
+  redis:
+    image: redis:latest
+    restart: always
+    ports:
+      - "6379:6379"

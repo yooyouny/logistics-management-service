@@ -1,10 +1,11 @@
 package com.sparta.hub.dto;
 
+import java.io.Serializable;
 import java.util.UUID;
 import lombok.Data;
 
 @Data
-public class InterHubStopResponse {
+public class InterHubStopResponse implements Serializable {
 
   private Long interHubStopId;
   private int sequence;

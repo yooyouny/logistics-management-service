@@ -12,7 +12,6 @@ public class InterHubUpdateRequest {
   private UUID departureHubId;
   @NotNull
   private UUID arrivalHubId;
-  @NotNull
   private Long elapsedTime;
 
 }

@@ -11,9 +11,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 @FeignClient(name = "hub")
 public interface HubClient {
 
-  @GetMapping("/internal/hubs/{hubId}")
+  @GetMapping("/internal/hubs/{hubId}/exists")
   boolean checkHubExists(@PathVariable("hubId") UUID hubId);
 
-  @GetMapping("/internal/hubs/{hubId}/manager")
+  // company를 관리하는 hubId로 허브 찾기
+  @GetMapping("/internal/hubs/{hubId}")
   Optional<HubResponse> getHubByCompany(@PathVariable("hubId") UUID hubId);
 }

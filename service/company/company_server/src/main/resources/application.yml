@@ -3,10 +3,10 @@ spring:
     name: company
   # Hub service datasource
   datasource:
-    url: ${DATASOURCE_URL}
-    username: ${DATASOURCE_USERNAME}
-    password: ${DATASOURCE_PASSWORD}
+    url: jdbc:postgresql://localhost:5435/company_postgres
     driver-class-name: org.postgresql.Driver
+    username: postgres
+
 
   jpa:
     hibernate:
@@ -16,7 +16,7 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
   kafka:
-    bootstrap-servers: ${KAFKA_URL}
+    bootstrap-servers: localhost:9092
     listener:
       ack-mode: MANUAL
     producer:
@@ -43,4 +43,22 @@ server:
 logging:
   level:
     feign.client: DEBUG
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+    prometheus:
+      enabled: true
+#  server:
+#    port: 29095
+
+google:
+  api:
+    key: ${API_KEY}
 
