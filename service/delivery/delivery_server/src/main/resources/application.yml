@@ -1,9 +1,9 @@
 spring:
   application:
-    name: order
+    name: delivery
   datasource:
-    url: ${DATASOURCE_URL}
-    username: ${DATASOURCE_USERNAME}
+    url: jdbc:postgresql://localhost:5433/delivery_postgres
+    username: postgres
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
@@ -13,14 +13,14 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
   kafka:
-    bootstrap-servers: ${KAFKA_URL}
+    bootstrap-servers: localhost:9092
     listener:
       ack-mode: MANUAL
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
     consumer:
-      group-id: order
+      group-id: delivery
       auto-offset-reset: latest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
@@ -32,7 +32,7 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: ${EUREKA_URL}
+      defaultZone: http://localhost:19090/eureka/
 server:
-  port: 19093
+  port: 19097
 
