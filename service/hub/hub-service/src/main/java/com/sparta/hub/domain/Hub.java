@@ -33,16 +33,20 @@ public class Hub extends BaseEntity {
 
   @Column(length = 100, nullable = false)
   private String hubName;
+
   @Column(nullable = false)
   private String hubAddress;
+
   @Column(precision = 7, scale = 4, nullable = false)
   private BigDecimal hubLatitude;
+
   @Column(precision = 7, scale = 4, nullable = false)
   private BigDecimal hubLongitude;
+
   @Column(nullable = false)
   private Long userId;
-  private Boolean isDelete = false;
 
+  private Boolean isDelete = false;
 
   public void update(HubUpdateRequest requestDto) {
     if (requestDto.getHubName() != null) {
@@ -60,7 +64,6 @@ public class Hub extends BaseEntity {
     if (requestDto.getHubLongitude() != null) {
       hubLongitude = requestDto.getHubLongitude();
     }
-
   }
 
   public void delete(String username) {

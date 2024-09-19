@@ -21,7 +21,6 @@ public enum AuthErrorCode implements ErrorCode {
 
   // AUTH
   SIGN_IN_FAIL(401, "AUTH_0001", "로그인에 실패했습니다."),
-
   ;
 
   private final int status;

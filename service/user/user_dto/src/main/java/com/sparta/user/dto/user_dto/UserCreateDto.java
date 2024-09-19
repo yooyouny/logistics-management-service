@@ -7,10 +7,4 @@ package com.sparta.user.dto.user_dto;
  * @param email
  * @param encodedPassword
  */
-public record UserCreateDto(
-    String username,
-    String email,
-    String encodedPassword
-) {
-
-}
+public record UserCreateDto(String username, String email, String encodedPassword) {}

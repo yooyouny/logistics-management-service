@@ -20,7 +20,8 @@ public class UserService {
 
   @Transactional(readOnly = true)
   public UserInfo getUserInfo(Long userId) {
-    return userRepository.findById(userId)
+    return userRepository
+        .findById(userId)
         .map(UserInfo::create)
         .orElseThrow(() -> new BusinessException(UserErrorCode.USER_NOT_FOUND));
   }
@@ -32,7 +33,8 @@ public class UserService {
   }
 
   public User validateUser(Long userId) {
-    return userRepository.findById(userId)
+    return userRepository
+        .findById(userId)
         .orElseThrow(() -> new BusinessException(UserErrorCode.USER_NOT_FOUND));
   }
 

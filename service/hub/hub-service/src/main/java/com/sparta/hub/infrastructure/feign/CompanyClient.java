@@ -9,5 +9,4 @@ import org.springframework.web.bind.annotation.PathVariable;
 public interface CompanyClient {
   @GetMapping("/internal/companies/{companyId}")
   UUID findHubByCompanyId(@PathVariable("companyId") UUID companyId);
-
 }

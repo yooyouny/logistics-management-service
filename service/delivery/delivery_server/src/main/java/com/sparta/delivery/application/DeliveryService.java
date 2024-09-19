@@ -10,8 +10,6 @@ import com.sparta.delivery.presentation.dto.DeliveryResponse;
 import com.sparta.delivery.presentation.exception.DeliveryErrorCode;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.time.LocalDateTime;
-import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

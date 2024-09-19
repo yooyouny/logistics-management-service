@@ -1,9 +1,9 @@
 package com.sparta.user.infrastructure.configuration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sparta.user.filter.SecurityContextFilter;
 import com.sparta.user.filter.CustomAccessDeniedHandler;
 import com.sparta.user.filter.CustomAuthenticationEntryPoint;
+import com.sparta.user.filter.SecurityContextFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

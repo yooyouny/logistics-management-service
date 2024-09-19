@@ -21,5 +21,4 @@ public class SlackNotificationProvider {
   public void sendNotification(List<LayoutBlock> layoutBlocks) {
     slackHelper.sendNotification(slackProperties.getChannel(), layoutBlocks);
   }
-
 }

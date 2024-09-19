@@ -8,5 +8,4 @@ import org.springframework.stereotype.Component;
 @Component
 public interface ProductUpdateStrategy {
   Product update(ProductUpdateRequest request, Company company, Product product, Long userId);
-
 }

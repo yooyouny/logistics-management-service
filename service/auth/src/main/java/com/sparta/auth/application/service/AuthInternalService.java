@@ -1,7 +1,6 @@
 package com.sparta.auth.application.service;
 
 import com.sparta.commons.domain.jwt.JwtClaim;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

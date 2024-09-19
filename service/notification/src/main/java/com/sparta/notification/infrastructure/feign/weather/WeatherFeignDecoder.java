@@ -25,6 +25,7 @@ public class WeatherFeignDecoder implements Decoder {
       WeatherDeserializer deserializer = new WeatherDeserializer(objectMapper);
       return deserializer.deserialize(jsonNode);
     }
-    return objectMapper.readValue(response.body().asInputStream(), objectMapper.constructType(type));
+    return objectMapper.readValue(
+        response.body().asInputStream(), objectMapper.constructType(type));
   }
 }

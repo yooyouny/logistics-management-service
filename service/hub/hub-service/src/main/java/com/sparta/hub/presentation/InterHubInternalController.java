@@ -26,10 +26,9 @@ public class InterHubInternalController {
   @GetMapping
   public Optional<InterHubResponse> getDeliveryRoutes(
       @RequestParam("departureHubId") UUID departureHubId,
-      @RequestParam("arrivalHubId") UUID arrivalHubId
-  ){
-    InterHubResponse interHubResponse = interHubService.findInterHubByDpHubAndAvHub(
-        departureHubId, arrivalHubId);
+      @RequestParam("arrivalHubId") UUID arrivalHubId) {
+    InterHubResponse interHubResponse =
+        interHubService.findInterHubByDpHubAndAvHub(departureHubId, arrivalHubId);
     return Optional.ofNullable(interHubResponse);
   }
 }

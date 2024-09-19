@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 
 @RequiredArgsConstructor
 @Repository
-public class SlackNotificationImpl implements SlackNotificationRepository{
+public class SlackNotificationImpl implements SlackNotificationRepository {
 
   private final SlackNotificationMongoRepository slackNotificationMongoRepository;
 

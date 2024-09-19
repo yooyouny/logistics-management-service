@@ -13,5 +13,4 @@ public class ProductResponse {
   private String productDescription;
   private Integer productPrice;
   private Integer stockQuantity;
-
 }

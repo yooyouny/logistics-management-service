@@ -17,8 +17,7 @@ public class OrderSetDeliveryConsumer {
 
   @KafkaListener(topics = KafkaTopicConstant.SET_DELIVERY_IN_ORDER, groupId = "order")
   public void consume(
-      @Header(name = "kafka_receivedMessageKey") String orderId,
-      @Payload String deliveryId) {
+      @Header(name = "kafka_receivedMessageKey") String orderId, @Payload String deliveryId) {
     orderService.setDelivery(UUID.fromString(orderId), UUID.fromString(deliveryId));
     log.info("set Delivery in Order : {}", orderId);
   }

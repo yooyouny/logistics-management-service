@@ -44,12 +44,13 @@ public class Company extends BaseEntity {
 
   @Column(nullable = false)
   private String companyAddress;
+
   private boolean isDelete = false;
   private UUID hubId;
   private Long userId;
+
   @OneToMany(mappedBy = "company")
   private List<Product> products;
-
 
   public void update(CompanyUpdateRequest request) {
     companyName = request.getCompanyName();
@@ -60,9 +61,8 @@ public class Company extends BaseEntity {
     super.updatedAt = LocalDateTime.now();
   }
 
-
   public void delete(String username) {
-    if(isDelete) {
+    if (isDelete) {
       throw new AlreadyDeletedException("Company already deleted");
     }
     this.isDelete = true;

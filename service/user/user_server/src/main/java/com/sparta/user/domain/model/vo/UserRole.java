@@ -16,11 +16,6 @@ public enum UserRole {
 
   private final String role;
 
-  @JsonValue
-  public String getRole() {
-    return role;
-  }
-
   @JsonCreator
   public static UserRole fromString(String role) {
     for (UserRole userRole : UserRole.values()) {
@@ -29,5 +24,10 @@ public enum UserRole {
       }
     }
     return null;
+  }
+
+  @JsonValue
+  public String getRole() {
+    return role;
   }
 }

@@ -67,7 +67,7 @@ public class DeliveryRoute extends BaseEntity {
     this.realElapsedTime = realElapsedTime;
   }
 
-  public void updateRouteState(RouteState state){
+  public void updateRouteState(RouteState state) {
     this.routeState = state;
   }
 }

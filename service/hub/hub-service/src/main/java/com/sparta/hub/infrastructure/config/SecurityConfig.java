@@ -18,10 +18,12 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class SecurityConfig {
   private final ObjectMapper objectMapper;
+
   @Bean
   public SecurityContextFilter securityContextFilter() {
     return new SecurityContextFilter(objectMapper);
   }
+
   @Bean
   protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http.csrf(AbstractHttpConfigurer::disable)
@@ -31,5 +33,4 @@ public class SecurityConfig {
         .addFilterBefore(securityContextFilter(), UsernamePasswordAuthenticationFilter.class);
     return http.build();
   }
-
 }

@@ -12,13 +12,12 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 @Configuration
 public class JpaConfig {
 
+  @PersistenceContext private EntityManager entityManager;
+
   @Bean
   public AuditorAware<String> auditorProvider() {
     return new AuditAwareImpl();
   }
-
-  @PersistenceContext
-  private EntityManager entityManager;
 
   @Bean
   public JPAQueryFactory jpaQueryFactory() {

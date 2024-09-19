@@ -1,6 +1,5 @@
 package com.sparta.company.application.service;
 
-
 import com.sparta.commons.domain.exception.BusinessException;
 import com.sparta.company.application.dto.company.CompanyCreateRequest;
 import com.sparta.company.application.dto.company.CompanyResponse;
@@ -42,15 +41,16 @@ public class CompanyService {
   private final UserClient userClient;
   private final CompanyUpdateStrategyFactory strategyFactory;
 
-  public CompanyService(CompanyRepository companyRepository, HubClient hubClient,
-      UserClient userClient) {
+  public CompanyService(
+      CompanyRepository companyRepository, HubClient hubClient, UserClient userClient) {
     this.companyRepository = companyRepository;
     this.hubClient = hubClient;
     this.userClient = userClient;
     this.strategyFactory = new CompanyUpdateStrategyFactory(hubClient, userClient);
   }
 
-  @PreAuthorize("isAuthenticated() and hasAnyRole('ROLE_MASTER', 'ROLE_HUB_COMPANY', 'ROLE_HUB_MANAGER')")
+  @PreAuthorize(
+      "isAuthenticated() and hasAnyRole('ROLE_MASTER', 'ROLE_HUB_COMPANY', 'ROLE_HUB_MANAGER')")
   public CompanyResponse createCompany(CompanyCreateRequest companyCreateRequest) {
     checkHubExists(companyCreateRequest.getHubId());
     Company company = companyMapper.createRequestToEntity(companyCreateRequest);
@@ -58,8 +58,10 @@ public class CompanyService {
     return companyMapper.toResponse(company);
   }
 
-  @PreAuthorize("isAuthenticated() and hasAnyRole('ROLE_MASTER', 'ROLE_HUB_COMPANY', 'ROLE_HUB_MANAGER')")
-  public CompanyResponse updateCompany(CompanyUpdateRequest request, UUID companyId, AuthenticationImpl authentication) {
+  @PreAuthorize(
+      "isAuthenticated() and hasAnyRole('ROLE_MASTER', 'ROLE_HUB_COMPANY', 'ROLE_HUB_MANAGER')")
+  public CompanyResponse updateCompany(
+      CompanyUpdateRequest request, UUID companyId, AuthenticationImpl authentication) {
     checkHubExists(request.getHubId());
 
     String username = authentication.getName();
@@ -68,31 +70,33 @@ public class CompanyService {
     Long userId = authentication.userId();
 
     CompanyUpdateStrategy strategy = strategyFactory.createStrategy(role);
-    strategy.update(request, company, username,userId);
+    strategy.update(request, company, username, userId);
 
     return companyMapper.toResponse(company);
   }
 
   private Long getUserIdFromUsername(String username) {
     Optional<UserDto> userDto = userClient.getUserDto(username);
-    UserDto user = userDto.orElseThrow(
-        () -> new BusinessException(CompanyErrorCode.USER_NOT_FOUND));
+    UserDto user =
+        userDto.orElseThrow(() -> new BusinessException(CompanyErrorCode.USER_NOT_FOUND));
     Long userId = user.userId();
     return userId;
   }
 
-  @PreAuthorize("isAuthenticated() and hasAnyRole('ROLE_MASTER', 'ROLE_HUB_COMPANY', 'ROLE_HUB_MANAGER')")
+  @PreAuthorize(
+      "isAuthenticated() and hasAnyRole('ROLE_MASTER', 'ROLE_HUB_COMPANY', 'ROLE_HUB_MANAGER')")
   public void deleteCompany(UUID companyId) {
-    AuthenticationImpl authentication = (AuthenticationImpl) SecurityContextHolder.getContext().getAuthentication();
+    AuthenticationImpl authentication =
+        (AuthenticationImpl) SecurityContextHolder.getContext().getAuthentication();
     String username = authentication.getName();
     String role = authentication.role();
 
     Company company = getCompany(companyId);
-    if(role.equals("ROLE_HUB_COMPANY")) {
+    if (role.equals("ROLE_HUB_COMPANY")) {
       Long userId = getUserIdFromUsername(username);
-      if(!userId.equals(company.getUserId())) {
+      if (!userId.equals(company.getUserId())) {
         company.delete(username);
-      }else{
+      } else {
         throw new BusinessException(CompanyErrorCode.ACCESS_DENIED);
       }
     }
@@ -100,9 +104,10 @@ public class CompanyService {
   }
 
   private Company getCompany(UUID companyId) {
-    Company company = companyRepository.findById(companyId).orElseThrow(
-        () -> new BusinessException(CompanyErrorCode.NOT_FOUND)
-    );
+    Company company =
+        companyRepository
+            .findById(companyId)
+            .orElseThrow(() -> new BusinessException(CompanyErrorCode.NOT_FOUND));
     return company;
   }
 
@@ -139,5 +144,4 @@ public class CompanyService {
       throw new BusinessException(HubErrorCode.NOT_FOUND);
     }
   }
-
 }

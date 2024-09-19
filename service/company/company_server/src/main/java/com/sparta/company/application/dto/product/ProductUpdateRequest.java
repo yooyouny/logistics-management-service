@@ -8,14 +8,11 @@ import lombok.Data;
 
 @Data
 public class ProductUpdateRequest {
-  @NotNull
-  private UUID companyId;
+  @NotNull private UUID companyId;
 
-  @NotNull
-  private UUID hubId;
+  @NotNull private UUID hubId;
 
-  @NotBlank
-  private String productName;
+  @NotBlank private String productName;
 
   private String productDescription;
 

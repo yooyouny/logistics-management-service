@@ -11,5 +11,4 @@ public interface UserClient {
 
   @GetMapping("/internal/users")
   Optional<UserDto> getUserDto(@RequestParam(value = "username") String username);
-
 }

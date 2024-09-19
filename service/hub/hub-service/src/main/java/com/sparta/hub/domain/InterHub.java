@@ -46,6 +46,7 @@ public class InterHub extends BaseEntity {
 
   @Column(nullable = false)
   private Double distance;
+
   // 소요시간 ( 단위 : 분 )
   @Column(nullable = false)
   private Long elapsedTime;
@@ -56,6 +57,13 @@ public class InterHub extends BaseEntity {
   @OneToMany(mappedBy = "interHub")
   private List<InterHubStop> interHubStops = new ArrayList<>();
 
+  public InterHub(Hub departureHub, Hub arrivalHub, Double distance, Long elapsedTime) {
+    this.departureHub = departureHub;
+    this.arrivalHub = arrivalHub;
+    this.distance = distance;
+    this.elapsedTime = elapsedTime;
+  }
+
   public void update(Hub departureHub, Hub arrivalHub, Long elapsedTime, Double distance) {
     this.departureHub = departureHub;
     this.arrivalHub = arrivalHub;
@@ -63,7 +71,7 @@ public class InterHub extends BaseEntity {
     this.elapsedTime = elapsedTime;
   }
 
-  //TODO deletedBy 임의로 헤더에서 emial을 넣는걸로 설정, 이후 수정
+  // TODO deletedBy 임의로 헤더에서 emial을 넣는걸로 설정, 이후 수정
   public void delete(String email) {
     if (isDelete) {
       throw new BusinessException(InterHubErrorCode.ALREADY_DELETED);
@@ -71,12 +79,5 @@ public class InterHub extends BaseEntity {
     isDelete = true;
     deletedAt = LocalDateTime.now();
     deletedBy = email;
-  }
-
-  public InterHub(Hub departureHub, Hub arrivalHub, Double distance, Long elapsedTime) {
-    this.departureHub = departureHub;
-    this.arrivalHub = arrivalHub;
-    this.distance = distance;
-    this.elapsedTime = elapsedTime;
   }
 }

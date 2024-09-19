@@ -1,6 +1,5 @@
 package com.sparta.company.infrastructure.repository.product;
 
-import static com.sparta.company.domain.QCompany.company;
 import static com.sparta.company.domain.QProduct.*;
 import static org.springframework.util.StringUtils.hasText;
 
@@ -11,7 +10,6 @@ import com.sparta.company.application.dto.product.ProductResponse;
 import com.sparta.company.application.dto.product.ProductSearchCond;
 import com.sparta.company.application.mapper.ProductMapper;
 import com.sparta.company.domain.Product;
-import com.sparta.company.domain.QProduct;
 import jakarta.persistence.EntityManager;
 import java.util.List;
 import java.util.UUID;

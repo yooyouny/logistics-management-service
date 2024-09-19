@@ -15,7 +15,8 @@ public interface ShippingManagerRepository {
 
   Optional<ShippingManager> findById(UUID shippingManagerId);
 
-  Page<SippingManagerInfo> findShippingManagerInfos(UUID shippingManagerId, String keyword, Pageable pageable);
+  Page<SippingManagerInfo> findShippingManagerInfos(
+      UUID shippingManagerId, String keyword, Pageable pageable);
 
   boolean existsBySlackId(String slackId);
 

@@ -4,7 +4,7 @@ import com.sparta.order.domain.model.Order;
 import com.sparta.order.dto.OrderDto;
 
 public class OrderMapper {
-  public static OrderDto toOrderDto(Order order){
+  public static OrderDto toOrderDto(Order order) {
     return OrderDto.builder()
         .orderId(order.getOrderId())
         .supplierCompanyId(order.getSupplierCompanyId())

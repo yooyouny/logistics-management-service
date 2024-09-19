@@ -21,22 +21,20 @@ import static lombok.AccessLevel.PROTECTED;
 @EntityListeners(AuditingEntityListener.class)
 public abstract class BaseEntity {
 
-    @CreatedDate
-    @Column(name = "created_at", updatable = false)
-    protected LocalDateTime createdAt;
+  @CreatedDate
+  @Column(name = "created_at", updatable = false)
+  protected LocalDateTime createdAt;
 
-    @CreatedBy
-    protected String createdBy;
+  @CreatedBy protected String createdBy;
 
-    @LastModifiedDate
-    @Column(name = "updated_at")
-    protected LocalDateTime updatedAt;
+  @LastModifiedDate
+  @Column(name = "updated_at")
+  protected LocalDateTime updatedAt;
 
-    @LastModifiedBy
-    protected String updatedBy;
+  @LastModifiedBy protected String updatedBy;
 
-    @Column(name = "deleted_at")
-    protected LocalDateTime deletedAt;
+  @Column(name = "deleted_at")
+  protected LocalDateTime deletedAt;
 
-    protected String deletedBy;
+  protected String deletedBy;
 }

@@ -20,7 +20,7 @@ public class WeatherResponse {
   @ToString
   @Getter
   @NoArgsConstructor
-  public static class Item{
+  public static class Item {
     private String baseDate;
     private String baseTime;
     private String category;
@@ -28,5 +28,4 @@ public class WeatherResponse {
     private Long ny;
     private String obsrValue;
   }
-
 }

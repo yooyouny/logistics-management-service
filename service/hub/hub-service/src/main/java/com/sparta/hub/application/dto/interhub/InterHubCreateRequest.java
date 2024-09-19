@@ -1,11 +1,9 @@
 package com.sparta.hub.application.dto.interhub;
 
 import jakarta.validation.constraints.NotNull;
+import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-
-import java.util.UUID;
-
 
 @Data
 @AllArgsConstructor

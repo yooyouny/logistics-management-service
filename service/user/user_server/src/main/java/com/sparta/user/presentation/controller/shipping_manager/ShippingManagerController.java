@@ -5,7 +5,6 @@ import com.sparta.commons.domain.response.ResponseBody;
 import com.sparta.commons.domain.response.SuccessResponseBody;
 import com.sparta.user.application.dto.SippingManagerInfo;
 import com.sparta.user.application.service.shipping_manager.ShippingManagerService;
-import com.sparta.user.domain.model.vo.ShippingManagerType;
 import com.sparta.user.presentation.request.CreateShippingManagerRequest;
 import com.sparta.user.presentation.request.UpdateShippingManagerRequest;
 import jakarta.validation.Valid;

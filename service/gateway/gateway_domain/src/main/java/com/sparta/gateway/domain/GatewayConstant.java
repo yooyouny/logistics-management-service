@@ -7,5 +7,4 @@ public interface GatewayConstant {
   String AUTHORIZATION = "Authorization";
 
   String X_USER_CLAIMS = "x-user-claims";
-
 }

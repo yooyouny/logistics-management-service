@@ -22,7 +22,8 @@ public class UserInternalController {
 
   @PostMapping
   public void createUser(@RequestBody UserCreateDto userCreateDto) {
-    userInternalService.createUser(userCreateDto.username(), userCreateDto.email(), userCreateDto.encodedPassword());
+    userInternalService.createUser(
+        userCreateDto.username(), userCreateDto.email(), userCreateDto.encodedPassword());
   }
 
   @GetMapping

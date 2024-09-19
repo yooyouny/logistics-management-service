@@ -7,7 +7,7 @@ import com.sparta.delivery.dto.DeliveryRouteDto;
 import java.util.stream.Collectors;
 
 public class DeliveryMapper {
-  public static DeliveryDto toDeliveryDto(Delivery delivery){
+  public static DeliveryDto toDeliveryDto(Delivery delivery) {
     return DeliveryDto.builder()
         .deliveryId(delivery.getDeliveryId())
         .departureHubId(delivery.getDepartureHubId())
@@ -20,13 +20,14 @@ public class DeliveryMapper {
         .shippingEndDate(delivery.getShippingEndDate())
         .estimatedDistance(delivery.getEstimatedDistance())
         .estimatedElapsedTime(delivery.getEstimatedElapsedTime())
-        .routes(delivery.getRoutes().stream()
-            .map(DeliveryMapper::toDeliveryRouteDto)
-            .collect(Collectors.toList()))
+        .routes(
+            delivery.getRoutes().stream()
+                .map(DeliveryMapper::toDeliveryRouteDto)
+                .collect(Collectors.toList()))
         .build();
   }
 
-  public static DeliveryRouteDto toDeliveryRouteDto(DeliveryRoute deliveryRoute){
+  public static DeliveryRouteDto toDeliveryRouteDto(DeliveryRoute deliveryRoute) {
     return DeliveryRouteDto.builder()
         .deliveryRouteId(deliveryRoute.getDeliveryRouteId())
         .sequence(deliveryRoute.getSequence())
@@ -38,5 +39,4 @@ public class DeliveryMapper {
         .realElapsedTime(deliveryRoute.getRealElapsedTime())
         .build();
   }
-
 }

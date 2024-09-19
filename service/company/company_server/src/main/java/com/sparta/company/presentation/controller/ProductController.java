@@ -46,24 +46,26 @@ public class ProductController {
   }
 
   @GetMapping
-  public ResponseBody<Page<ProductResponse>> searchProducts(Pageable pageable,
-      ProductSearchCond cond) {
+  public ResponseBody<Page<ProductResponse>> searchProducts(
+      Pageable pageable, ProductSearchCond cond) {
     Page<ProductResponse> response = productService.searchProduct(pageable, cond);
     return new SuccessResponseBody<>(response);
   }
 
-  @PreAuthorize("isAuthenticated() and (hasRole('ROLE_MASTER') or hasRole('ROLE_HUB_COMPANY') or hasRole('ROLE_HUB_MANAGER'))")
+  @PreAuthorize(
+      "isAuthenticated() and (hasRole('ROLE_MASTER') or hasRole('ROLE_HUB_COMPANY') or hasRole('ROLE_HUB_MANAGER'))")
   @PutMapping("/{productId}")
-  public ResponseBody<ProductResponse> updateProduct(@RequestBody ProductUpdateRequest request,@PathVariable UUID productId) {
-    ProductResponse response = productService.updateProduct(request,productId);
+  public ResponseBody<ProductResponse> updateProduct(
+      @RequestBody ProductUpdateRequest request, @PathVariable UUID productId) {
+    ProductResponse response = productService.updateProduct(request, productId);
     return new SuccessResponseBody<>(response);
   }
 
-  @PreAuthorize("isAuthenticated() and (hasRole('ROLE_MASTER') or hasRole('ROLE_HUB_COMPANY') or hasRole('ROLE_HUB_MANAGER'))")
+  @PreAuthorize(
+      "isAuthenticated() and (hasRole('ROLE_MASTER') or hasRole('ROLE_HUB_COMPANY') or hasRole('ROLE_HUB_MANAGER'))")
   @DeleteMapping("/{productId}")
   public ResponseBody<UUID> deleteProduct(@PathVariable UUID productId) {
     productService.deleteProduct(productId);
     return new SuccessResponseBody<>(productId);
   }
-
 }

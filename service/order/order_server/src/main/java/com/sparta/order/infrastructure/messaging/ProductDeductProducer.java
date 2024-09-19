@@ -6,6 +6,7 @@ import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
+
 @RequiredArgsConstructor
 @Slf4j(topic = "ProductDeductProducer in OrderServer")
 public class ProductDeductProducer {

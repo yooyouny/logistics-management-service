@@ -50,11 +50,7 @@ public class ShippingManager extends BaseEntity {
   }
 
   public static ShippingManager create(String slackId, ShippingManagerType type, UUID hubId) {
-    return ShippingManager.builder()
-        .slackId(slackId)
-        .type(type)
-        .hubId(hubId)
-        .build();
+    return ShippingManager.builder().slackId(slackId).type(type).hubId(hubId).build();
   }
 
   public void update(String slackId, ShippingManagerType type, UUID hubId) {

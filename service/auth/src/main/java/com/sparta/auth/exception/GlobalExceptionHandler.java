@@ -16,16 +16,16 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalExceptionHandler {
 
   @ExceptionHandler(BusinessException.class) // custom 에러
-  public ResponseEntity<ResponseBody<Void>> handleServiceException(HttpServletRequest request,
-      BusinessException e) {
+  public ResponseEntity<ResponseBody<Void>> handleServiceException(
+      HttpServletRequest request, BusinessException e) {
     ErrorCode errorCode = e.getErrorCode();
     return ResponseEntity.status(errorCode.getStatus())
         .body(new FailedResponseBody(errorCode.getCode(), errorCode.getMessage()));
   }
 
   @ExceptionHandler(FeignClientException.class) // custom 에러
-  public ResponseEntity<ResponseBody<Void>> handleFeignClientException(HttpServletRequest request,
-      FeignClientException e) {
+  public ResponseEntity<ResponseBody<Void>> handleFeignClientException(
+      HttpServletRequest request, FeignClientException e) {
     return ResponseEntity.status(e.getHttpStatus())
         .body(new FailedResponseBody(e.getCode(), e.getMessage()));
   }
@@ -41,11 +41,13 @@ public class GlobalExceptionHandler {
   }
 
   @ExceptionHandler(Exception.class)
-  public ResponseEntity<ResponseBody<Void>> handleException(HttpServletRequest request,
-      Exception e) {
+  public ResponseEntity<ResponseBody<Void>> handleException(
+      HttpServletRequest request, Exception e) {
     log.error("Exception : {}", e.getMessage());
     return ResponseEntity.internalServerError()
-        .body(new FailedResponseBody(AuthErrorCode.INTERNAL_SERVER_ERROR.getCode(),
-            AuthErrorCode.INTERNAL_SERVER_ERROR.getMessage()));
+        .body(
+            new FailedResponseBody(
+                AuthErrorCode.INTERNAL_SERVER_ERROR.getCode(),
+                AuthErrorCode.INTERNAL_SERVER_ERROR.getMessage()));
   }
 }

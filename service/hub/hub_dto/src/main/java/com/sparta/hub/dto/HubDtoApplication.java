@@ -9,5 +9,4 @@ public class HubDtoApplication {
   public static void main(String[] args) {
     SpringApplication.run(HubDtoApplication.class, args);
   }
-
 }

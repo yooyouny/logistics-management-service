@@ -10,7 +10,6 @@ public class InterHubStopResponse {
   private int sequence;
   private UUID arrivalHubId;
   private UUID departureHubId;
-  private Long elapsedTime;  // 소요시간
+  private Long elapsedTime; // 소요시간
   private double distance;
-
 }

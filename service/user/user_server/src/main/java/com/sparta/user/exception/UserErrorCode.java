@@ -22,7 +22,6 @@ public enum UserErrorCode implements ErrorCode {
   // ShippingManager
   SHIPPING_MANAGER_NOT_FOUND(404, "SHIPPING_MANAGER_0001", "존재하지 않는 배송 담당자입니다."),
   SLACK_ID_CONFLICT(409, "SHIPPING_MANAGER_0001", "이미 존재하는 slackId입니다."),
-
   ;
 
   private final int status;

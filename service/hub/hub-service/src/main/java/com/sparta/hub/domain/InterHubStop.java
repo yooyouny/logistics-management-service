@@ -44,23 +44,28 @@ public class InterHubStop {
   private UUID departureHubId;
 
   @Column(name = "elapsed_time", nullable = false)
-  private Long elapsedTime;  // 소요시간
+  private Long elapsedTime; // 소요시간
 
   @Column(nullable = false)
   private double distance;
 
-  public void addStop(InterHub interHub) {
-    this.interHub = interHub;
-    this.interHub.getInterHubStops().add(this);
-  }
-
-  public InterHubStop(InterHub interHub, Integer sequence, UUID arrivalHubId, UUID departureHubId,
-      Long elapsedTime, double distance) {
+  public InterHubStop(
+      InterHub interHub,
+      Integer sequence,
+      UUID arrivalHubId,
+      UUID departureHubId,
+      Long elapsedTime,
+      double distance) {
     this.interHub = interHub;
     this.sequence = sequence;
     this.arrivalHubId = arrivalHubId;
     this.departureHubId = departureHubId;
     this.elapsedTime = elapsedTime;
     this.distance = distance;
+  }
+
+  public void addStop(InterHub interHub) {
+    this.interHub = interHub;
+    this.interHub.getInterHubStops().add(this);
   }
 }

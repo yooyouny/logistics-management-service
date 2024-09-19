@@ -13,10 +13,9 @@ public record SippingManagerInfo(
     Boolean isDelete,
     UUID hubId,
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    LocalDateTime createdAt,
+        LocalDateTime createdAt,
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    LocalDateTime updatedAt
-) {
+        LocalDateTime updatedAt) {
   public static SippingManagerInfo create(ShippingManager shippingManager) {
     return new SippingManagerInfo(
         shippingManager.getId(),
@@ -25,7 +24,6 @@ public record SippingManagerInfo(
         shippingManager.getIsDelete(),
         shippingManager.getHubId(),
         shippingManager.getCreatedAt(),
-        shippingManager.getUpdatedAt()
-    );
+        shippingManager.getUpdatedAt());
   }
 }

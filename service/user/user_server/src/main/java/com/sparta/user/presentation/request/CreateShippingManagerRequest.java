@@ -9,7 +9,4 @@ import java.util.UUID;
 public record CreateShippingManagerRequest(
     @NotBlank String slackId,
     @ValidEnum(enumClass = ShippingManagerType.class) ShippingManagerType type,
-    @NotNull UUID hubId
-) {
-
-}
+    @NotNull UUID hubId) {}

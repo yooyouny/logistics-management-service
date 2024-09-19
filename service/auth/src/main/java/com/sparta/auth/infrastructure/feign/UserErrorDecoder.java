@@ -23,8 +23,8 @@ public class UserErrorDecoder implements ErrorDecoder {
     if (errorData.isPresent()) {
       switch (response.status()) {
         case 404, 409:
-          return new FeignClientException(response.status(), errorData.get().getCode(),
-              errorData.get().getMsg());
+          return new FeignClientException(
+              response.status(), errorData.get().getCode(), errorData.get().getMsg());
       }
     }
     return new BusinessException(AuthErrorCode.INTERNAL_SERVER_ERROR);

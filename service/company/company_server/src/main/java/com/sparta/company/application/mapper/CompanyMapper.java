@@ -29,5 +29,4 @@ public class CompanyMapper {
     response.setHubId(company.getHubId());
     return response;
   }
-
 }

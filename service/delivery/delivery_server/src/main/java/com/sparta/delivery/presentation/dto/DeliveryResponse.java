@@ -1,13 +1,8 @@
 package com.sparta.delivery.presentation.dto;
 
 import com.sparta.delivery.domain.model.Delivery;
-import com.sparta.delivery.domain.model.DeliveryRoute;
 import com.sparta.delivery.domain.model.State.DeliveryState;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.OneToMany;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;

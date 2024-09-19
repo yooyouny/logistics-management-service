@@ -31,19 +31,15 @@ public class HubRepositoryCustomImpl implements HubRepositoryCustom {
 
   @Override
   public Page<HubResponse> searchHub(Pageable pageable, HubSearchCond cond) {
-    JPAQuery<Hub> common = queryFactory
-        .selectFrom(hub)
-        .where(
-            hubNameEq(cond.getName()),
-            hubAddressEq(cond.getAddress()),
-            hub.isDelete.eq(false)
-        );
+    JPAQuery<Hub> common =
+        queryFactory
+            .selectFrom(hub)
+            .where(
+                hubNameEq(cond.getName()), hubAddressEq(cond.getAddress()), hub.isDelete.eq(false));
 
-    List<Hub> list = common.offset(pageable.getOffset())
-        .limit(pageable.getPageSize()).fetch();
+    List<Hub> list = common.offset(pageable.getOffset()).limit(pageable.getPageSize()).fetch();
 
-    List<HubResponse> content = list.stream()
-        .map(hubMapper::toResponse).toList();
+    List<HubResponse> content = list.stream().map(hubMapper::toResponse).toList();
     return PageableExecutionUtils.getPage(content, pageable, common::fetchCount);
   }
 

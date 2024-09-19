@@ -8,18 +8,11 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import java.util.Collection;
 import java.util.Collections;
 
-public record JwtAuthentication(
-    Long userId,
-    String username,
-    String role
-) implements Authentication {
+public record JwtAuthentication(Long userId, String username, String role)
+    implements Authentication {
 
   public JwtAuthentication(JwtClaim claims) {
-    this(
-        claims.getUserId(),
-        claims.getUsername(),
-        claims.getRole()
-    );
+    this(claims.getUserId(), claims.getUsername(), claims.getRole());
   }
 
   @Override
@@ -48,9 +41,7 @@ public record JwtAuthentication(
   }
 
   @Override
-  public void setAuthenticated(boolean isAuthenticated) throws IllegalArgumentException {
-
-  }
+  public void setAuthenticated(boolean isAuthenticated) throws IllegalArgumentException {}
 
   @Override
   public String getName() {

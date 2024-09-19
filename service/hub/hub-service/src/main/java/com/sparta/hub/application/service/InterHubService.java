@@ -34,15 +34,40 @@ public class InterHubService {
   private final HubRepository hubRepository;
   private final InterHubMapper interHubMapper;
 
+  // 하버 사인 공식으로 위,경도를 통한 직선 거리 ( km )
+  private static double CalculateDistance(Hub departureHub, Hub arrivalHub) {
+    double lat1 = departureHub.getHubLatitude().doubleValue();
+    double lon1 = departureHub.getHubLongitude().doubleValue();
+    double lat2 = arrivalHub.getHubLatitude().doubleValue();
+    double lon2 = arrivalHub.getHubLongitude().doubleValue();
 
-  //TODO 허브 생성/수정/삭제 등에 의한 이동 정보 수정 자동화 (도전?)
-  //이동 간 정보 생성 시 역방향 정보도 함께 생성
+    final int R = 6400;
+    double latDistance = Math.toRadians(lat2 - lat1);
+    double lonDistance = Math.toRadians(lon2 - lon1);
+    double a =
+        Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
+            + Math.cos(Math.toRadians(lat1))
+                * Math.cos(Math.toRadians(lat2))
+                * Math.sin(lonDistance / 2)
+                * Math.sin(lonDistance / 2);
+    double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    double distance = R * c;
+    distance = Math.round(distance * 10) / 10.0;
+    return distance;
+  }
+
+  // TODO 허브 생성/수정/삭제 등에 의한 이동 정보 수정 자동화 (도전?)
+  // 이동 간 정보 생성 시 역방향 정보도 함께 생성
   @CacheEvict(cacheNames = "interHubAllCache", allEntries = true)
   public List<InterHubResponse> createRoute(InterHubCreateRequest requestDto) {
-    Hub departureHub = hubRepository.findById(requestDto.getDepartureHubId()).orElseThrow(
-        () -> new BusinessException(HubErrorCode.NOT_FOUND));
-    Hub arrivalHub = hubRepository.findById(requestDto.getArrivalHubId()).orElseThrow(
-        () -> new BusinessException(HubErrorCode.NOT_FOUND));
+    Hub departureHub =
+        hubRepository
+            .findById(requestDto.getDepartureHubId())
+            .orElseThrow(() -> new BusinessException(HubErrorCode.NOT_FOUND));
+    Hub arrivalHub =
+        hubRepository
+            .findById(requestDto.getArrivalHubId())
+            .orElseThrow(() -> new BusinessException(HubErrorCode.NOT_FOUND));
 
     if (departureHub == arrivalHub) {
       throw new IllegalStateException("출발 허브와 도착 허브가 같습니다");
@@ -64,58 +89,54 @@ public class InterHubService {
     return interHubMapper.toResponse(interHub, interHubReverse);
   }
 
-  // 하버 사인 공식으로 위,경도를 통한 직선 거리 ( km )
-  private static double CalculateDistance(Hub departureHub, Hub arrivalHub) {
-    double lat1 = departureHub.getHubLatitude().doubleValue();
-    double lon1 = departureHub.getHubLongitude().doubleValue();
-    double lat2 = arrivalHub.getHubLatitude().doubleValue();
-    double lon2 = arrivalHub.getHubLongitude().doubleValue();
-
-    final int R = 6400;
-    double latDistance = Math.toRadians(lat2 - lat1);
-    double lonDistance = Math.toRadians(lon2 - lon1);
-    double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
-        + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2))
-        * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
-    double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    double distance = R * c;
-    distance = Math.round(distance * 10) / 10.0;
-    return distance;
-  }
-
   @CachePut(cacheNames = "interHubCache", key = "#result.interHubId")
   @CacheEvict(cacheNames = "interHubAllCache", allEntries = true)
   public InterHubResponse updateRoute(InterHubUpdateRequest requestDto, UUID interHubId) {
-    InterHub interHub = interHubRepository.findById(interHubId)
-        .orElseThrow(() -> new BusinessException(InterHubErrorCode.NOT_FOUND));
-    Hub departureHub = hubRepository.findById(requestDto.getDepartureHubId())
-        .orElseThrow(() -> new BusinessException(HubErrorCode.NOT_FOUND));
-    Hub arrivalHub = hubRepository.findById(requestDto.getArrivalHubId())
-        .orElseThrow(() -> new BusinessException(HubErrorCode.NOT_FOUND));
+    InterHub interHub =
+        interHubRepository
+            .findById(interHubId)
+            .orElseThrow(() -> new BusinessException(InterHubErrorCode.NOT_FOUND));
+    Hub departureHub =
+        hubRepository
+            .findById(requestDto.getDepartureHubId())
+            .orElseThrow(() -> new BusinessException(HubErrorCode.NOT_FOUND));
+    Hub arrivalHub =
+        hubRepository
+            .findById(requestDto.getArrivalHubId())
+            .orElseThrow(() -> new BusinessException(HubErrorCode.NOT_FOUND));
     double distance = CalculateDistance(departureHub, arrivalHub);
     interHub.update(departureHub, arrivalHub, requestDto.getElapsedTime(), distance);
     return interHubMapper.toResponse(interHub);
   }
 
-  @Caching(evict = {
-      @CacheEvict(cacheNames = "interHubCache", key = "args[0]"),
-      @CacheEvict(cacheNames = "interHubAllCache", allEntries = true)})
+  @Caching(
+      evict = {
+        @CacheEvict(cacheNames = "interHubCache", key = "args[0]"),
+        @CacheEvict(cacheNames = "interHubAllCache", allEntries = true)
+      })
   public void delete(UUID interHubId, String email) {
-    InterHub interHub = interHubRepository.findById(interHubId)
-        .orElseThrow(() -> new BusinessException(InterHubErrorCode.NOT_FOUND));
+    InterHub interHub =
+        interHubRepository
+            .findById(interHubId)
+            .orElseThrow(() -> new BusinessException(InterHubErrorCode.NOT_FOUND));
     interHub.delete(email);
   }
 
   @Transactional(readOnly = true)
   @Cacheable(cacheNames = "interHubCache", key = "args[0]")
   public InterHubResponse getOneHubRoute(UUID interHubId) {
-    InterHub interHub = interHubRepository.findById(interHubId)
-        .orElseThrow(() -> new BusinessException(InterHubErrorCode.NOT_FOUND));
+    InterHub interHub =
+        interHubRepository
+            .findById(interHubId)
+            .orElseThrow(() -> new BusinessException(InterHubErrorCode.NOT_FOUND));
     return interHubMapper.toResponse(interHub);
   }
 
   @Transactional(readOnly = true)
-  @Cacheable(cacheNames = "interHubAllCache", key = "#pageable.pageNumber + '-' + #pageable.pageSize + '-' + #cond.departureHubId + '-' + #cond.arrivalHubId + '-' + #cond.departureHubName + '-' + #cond.arrivalHubName")
+  @Cacheable(
+      cacheNames = "interHubAllCache",
+      key =
+          "#pageable.pageNumber + '-' + #pageable.pageSize + '-' + #cond.departureHubId + '-' + #cond.arrivalHubId + '-' + #cond.departureHubName + '-' + #cond.arrivalHubName")
   public Page<InterHubResponse> getAllHubRoute(InterHubSearchCond cond, Pageable pageable) {
     int pageSize = validatePageSize(pageable.getPageSize());
     Page<InterHubResponse> list = interHubRepository.searchHub(pageable, cond);
@@ -126,9 +147,10 @@ public class InterHubService {
   }
 
   public InterHubResponse findInterHubByDpHubAndAvHub(UUID departureHubId, UUID arrivalHubId) {
-    InterHub interHub = interHubRepository.findByDpHubAndAvHub(departureHubId,
-        arrivalHubId)
-        .orElseThrow( () -> new BusinessException(InterHubErrorCode.NOT_FOUND));
+    InterHub interHub =
+        interHubRepository
+            .findByDpHubAndAvHub(departureHubId, arrivalHubId)
+            .orElseThrow(() -> new BusinessException(InterHubErrorCode.NOT_FOUND));
     return interHubMapper.toResponse(interHub);
   }
 

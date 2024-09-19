@@ -21,13 +21,17 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
   ObjectMapper objectMapper = new ObjectMapper();
 
   @Override
-  public void commence(HttpServletRequest request, HttpServletResponse response,
-      AuthenticationException authException) throws IOException, ServletException {
+  public void commence(
+      HttpServletRequest request,
+      HttpServletResponse response,
+      AuthenticationException authException)
+      throws IOException, ServletException {
     response.setStatus(HttpStatus.UNAUTHORIZED.value());
     response.setContentType(MediaType.APPLICATION_JSON_VALUE);
     response.setCharacterEncoding("UTF-8");
-    objectMapper.writeValue(response.getWriter(),
-        new FailedResponseBody(UserErrorCode.NEED_AUTHORIZED.getCode(),
-            UserErrorCode.NEED_AUTHORIZED.getMessage()));
+    objectMapper.writeValue(
+        response.getWriter(),
+        new FailedResponseBody(
+            UserErrorCode.NEED_AUTHORIZED.getCode(), UserErrorCode.NEED_AUTHORIZED.getMessage()));
   }
 }

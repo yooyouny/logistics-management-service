@@ -107,7 +107,7 @@ public class OrderService {
 
   public OrderResponse cancelOrder(UUID orderId) {
     Order order = getOrder(orderId);
-    if(order.getOrderState() == OrderState.SHIPPED){
+    if (order.getOrderState() == OrderState.SHIPPED) {
       throw new BusinessException(OrderErrorCode.CONFLICT_CANCEL_ORDER);
     }
     order.updateOrderState(OrderState.CANCELLED);

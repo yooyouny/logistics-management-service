@@ -1,10 +1,8 @@
 package com.sparta.delivery.infrastructure.configuration;
 
-import com.sparta.delivery.application.DeliveryService;
 import com.sparta.delivery.dto.StateUpdateDto;
 import com.sparta.delivery.infrastructure.messaging.StateProducer;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

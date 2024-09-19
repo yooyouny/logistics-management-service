@@ -8,9 +8,9 @@ public class HubCompanyDeleteStrategy implements ProductDeleteStrategy {
 
   @Override
   public void delete(Product product, Long userId, String username) {
-    if(product.getCompany().getUserId().equals(userId)) {
+    if (product.getCompany().getUserId().equals(userId)) {
       product.delete(username);
-    }else{
+    } else {
       throw new BusinessException(ProductErrorCode.ACCESS_DENIED);
     }
   }

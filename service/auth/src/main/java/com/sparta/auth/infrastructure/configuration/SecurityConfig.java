@@ -31,33 +31,28 @@ public class SecurityConfig {
   private final CustomAccessDeniedHandler accessDeniedHandler;
 
   @Bean
-  public SecurityFilterChain httpSecurity(HttpSecurity http,
-      AuthenticationManager authenticationManager) throws Exception {
-    http
-        .csrf(AbstractHttpConfigurer::disable)
+  public SecurityFilterChain httpSecurity(
+      HttpSecurity http, AuthenticationManager authenticationManager) throws Exception {
+    http.csrf(AbstractHttpConfigurer::disable)
         .formLogin(AbstractHttpConfigurer::disable)
         .sessionManagement((s) -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .rememberMe(AbstractHttpConfigurer::disable)
         .httpBasic(AbstractHttpConfigurer::disable)
         .logout(AbstractHttpConfigurer::disable)
         .requestCache(RequestCacheConfigurer::disable)
-
-        .addFilterAfter(new JwtAuthenticationFilter(authenticationManager),
+        .addFilterAfter(
+            new JwtAuthenticationFilter(authenticationManager),
             UsernamePasswordAuthenticationFilter.class)
-
-        .exceptionHandling(e -> e
-            .authenticationEntryPoint(authenticationEntryPoint)
-            .accessDeniedHandler(accessDeniedHandler))
-
-    ;
+        .exceptionHandling(
+            e ->
+                e.authenticationEntryPoint(authenticationEntryPoint)
+                    .accessDeniedHandler(accessDeniedHandler));
 
     return http.build();
   }
 
   @Bean
-  public AuthenticationManager authenticationManager(
-      TokenProvider tokenProvider
-  ) {
+  public AuthenticationManager authenticationManager(TokenProvider tokenProvider) {
     return new ProviderManager(tokenProvider);
   }
 

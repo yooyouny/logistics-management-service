@@ -8,11 +8,7 @@ import java.util.UUID;
 @Data
 public class InterHubUpdateRequest {
 
-  @NotNull
-  private UUID departureHubId;
-  @NotNull
-  private UUID arrivalHubId;
-  @NotNull
-  private Long elapsedTime;
-
+  @NotNull private UUID departureHubId;
+  @NotNull private UUID arrivalHubId;
+  @NotNull private Long elapsedTime;
 }

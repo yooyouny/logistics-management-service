@@ -1,8 +1,7 @@
 package com.sparta.hub.application.dto.interhub;
 
-import lombok.Data;
-
 import java.util.UUID;
+import lombok.Data;
 
 @Data
 public class InterHubSearchCond {

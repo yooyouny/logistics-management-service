@@ -8,15 +8,14 @@ import com.sparta.hub.application.dto.interhub.InterHubUpdateRequest;
 import com.sparta.hub.application.service.InterHubService;
 import com.sparta.hub.dto.InterHubResponse;
 import jakarta.validation.Valid;
+import java.util.List;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor

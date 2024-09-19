@@ -9,5 +9,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ShippingManagerQueryDSLRepository {
 
-  Page<SippingManagerInfo> findShippingManagerInfos(UUID shippingManagerId, String keyword, Pageable pageable);
+  Page<SippingManagerInfo> findShippingManagerInfos(
+      UUID shippingManagerId, String keyword, Pageable pageable);
 }

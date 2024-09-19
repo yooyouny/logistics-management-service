@@ -10,7 +10,8 @@ public interface UserJpaRepository extends JpaRepository<User, Long> {
 
   Optional<User> findByUsername(String username);
 
-  @Query("SELECT CASE WHEN COUNT(u) > 0 THEN true ELSE false END FROM User u WHERE u.id = :userId AND u.role = 'ROLE_MASTER'")
+  @Query(
+      "SELECT CASE WHEN COUNT(u) > 0 THEN true ELSE false END FROM User u WHERE u.id = :userId AND u.role = 'ROLE_MASTER'")
   boolean existsByIdAndRoleMaster(Long userId);
 
   void deleteById(@NonNull Long id);

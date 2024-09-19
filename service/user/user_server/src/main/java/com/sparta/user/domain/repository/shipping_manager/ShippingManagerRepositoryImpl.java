@@ -26,9 +26,10 @@ public class ShippingManagerRepositoryImpl implements ShippingManagerRepository 
   }
 
   @Override
-  public Page<SippingManagerInfo> findShippingManagerInfos(UUID shippingManagerId, String keyword,
-      Pageable pageable) {
-    return shippingManagerQueryDSLRepository.findShippingManagerInfos(shippingManagerId, keyword, pageable);
+  public Page<SippingManagerInfo> findShippingManagerInfos(
+      UUID shippingManagerId, String keyword, Pageable pageable) {
+    return shippingManagerQueryDSLRepository.findShippingManagerInfos(
+        shippingManagerId, keyword, pageable);
   }
 
   @Override

@@ -24,7 +24,7 @@ public class DeliveryRepositoryImpl implements DeliveryRepositoryCustom {
             delivery.shippingManagerId.eq(shippingManagerId), // 배송 담당자 필터링
             delivery.shippingStartDate.loe(requestedDateTime), // 요청된 날짜보다 이전 또는 같은 날짜
             delivery.deliveryState.eq(DeliveryState.REQUESTED) // 배송 상태가 REQUESTED
-        )
+            )
         .fetch();
   }
 }

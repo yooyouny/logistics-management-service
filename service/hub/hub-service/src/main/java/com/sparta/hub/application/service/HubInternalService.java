@@ -26,8 +26,10 @@ public class HubInternalService {
 
   public Optional<HubResponse> getHubByCompany(UUID hubId) {
     System.out.println("hubId = " + hubId);
-    Hub hub = hubRepository.findById(hubId)
-        .orElseThrow(() -> new BusinessException(HubErrorCode.NOT_FOUND));
+    Hub hub =
+        hubRepository
+            .findById(hubId)
+            .orElseThrow(() -> new BusinessException(HubErrorCode.NOT_FOUND));
     return Optional.of(hubMapper.toResponse(hub));
   }
 }

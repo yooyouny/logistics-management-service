@@ -6,5 +6,4 @@ import org.springframework.stereotype.Component;
 @Component
 public interface ProductDeleteStrategy {
   void delete(Product product, Long userId, String username);
-
 }

@@ -1,6 +1,5 @@
 package com.sparta.user.application.service.shipping_manager;
 
-import com.sparta.user.domain.model.ShippingManager;
 import com.sparta.user.domain.model.vo.ShippingManagerType;
 import com.sparta.user.domain.repository.shipping_manager.ShippingManagerRepository;
 import java.util.List;

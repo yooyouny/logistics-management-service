@@ -1,6 +1,5 @@
 package com.sparta.company.infrastructure.client;
 
-
 import com.sparta.hub.dto.HubResponse;
 import java.util.Optional;
 import java.util.UUID;

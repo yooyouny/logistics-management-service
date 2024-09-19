@@ -24,10 +24,19 @@ public class DeliveryDto {
   private LocalDateTime shippingEndDate;
 
   @Builder
-  public DeliveryDto(UUID deliveryId, UUID departureHubId, UUID arrivalHubId, String deliveryState,
-      String shippingAddress, UUID shippingManagerId, String shippingManagerSlackId,
-      List<DeliveryRouteDto> routes, long estimatedElapsedTime, double estimatedDistance,
-      LocalDateTime shippingStartDate, LocalDateTime shippingEndDate) {
+  public DeliveryDto(
+      UUID deliveryId,
+      UUID departureHubId,
+      UUID arrivalHubId,
+      String deliveryState,
+      String shippingAddress,
+      UUID shippingManagerId,
+      String shippingManagerSlackId,
+      List<DeliveryRouteDto> routes,
+      long estimatedElapsedTime,
+      double estimatedDistance,
+      LocalDateTime shippingStartDate,
+      LocalDateTime shippingEndDate) {
     this.deliveryId = deliveryId;
     this.departureHubId = departureHubId;
     this.arrivalHubId = arrivalHubId;

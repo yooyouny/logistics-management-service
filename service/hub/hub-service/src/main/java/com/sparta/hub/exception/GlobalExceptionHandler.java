@@ -14,20 +14,20 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @Slf4j
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(BusinessException.class) // custom 에러
-    public ResponseEntity<ResponseBody<Void>> handleServiceException(HttpServletRequest request,
-        BusinessException e) {
-        ErrorCode errorCode = e.getErrorCode();
-        return ResponseEntity.status(errorCode.getStatus())
-            .body(new FailedResponseBody(errorCode.getCode(), errorCode.getMessage()));
-    }
+  @ExceptionHandler(BusinessException.class) // custom 에러
+  public ResponseEntity<ResponseBody<Void>> handleServiceException(
+      HttpServletRequest request, BusinessException e) {
+    ErrorCode errorCode = e.getErrorCode();
+    return ResponseEntity.status(errorCode.getStatus())
+        .body(new FailedResponseBody(errorCode.getCode(), errorCode.getMessage()));
+  }
 
   /*  @ExceptionHandler(Exception.class)
-    public ResponseEntity<ResponseBody<Void>> handleException(HttpServletRequest request,
-        Exception e) {
-        log.error("Exception : {}", e.getMessage());
-        return ResponseEntity.internalServerError()
-            .body(new FailedResponseBody(HubErrorCode.INTERNAL_SERVER_ERROR.getCode(),
-                HubErrorCode.INTERNAL_SERVER_ERROR.getMessage()));
-    }*/
+  public ResponseEntity<ResponseBody<Void>> handleException(HttpServletRequest request,
+      Exception e) {
+      log.error("Exception : {}", e.getMessage());
+      return ResponseEntity.internalServerError()
+          .body(new FailedResponseBody(HubErrorCode.INTERNAL_SERVER_ERROR.getCode(),
+              HubErrorCode.INTERNAL_SERVER_ERROR.getMessage()));
+  }*/
 }

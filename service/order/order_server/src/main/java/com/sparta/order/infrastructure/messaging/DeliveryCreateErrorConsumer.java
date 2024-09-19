@@ -24,7 +24,8 @@ public class DeliveryCreateErrorConsumer {
 
   @KafkaListener(topics = KafkaTopicConstant.ERROR_IN_CREATE_DELIVERY, groupId = "order")
   public void consume(
-      @Payload List<ProductDeductDto> dto, @Header(name = "kafka_receivedMessageKey") String orderId) {
+      @Payload List<ProductDeductDto> dto,
+      @Header(name = "kafka_receivedMessageKey") String orderId) {
     orderService.cancelOrder(UUID.fromString(orderId));
     kafkaTemplate.send(KafkaTopicConstant.REVERT_PRODUCT_QUANTITY, orderId, dto);
     log.info("send REVERT_PRODUCT_QUANTITY to CompanyServer caused ERROR_IN_CREATE_DELIVERY");

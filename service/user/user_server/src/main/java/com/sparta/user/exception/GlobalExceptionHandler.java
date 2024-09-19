@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalExceptionHandler {
 
   @ExceptionHandler(BusinessException.class) // custom 에러
-  public ResponseEntity<ResponseBody<Void>> handleServiceException(HttpServletRequest request,
-      BusinessException e) {
+  public ResponseEntity<ResponseBody<Void>> handleServiceException(
+      HttpServletRequest request, BusinessException e) {
     ErrorCode errorCode = e.getErrorCode();
     return ResponseEntity.status(errorCode.getStatus())
         .body(new FailedResponseBody(errorCode.getCode(), errorCode.getMessage()));
@@ -39,16 +39,19 @@ public class GlobalExceptionHandler {
   public ResponseEntity<ResponseBody<Void>> handleAccessDeniedException(AccessDeniedException e) {
     log.error("AccessDeniedException : {}", e.getMessage());
     return ResponseEntity.status(HttpStatus.FORBIDDEN)
-        .body(new FailedResponseBody(UserErrorCode.ACCESS_DENIED.getCode(),
-            UserErrorCode.ACCESS_DENIED.getMessage()));
+        .body(
+            new FailedResponseBody(
+                UserErrorCode.ACCESS_DENIED.getCode(), UserErrorCode.ACCESS_DENIED.getMessage()));
   }
 
   @ExceptionHandler(Exception.class)
-  public ResponseEntity<ResponseBody<Void>> handleException(HttpServletRequest request,
-      Exception e) {
+  public ResponseEntity<ResponseBody<Void>> handleException(
+      HttpServletRequest request, Exception e) {
     log.error("Exception : {}", e.getMessage());
     return ResponseEntity.internalServerError()
-        .body(new FailedResponseBody(UserErrorCode.INTERNAL_SERVER_ERROR.getCode(),
-            UserErrorCode.INTERNAL_SERVER_ERROR.getMessage()));
+        .body(
+            new FailedResponseBody(
+                UserErrorCode.INTERNAL_SERVER_ERROR.getCode(),
+                UserErrorCode.INTERNAL_SERVER_ERROR.getMessage()));
   }
 }

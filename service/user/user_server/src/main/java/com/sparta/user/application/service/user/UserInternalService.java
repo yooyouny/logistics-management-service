@@ -19,24 +19,29 @@ public class UserInternalService {
 
   @Transactional
   public void createUser(String username, String email, String encodedPassword) {
-    userRepository.findByUsername(username).ifPresent(user -> {
-      throw new BusinessException(USER_CONFLICT);
-    });
+    userRepository
+        .findByUsername(username)
+        .ifPresent(
+            user -> {
+              throw new BusinessException(USER_CONFLICT);
+            });
     userRepository.save(User.create(username, email, encodedPassword));
   }
 
   @Transactional(readOnly = true)
   public Optional<UserDto> getUserDto(String username) {
-    User savedUser = userRepository.findByUsername(username)
-        .orElseThrow(() -> new BusinessException(USER_NOT_FOUND));
-    return Optional.of(new UserDto(
-        savedUser.getId(),
-        savedUser.getUsername(),
-        savedUser.getEmail(),
-        savedUser.getPassword(),
-        savedUser.getRole().name(),
-        savedUser.getIsDelete()
-    ));
+    User savedUser =
+        userRepository
+            .findByUsername(username)
+            .orElseThrow(() -> new BusinessException(USER_NOT_FOUND));
+    return Optional.of(
+        new UserDto(
+            savedUser.getId(),
+            savedUser.getUsername(),
+            savedUser.getEmail(),
+            savedUser.getPassword(),
+            savedUser.getRole().name(),
+            savedUser.getIsDelete()));
   }
 
   @Transactional(readOnly = true)

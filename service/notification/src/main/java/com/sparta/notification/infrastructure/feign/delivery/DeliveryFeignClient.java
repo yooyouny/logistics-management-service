@@ -12,6 +12,6 @@ public interface DeliveryFeignClient {
 
   // TODO. 반환 값 추후 수정
   @GetMapping("/internal/deliveries")
-  List<String> getDeliveryListByShippingManagerId(@RequestParam UUID shippingManagerId,
-      @RequestParam LocalDateTime shippingStartDate);
+  List<String> getDeliveryListByShippingManagerId(
+      @RequestParam UUID shippingManagerId, @RequestParam LocalDateTime shippingStartDate);
 }

@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 @Document(collection = "slack_notification")

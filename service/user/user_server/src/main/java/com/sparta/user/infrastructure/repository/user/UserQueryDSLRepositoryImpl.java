@@ -28,23 +28,20 @@ public class UserQueryDSLRepositoryImpl implements UserQueryDSLRepository {
 
     // 조건 추가
     if (keyword != null && !keyword.isEmpty()) {
-      builder
-          .and(user.username.containsIgnoreCase(keyword)
-              .or(user.email.containsIgnoreCase(keyword)));
+      builder.and(
+          user.username.containsIgnoreCase(keyword).or(user.email.containsIgnoreCase(keyword)));
     }
 
-    List<User> users = queryFactory
-        .selectFrom(user)
-        .where(builder)
-        .orderBy(getOrderSpecifiers(pageable))
-        .offset(pageable.getOffset())
-        .limit(pageable.getPageSize())
-        .fetch();
+    List<User> users =
+        queryFactory
+            .selectFrom(user)
+            .where(builder)
+            .orderBy(getOrderSpecifiers(pageable))
+            .offset(pageable.getOffset())
+            .limit(pageable.getPageSize())
+            .fetch();
 
-    long total = queryFactory
-        .selectFrom(user)
-        .where(builder)
-        .stream().count();
+    long total = queryFactory.selectFrom(user).where(builder).stream().count();
 
     return new PageImpl<>(users.stream().map(UserInfo::create).toList(), pageable, total);
   }
@@ -54,21 +51,22 @@ public class UserQueryDSLRepositoryImpl implements UserQueryDSLRepository {
     List<OrderSpecifier<?>> orderSpecifiers = new ArrayList<>();
 
     // Q 클래스를 사용하여 정렬 필드 지정
-    sort.forEach(order -> {
-      String property = order.getProperty();
+    sort.forEach(
+        order -> {
+          String property = order.getProperty();
 
-      OrderSpecifier<?> orderSpecifier = switch (property) {
-        case "id" -> order.isAscending() ? user.id.asc() : user.id.desc();
-        case "username" -> order.isAscending() ? user.username.asc() : user.username.desc();
-        default -> null; // 기본값 처리
-      };
+          OrderSpecifier<?> orderSpecifier =
+              switch (property) {
+                case "id" -> order.isAscending() ? user.id.asc() : user.id.desc();
+                case "username" -> order.isAscending() ? user.username.asc() : user.username.desc();
+                default -> null; // 기본값 처리
+              };
 
-      if (orderSpecifier != null) {
-        orderSpecifiers.add(orderSpecifier);
-      }
-    });
+          if (orderSpecifier != null) {
+            orderSpecifiers.add(orderSpecifier);
+          }
+        });
 
     return orderSpecifiers.toArray(new OrderSpecifier[0]);
   }
-
 }

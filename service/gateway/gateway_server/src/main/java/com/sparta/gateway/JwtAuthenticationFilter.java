@@ -60,9 +60,12 @@ public class JwtAuthenticationFilter implements GlobalFilter {
       ObjectMapper objectMapper = new ObjectMapper();
       try {
         String jsonClaims = objectMapper.writeValueAsString(jwtClaim);
-        ServerHttpRequest request = exchange.getRequest().mutate()
-            .header(X_USER_CLAIMS, URLEncoder.encode(jsonClaims, StandardCharsets.UTF_8))
-            .build();
+        ServerHttpRequest request =
+            exchange
+                .getRequest()
+                .mutate()
+                .header(X_USER_CLAIMS, URLEncoder.encode(jsonClaims, StandardCharsets.UTF_8))
+                .build();
         exchange = exchange.mutate().request(request).build();
       } catch (JsonProcessingException e) {
         log.info("JsonProcessingException : {}", e.getMessage());

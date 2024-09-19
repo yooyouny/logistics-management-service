@@ -25,8 +25,8 @@ public class ShippingManagerService {
   private final ShippingManagerRepository shippingManagerRepository;
 
   @Transactional
-  public void saveShippingManager(Long userId, String slackId, ShippingManagerType type,
-      UUID hubId) {
+  public void saveShippingManager(
+      Long userId, String slackId, ShippingManagerType type, UUID hubId) {
     User user = userService.validateUser(userId);
     this.validateSlackIdUnique(slackId);
     ShippingManager shippingManager = ShippingManager.create(slackId, type, hubId);
@@ -40,8 +40,8 @@ public class ShippingManagerService {
   }
 
   @Transactional
-  public void updateShippingManager(UUID shippingManagerId, String slackId,
-      ShippingManagerType type, UUID hubId) {
+  public void updateShippingManager(
+      UUID shippingManagerId, String slackId, ShippingManagerType type, UUID hubId) {
     ShippingManager shippingManager = this.validateShippingManager(shippingManagerId);
     if (!shippingManager.getSlackId().equals(slackId)) { // 아이디가 달라지는 경우 유일성 검사
       this.validateSlackIdUnique(slackId);
@@ -50,20 +50,22 @@ public class ShippingManagerService {
   }
 
   public ShippingManager validateShippingManager(UUID shippingManagerId) {
-     return shippingManagerRepository.findById(shippingManagerId).
-        orElseThrow(() -> new BusinessException(SHIPPING_MANAGER_NOT_FOUND));
+    return shippingManagerRepository
+        .findById(shippingManagerId)
+        .orElseThrow(() -> new BusinessException(SHIPPING_MANAGER_NOT_FOUND));
   }
 
   @Transactional(readOnly = true)
   public SippingManagerInfo getShippingManagerInfo(UUID shippingManagerId) {
-    return shippingManagerRepository.findById(shippingManagerId)
+    return shippingManagerRepository
+        .findById(shippingManagerId)
         .map(SippingManagerInfo::create)
         .orElseThrow(() -> new BusinessException(SHIPPING_MANAGER_NOT_FOUND));
   }
 
   @Transactional(readOnly = true)
-  public Page<SippingManagerInfo> getShippingManagerInfos(Long userId, String role, String keyword,
-      Pageable pageable) {
+  public Page<SippingManagerInfo> getShippingManagerInfos(
+      Long userId, String role, String keyword, Pageable pageable) {
     User user = userService.validateUser(userId);
     UUID shippingManagerId =
         role.equals("ROLE_HUB_MANAGER") ? user.getShippingManager().getId() : null;

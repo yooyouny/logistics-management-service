@@ -34,8 +34,10 @@ public class AuthService {
       throw new BusinessException(AuthErrorCode.SIGN_IN_FAIL);
     }
 
-    String token = jwtHandler.createToken(
-        JwtClaim.create(userDto.get().userId(), userDto.get().username(), userDto.get().role()));
+    String token =
+        jwtHandler.createToken(
+            JwtClaim.create(
+                userDto.get().userId(), userDto.get().username(), userDto.get().role()));
     return new SingInResponse(token);
   }
 }

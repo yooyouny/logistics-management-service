@@ -11,12 +11,4 @@ package com.sparta.user.dto.user_dto;
  * @param isDelete
  */
 public record UserDto(
-    Long userId,
-    String username,
-    String email,
-    String password,
-    String role,
-    Boolean isDelete
-) {
-
-}
+    Long userId, String username, String email, String password, String role, Boolean isDelete) {}

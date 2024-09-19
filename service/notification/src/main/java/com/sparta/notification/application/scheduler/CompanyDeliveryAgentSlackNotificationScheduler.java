@@ -31,7 +31,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class CompanyDeliveryAgentSlackNotificationScheduler {
 
-  public static final String SUMMARIZE_QUESTION_FROM = "현재 날씨는 %s이고, 배송 목록은 다음과 같습니다: %s. 이 두 가지를 종합하여 요약해 주세요.";
+  public static final String SUMMARIZE_QUESTION_FROM =
+      "현재 날씨는 %s이고, 배송 목록은 다음과 같습니다: %s. 이 두 가지를 종합하여 요약해 주세요.";
 
   private final WeatherFeignClient weatherFeignClient;
   private final WeatherProperties weatherProperties;
@@ -41,14 +42,15 @@ public class CompanyDeliveryAgentSlackNotificationScheduler {
   private final SlackNotificationSender slackNotificationSender;
   private final SlackNotificationRepository slackNotificationRepository;
 
-//  @Scheduled(cron = "*/10 * * * * ?") // test
+  //  @Scheduled(cron = "*/10 * * * * ?") // test
   @Scheduled(cron = "0 0 6 * * ?")
   public void run() throws IOException {
     // 1. 공공 데이터 포털의 날씨 API를 사용하여 해당일의 날씨 정보를 가져오기
     List<Item> items = fetchWeatherData();
 
     // 2. 유저서버로 부터 허브 배송 담당자 id 목록 받아오기
-    List<UUID> hubDeliveryAgentIdList = userFeignClient.getDeliveryAgentIdList("HUB_DELIVERY_AGENT");
+    List<UUID> hubDeliveryAgentIdList =
+        userFeignClient.getDeliveryAgentIdList("HUB_DELIVERY_AGENT");
     log.info("hubDeliveryAgentIdList : {}", hubDeliveryAgentIdList);
 
     for (UUID hubDeliveryAgentId : hubDeliveryAgentIdList) {
@@ -81,7 +83,8 @@ public class CompanyDeliveryAgentSlackNotificationScheduler {
   }
 
   private List<String> fetchDeliveryList(UUID hubDeliveryAgentId) {
-    return deliveryFeignClient.getDeliveryListByShippingManagerId(hubDeliveryAgentId, LocalDateTime.now());
+    return deliveryFeignClient.getDeliveryListByShippingManagerId(
+        hubDeliveryAgentId, LocalDateTime.now());
   }
 
   private String createSummaryQuestion(List<Item> items, List<String> deliveryList) {
@@ -91,9 +94,8 @@ public class CompanyDeliveryAgentSlackNotificationScheduler {
   }
 
   private String requestSummaryFromGemini(String question) {
-    GenerateContentResponse response = geminiFeignClient.generateContent(
-        GenerateContentRequest.createQuestion(question)
-    );
+    GenerateContentResponse response =
+        geminiFeignClient.generateContent(GenerateContentRequest.createQuestion(question));
     String responseText = response.getCandidates().get(0).getContent().getParts().get(0).getText();
     log.info("text : {}", responseText);
     return responseText;
@@ -103,17 +105,10 @@ public class CompanyDeliveryAgentSlackNotificationScheduler {
     slackNotificationSender.execute(message);
   }
 
-  private List<Item> getWeatherData(String serviceKey, String baseDate, String baseTime, int nx,
-      int ny) {
-    WeatherResponse.items weatherData = weatherFeignClient.getWeatherData(
-        serviceKey,
-        1,
-        1000,
-        "JSON",
-        baseDate,
-        baseTime,
-        nx,
-        ny);
+  private List<Item> getWeatherData(
+      String serviceKey, String baseDate, String baseTime, int nx, int ny) {
+    WeatherResponse.items weatherData =
+        weatherFeignClient.getWeatherData(serviceKey, 1, 1000, "JSON", baseDate, baseTime, nx, ny);
 
     return weatherData.getItem();
   }

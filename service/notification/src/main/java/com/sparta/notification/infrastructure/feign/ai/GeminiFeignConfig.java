@@ -19,5 +19,4 @@ public class GeminiFeignConfig {
       requestTemplate.header("x-goog-api-key", geminiProperties.getApiKey());
     };
   }
-
 }

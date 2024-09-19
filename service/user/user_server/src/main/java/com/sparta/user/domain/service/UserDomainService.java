@@ -5,5 +5,4 @@ import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @Service
-public class UserDomainService {
-}
+public class UserDomainService {}

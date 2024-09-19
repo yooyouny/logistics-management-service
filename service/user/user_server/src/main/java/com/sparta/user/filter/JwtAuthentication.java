@@ -7,11 +7,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
-public record JwtAuthentication(
-    Long userId,
-    String username,
-    String role
-) implements Authentication {
+public record JwtAuthentication(Long userId, String username, String role)
+    implements Authentication {
 
   public static JwtAuthentication create(JwtClaim claims) {
     return new JwtAuthentication(claims.getUserId(), claims.getUsername(), claims.getRole());
@@ -43,9 +40,7 @@ public record JwtAuthentication(
   }
 
   @Override
-  public void setAuthenticated(boolean isAuthenticated) throws IllegalArgumentException {
-
-  }
+  public void setAuthenticated(boolean isAuthenticated) throws IllegalArgumentException {}
 
   @Override
   public String getName() {

@@ -28,21 +28,23 @@ public class CacheConfig {
     objectMapper.deactivateDefaultTyping();
 
     // GenericJackson2JsonRedisSerializer를 사용하여 ObjectMapper를 적용
-    GenericJackson2JsonRedisSerializer serializer = new GenericJackson2JsonRedisSerializer(objectMapper);
+    GenericJackson2JsonRedisSerializer serializer =
+        new GenericJackson2JsonRedisSerializer(objectMapper);
 
     // RedisCacheConfiguration 설정
-    RedisCacheConfiguration configuration = RedisCacheConfiguration
-        .defaultCacheConfig()
-        .disableCachingNullValues()
-        .entryTtl(Duration.ofSeconds(120)) // 캐시 TTL 설정
-        .computePrefixWith(CacheKeyPrefix.simple()) // 캐시 키 프리픽스
-        .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer())) // 키는 String
-        .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(serializer)); // 값은 JSON으로 직렬화
+    RedisCacheConfiguration configuration =
+        RedisCacheConfiguration.defaultCacheConfig()
+            .disableCachingNullValues()
+            .entryTtl(Duration.ofSeconds(120)) // 캐시 TTL 설정
+            .computePrefixWith(CacheKeyPrefix.simple()) // 캐시 키 프리픽스
+            .serializeKeysWith(
+                RedisSerializationContext.SerializationPair.fromSerializer(
+                    new StringRedisSerializer())) // 키는 String
+            .serializeValuesWith(
+                RedisSerializationContext.SerializationPair.fromSerializer(
+                    serializer)); // 값은 JSON으로 직렬화
 
     // RedisCacheManager 생성 및 반환
-    return RedisCacheManager
-        .builder(redisConnectionFactory)
-        .cacheDefaults(configuration)
-        .build();
+    return RedisCacheManager.builder(redisConnectionFactory).cacheDefaults(configuration).build();
   }
 }

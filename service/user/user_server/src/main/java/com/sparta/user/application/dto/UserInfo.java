@@ -10,10 +10,9 @@ public record UserInfo(
     String email,
     String role,
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    LocalDateTime createdAt,
+        LocalDateTime createdAt,
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    LocalDateTime updatedAt
-) {
+        LocalDateTime updatedAt) {
   public static UserInfo create(User user) {
     return new UserInfo(
         user.getId(),
@@ -21,7 +20,6 @@ public record UserInfo(
         user.getEmail(),
         user.getRole().name(),
         user.getCreatedAt(),
-        user.getUpdatedAt()
-    );
+        user.getUpdatedAt());
   }
 }

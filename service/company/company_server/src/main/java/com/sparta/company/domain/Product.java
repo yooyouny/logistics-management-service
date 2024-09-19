@@ -33,19 +33,25 @@ public class Product extends BaseEntity {
   @GeneratedValue
   @Column(name = "product_id")
   private UUID productId;
+
   @Column(nullable = false)
   private String productName;
+
   @Column(nullable = false)
   private Integer productPrice;
+
   @Column(nullable = false)
   private String productDescription;
+
   @Column(nullable = false)
   private Integer stockQuantity;
+
   private boolean isDelete = false;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "company_id")
   private Company company;
+
   private UUID hubId;
 
   private void addProduct(Company company) {
@@ -78,7 +84,6 @@ public class Product extends BaseEntity {
     this.company = company;
     super.updatedAt = LocalDateTime.now();
   }
-
 
   public void delete(String username) {
     isDelete = true;

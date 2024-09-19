@@ -17,10 +17,11 @@ public class ManagerUpdateStrategy implements CompanyUpdateStrategy {
   private final UserClient userClient;
 
   @Override
-  public Company update(CompanyUpdateRequest request, Company company, String username, Long userId) {
+  public Company update(
+      CompanyUpdateRequest request, Company company, String username, Long userId) {
     Optional<HubResponse> hubResponse = hubClient.getHubByCompany(request.getHubId());
-    HubResponse response = hubResponse.orElseThrow(
-        () -> new BusinessException(CompanyErrorCode.NOT_FOUND));
+    HubResponse response =
+        hubResponse.orElseThrow(() -> new BusinessException(CompanyErrorCode.NOT_FOUND));
     if (response.getUserId().equals(userId)) {
       company.update(request);
       return company;

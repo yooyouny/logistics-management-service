@@ -26,16 +26,12 @@ public class SlackNotificationSender {
     List<LayoutBlock> layoutBlocks = new ArrayList<>();
     layoutBlocks.add(
         Blocks.header(
-            headerBlockBuilder ->
-                headerBlockBuilder.text(plainText("🚚 오늘의 배송정보 요약입니다."))));
+            headerBlockBuilder -> headerBlockBuilder.text(plainText("🚚 오늘의 배송정보 요약입니다."))));
     layoutBlocks.add(divider());
 
     MarkdownTextObject errorUserIdMarkdown =
         MarkdownTextObject.builder().text("* message :*\n" + message).build();
-    layoutBlocks.add(
-        section(
-            section ->
-                section.fields(List.of(errorUserIdMarkdown))));
+    layoutBlocks.add(section(section -> section.fields(List.of(errorUserIdMarkdown))));
 
     slackProvider.sendNotification(layoutBlocks);
   }

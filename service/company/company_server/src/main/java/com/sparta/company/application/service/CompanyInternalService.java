@@ -16,8 +16,10 @@ public class CompanyInternalService {
   private final CompanyRepository companyRepository;
 
   public Optional<UUID> getHubIdByCompanyId(UUID companyId) {
-    Company company = companyRepository.findById(companyId)
-        .orElseThrow(() -> new BusinessException(CompanyErrorCode.NOT_FOUND));
+    Company company =
+        companyRepository
+            .findById(companyId)
+            .orElseThrow(() -> new BusinessException(CompanyErrorCode.NOT_FOUND));
     return Optional.ofNullable(company.getHubId());
   }
 }

@@ -10,8 +10,7 @@ import org.springframework.data.web.config.EnableSpringDataWebSupport;
 @SpringBootApplication
 public class UserApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(UserApplication.class, args);
-	}
-
+  public static void main(String[] args) {
+    SpringApplication.run(UserApplication.class, args);
+  }
 }

@@ -23,11 +23,12 @@ public class JwtHandler {
   private final SecretKey secretKey;
   private final JwtProperties jwtProperties;
 
-
   public JwtHandler(JwtProperties jwtProperties) {
     this.jwtProperties = jwtProperties;
-    secretKey = new SecretKeySpec(jwtProperties.getSecretKey().getBytes(StandardCharsets.UTF_8),
-        Jwts.SIG.HS256.key().build().getAlgorithm());
+    secretKey =
+        new SecretKeySpec(
+            jwtProperties.getSecretKey().getBytes(StandardCharsets.UTF_8),
+            Jwts.SIG.HS256.key().build().getAlgorithm());
   }
 
   // access token 생성
@@ -49,17 +50,13 @@ public class JwtHandler {
     return Map.of(
         USER_ID, jwtClaim.getUserId(),
         USER_NAME, jwtClaim.getUsername(),
-        USER_ROLE, jwtClaim.getRole()
-    );
+        USER_ROLE, jwtClaim.getRole());
   }
 
   // 필터에서 토큰의 상태를 검증하기 위한 메서드 exception은 사용하는 곳에서 처리
   public JwtClaim parseToken(String token) {
-    Claims claims = Jwts.parser()
-        .verifyWith(secretKey)
-        .build()
-        .parseSignedClaims(token)
-        .getPayload();
+    Claims claims =
+        Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload();
 
     return this.convert(claims);
   }
@@ -68,7 +65,6 @@ public class JwtHandler {
     return JwtClaim.create(
         claims.get(USER_ID, Long.class),
         claims.get(USER_NAME, String.class),
-        claims.get(USER_ROLE, String.class)
-    );
+        claims.get(USER_ROLE, String.class));
   }
 }

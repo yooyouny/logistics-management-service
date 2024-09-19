@@ -13,7 +13,8 @@ public class HubCompanyUpdateStrategy implements CompanyUpdateStrategy {
   private final UserClient userClient;
 
   @Override
-  public Company update(CompanyUpdateRequest request, Company company, String username, Long userId) {
+  public Company update(
+      CompanyUpdateRequest request, Company company, String username, Long userId) {
     if (userId.equals(company.getUserId())) {
       company.update(request);
       return company;

@@ -12,7 +12,8 @@ public class WeatherSummary {
 
   @Override
   public String toString() {
-    return String.format("현재 기온: %s, 습도: %s, 1시간 강수량: %s, 풍속: %s, 강수형태: %s입니다.",
+    return String.format(
+        "현재 기온: %s, 습도: %s, 1시간 강수량: %s, 풍속: %s, 강수형태: %s입니다.",
         temperature, humidity, precipitation, windSpeed, precipitationType);
   }
 }

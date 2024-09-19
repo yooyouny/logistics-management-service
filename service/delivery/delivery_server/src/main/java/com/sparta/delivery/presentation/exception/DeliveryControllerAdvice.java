@@ -14,7 +14,7 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 @Slf4j(topic = "DeliveryControllerAdvice")
 public class DeliveryControllerAdvice {
   @ExceptionHandler(BusinessException.class)
-  public ResponseEntity<?> businessExceptionHandler(BusinessException e){
+  public ResponseEntity<?> businessExceptionHandler(BusinessException e) {
     DeliveryErrorCode errorCode = (DeliveryErrorCode) e.getErrorCode();
     log.error("Error occurs in DeliveryServer : {}", e.toString());
     return ResponseEntity.status(errorCode.getHttpStatus())
@@ -32,19 +32,20 @@ public class DeliveryControllerAdvice {
         .body(new FailedResponseBody("common_error_002", errorMessages.toString()));
   }
 
-
   @ExceptionHandler(MethodArgumentTypeMismatchException.class)
   public ResponseEntity<?> typeMismatchExceptionHandler(MethodArgumentTypeMismatchException e) {
     log.error("Type mismatch error occurs in {}", e.toString());
     String errorMessage = String.format("Invalid value for %s: '%s'", e.getName(), e.getValue());
     return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-        .body(new FailedResponseBody("common_error_002",errorMessage));
+        .body(new FailedResponseBody("common_error_002", errorMessage));
   }
 
   @ExceptionHandler(RuntimeException.class)
-  public ResponseEntity<?> runtimeExceptionHandler(RuntimeException e){
+  public ResponseEntity<?> runtimeExceptionHandler(RuntimeException e) {
     log.error("Error occurs in DeliveryServer : {}", e.getMessage());
     return ResponseEntity.status(DeliveryErrorCode.INTERNAL_SERVER_ERROR.getStatus())
-        .body(new FailedResponseBody(DeliveryErrorCode.INTERNAL_SERVER_ERROR.getCode(), e.getMessage()));
+        .body(
+            new FailedResponseBody(
+                DeliveryErrorCode.INTERNAL_SERVER_ERROR.getCode(), e.getMessage()));
   }
 }

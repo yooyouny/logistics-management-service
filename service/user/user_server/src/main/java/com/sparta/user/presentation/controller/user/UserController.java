@@ -38,8 +38,8 @@ public class UserController {
 
   @PreAuthorize("isAuthenticated() and hasRole('ROLE_MASTER')")
   @PatchMapping("/{userId}/authority")
-  public ResponseEntity<ResponseBody<UserInfo>> updateUserAuthority(@PathVariable Long userId,
-      @RequestBody @Valid UpdateAuthorityRequest request) {
+  public ResponseEntity<ResponseBody<UserInfo>> updateUserAuthority(
+      @PathVariable Long userId, @RequestBody @Valid UpdateAuthorityRequest request) {
     userService.updateUserAuthority(userId, request.role());
     return ResponseEntity.ok(new SuccessResponseBody<>());
   }
@@ -60,5 +60,4 @@ public class UserController {
     return ResponseEntity.ok(
         new SuccessResponseBody<>(userService.getUserInfos(claim.getUserId(), keyword, pageable)));
   }
-
 }

@@ -29,5 +29,4 @@ public class KafkaConfig {
   public StateProducer stateProducer() {
     return new StateProducer(kafkaTemplate);
   }
-
 }

@@ -36,16 +36,15 @@ public class HubController {
 
   @PreAuthorize("isAuthenticated() and hasRole('MASTER')")
   @PutMapping("/{hubId}")
-  public ResponseBody<HubResponse> updateHub(@Valid @RequestBody HubUpdateRequest requestDto,
-      @PathVariable UUID hubId) {
+  public ResponseBody<HubResponse> updateHub(
+      @Valid @RequestBody HubUpdateRequest requestDto, @PathVariable UUID hubId) {
     HubResponse hubResponse = hubService.updateHub(requestDto, hubId);
     return new SuccessResponseBody<>(hubResponse);
   }
 
   @PreAuthorize("isAuthenticated() and hasRole('ROLE_MASTER')")
   @DeleteMapping("/{hubId}")
-  public ResponseBody<UUID> deleteHub(
-     @PathVariable UUID hubId) {
+  public ResponseBody<UUID> deleteHub(@PathVariable UUID hubId) {
     hubService.deleteHub(hubId);
     return new SuccessResponseBody<>(hubId);
   }
@@ -61,6 +60,4 @@ public class HubController {
     Page<HubResponse> allHub = hubService.getAllHub(pageable, cond);
     return new SuccessResponseBody<>(allHub);
   }
-
-
 }

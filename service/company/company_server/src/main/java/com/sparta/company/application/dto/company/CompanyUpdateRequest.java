@@ -8,14 +8,9 @@ import lombok.Data;
 
 @Data
 public class CompanyUpdateRequest {
-  @NotNull
-  private Long userId;
-  @NotNull
-  private UUID hubId;
-  @NotBlank
-  private String companyName;
-  @NotBlank
-  private String companyAddress;
-  @NotNull
-  private CompanyType companyType;
+  @NotNull private Long userId;
+  @NotNull private UUID hubId;
+  @NotBlank private String companyName;
+  @NotBlank private String companyAddress;
+  @NotNull private CompanyType companyType;
 }

@@ -1,5 +1,8 @@
 package com.sparta.hub.infrastructure.repository.interhub;
 
+import static com.sparta.hub.domain.QHub.*;
+import static com.sparta.hub.domain.QInterHub.*;
+
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -9,17 +12,12 @@ import com.sparta.hub.domain.InterHub;
 import com.sparta.hub.domain.QHub;
 import com.sparta.hub.dto.InterHubResponse;
 import jakarta.persistence.EntityManager;
+import java.util.List;
+import java.util.UUID;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.util.StringUtils;
-
-import java.util.List;
-import java.util.UUID;
-
-import static com.sparta.hub.domain.QHub.*;
-import static com.sparta.hub.domain.QInterHub.*;
-
 
 public class InterHubRepositoryCustomImpl implements InterHubRepositoryCustom {
 

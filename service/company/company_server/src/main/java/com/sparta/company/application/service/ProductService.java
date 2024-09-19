@@ -1,6 +1,5 @@
 package com.sparta.company.application.service;
 
-
 import com.sparta.commons.domain.exception.BusinessException;
 import com.sparta.company.application.dto.product.ProductCreateRequest;
 import com.sparta.company.application.dto.product.ProductResponse;
@@ -51,14 +50,14 @@ public class ProductService {
     if (!checkHub) {
       throw new BusinessException(HubErrorCode.NOT_FOUND);
     }
-    AuthenticationImpl authentication = (AuthenticationImpl) SecurityContextHolder.getContext()
-        .getAuthentication();
+    AuthenticationImpl authentication =
+        (AuthenticationImpl) SecurityContextHolder.getContext().getAuthentication();
     String role = authentication.role();
     Long userId = authentication.userId();
     // 허브 업체 권한이면 자기가 소속된 업체의 상품만 생성 가능
     if (role.equals("ROLE_HUB_COMPANY")) {
-      if (!(company.getUserId() == userId && company.getCompanyId()
-          .equals(request.getCompanyId()))) {
+      if (!(company.getUserId() == userId
+          && company.getCompanyId().equals(request.getCompanyId()))) {
         throw new BusinessException(ProductErrorCode.ACCESS_DENIED);
       }
     }
@@ -72,7 +71,6 @@ public class ProductService {
     Product product = getProduct(productId);
     return productMapper.toResponse(product);
   }
-
 
   @Transactional(readOnly = true)
   public Page<ProductResponse> searchProduct(Pageable pageable, ProductSearchCond cond) {
@@ -88,8 +86,8 @@ public class ProductService {
     Product product = getProduct(productId);
     Company company = getCompany(request.getCompanyId());
 
-    AuthenticationImpl authentication = (AuthenticationImpl) SecurityContextHolder.getContext()
-        .getAuthentication();
+    AuthenticationImpl authentication =
+        (AuthenticationImpl) SecurityContextHolder.getContext().getAuthentication();
     String role = authentication.role();
     Long userId = authentication.userId();
 
@@ -103,29 +101,31 @@ public class ProductService {
 
   public void deleteProduct(UUID productId) {
     Product product = getProduct(productId);
-    AuthenticationImpl authentication = (AuthenticationImpl) SecurityContextHolder.getContext()
-        .getAuthentication();
+    AuthenticationImpl authentication =
+        (AuthenticationImpl) SecurityContextHolder.getContext().getAuthentication();
     ProductDeleteStrategyFactory strategyFactory = new ProductDeleteStrategyFactory();
     ProductDeleteStrategy strategy = strategyFactory.createStrategy(authentication.role());
     strategy.delete(product, authentication.userId(), authentication.username());
   }
 
-  public void deductProductQuantity(List<ProductDeductDto> requests){
+  public void deductProductQuantity(List<ProductDeductDto> requests) {
     requests.stream()
-        .forEach(dto -> {
-          Product product = getProduct(dto.getProductId());
-          product.deductQuantity(dto.getQuantity());
-          log.info("deduct product {} quantity by createOrder", product.getProductName());
-        });
+        .forEach(
+            dto -> {
+              Product product = getProduct(dto.getProductId());
+              product.deductQuantity(dto.getQuantity());
+              log.info("deduct product {} quantity by createOrder", product.getProductName());
+            });
   }
 
-  public void revertProductQuantity(List<ProductDeductDto> requests){
+  public void revertProductQuantity(List<ProductDeductDto> requests) {
     requests.stream()
-        .forEach(dto -> {
-          Product product = getProduct(dto.getProductId());
-          product.revertQuantity(dto.getQuantity());
-          log.info("revert product {} quantity by createOrder", product.getProductName());
-        });
+        .forEach(
+            dto -> {
+              Product product = getProduct(dto.getProductId());
+              product.revertQuantity(dto.getQuantity());
+              log.info("revert product {} quantity by createOrder", product.getProductName());
+            });
   }
 
   private int validatePageSize(int pageSize) {
@@ -137,12 +137,14 @@ public class ProductService {
   }
 
   private Company getCompany(UUID companyId) {
-    return companyRepository.findById(companyId)
+    return companyRepository
+        .findById(companyId)
         .orElseThrow(() -> new BusinessException(CompanyErrorCode.NOT_FOUND));
   }
 
   private Product getProduct(UUID productId) {
-    return productRepository.findById(productId)
+    return productRepository
+        .findById(productId)
         .orElseThrow(() -> new BusinessException(ProductErrorCode.NOT_FOUND));
   }
 }

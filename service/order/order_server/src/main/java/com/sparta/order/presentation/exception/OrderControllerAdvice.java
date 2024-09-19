@@ -13,7 +13,7 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 @Slf4j(topic = "OrderControllerAdvice")
 public class OrderControllerAdvice {
   @ExceptionHandler(BusinessException.class)
-  public ResponseEntity<?> businessExceptionHandler(BusinessException e){
+  public ResponseEntity<?> businessExceptionHandler(BusinessException e) {
     OrderErrorCode errorCode = (OrderErrorCode) e.getErrorCode();
     log.error("Error occurs in OrderServer : {}", e.getErrorCode());
     return ResponseEntity.status(errorCode.getHttpStatus())
@@ -29,9 +29,10 @@ public class OrderControllerAdvice {
   }
 
   @ExceptionHandler(RuntimeException.class)
-  public ResponseEntity<?> runtimeExceptionHandler(RuntimeException e){
+  public ResponseEntity<?> runtimeExceptionHandler(RuntimeException e) {
     log.error("Error occurs in OrderServer : {}", e.getMessage());
     return ResponseEntity.status(OrderErrorCode.INTERNAL_SERVER_ERROR.getStatus())
-        .body(new FailedResponseBody(OrderErrorCode.INTERNAL_SERVER_ERROR.getCode(), e.getMessage()));
+        .body(
+            new FailedResponseBody(OrderErrorCode.INTERNAL_SERVER_ERROR.getCode(), e.getMessage()));
   }
 }

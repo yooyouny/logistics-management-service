@@ -17,7 +17,7 @@ public class CompanyInternalController {
   private final CompanyInternalService internalService;
 
   @GetMapping("/{companyId}")
-  Optional<UUID> getHubIdByCompanyId(@PathVariable("companyId") UUID companyId){
+  Optional<UUID> getHubIdByCompanyId(@PathVariable("companyId") UUID companyId) {
     return internalService.getHubIdByCompanyId(companyId);
   }
 }

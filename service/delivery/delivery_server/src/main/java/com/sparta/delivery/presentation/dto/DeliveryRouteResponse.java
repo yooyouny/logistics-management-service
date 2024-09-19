@@ -36,7 +36,7 @@ public class DeliveryRouteResponse {
     this.routeState = routeState;
   }
 
-  public static DeliveryRouteResponse fromEntity(DeliveryRoute route){
+  public static DeliveryRouteResponse fromEntity(DeliveryRoute route) {
     return DeliveryRouteResponse.builder()
         .deliveryRouteId(route.getDeliveryRouteId())
         .sequence(route.getSequence())

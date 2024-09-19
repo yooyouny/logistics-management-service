@@ -15,6 +15,12 @@ import lombok.Setter;
 public class GenerateContentRequest {
   private List<Content> contents;
 
+  public static GenerateContentRequest createQuestion(String text) {
+    Part part = new Part(text);
+    Content content = new Content(Collections.singletonList(part));
+    return new GenerateContentRequest(Collections.singletonList(content));
+  }
+
   @Getter
   @Setter
   @NoArgsConstructor
@@ -29,11 +35,5 @@ public class GenerateContentRequest {
     public static class Part {
       private String text;
     }
-  }
-
-  public static GenerateContentRequest createQuestion(String text) {
-    Part part = new Part(text);
-    Content content = new Content(Collections.singletonList(part));
-    return new GenerateContentRequest(Collections.singletonList(content));
   }
 }

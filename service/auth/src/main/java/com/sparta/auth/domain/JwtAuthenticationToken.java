@@ -6,10 +6,7 @@ import org.springframework.security.core.GrantedAuthority;
 import java.util.Collection;
 import java.util.Collections;
 
-public record JwtAuthenticationToken(
-    String token
-) implements Authentication {
-
+public record JwtAuthenticationToken(String token) implements Authentication {
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -37,9 +34,7 @@ public record JwtAuthenticationToken(
   }
 
   @Override
-  public void setAuthenticated(boolean isAuthenticated) throws IllegalArgumentException {
-
-  }
+  public void setAuthenticated(boolean isAuthenticated) throws IllegalArgumentException {}
 
   @Override
   public String getName() {

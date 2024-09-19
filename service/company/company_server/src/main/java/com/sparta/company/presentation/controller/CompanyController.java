@@ -40,8 +40,10 @@ public class CompanyController {
   @PutMapping("/{companyId}")
   public ResponseBody<CompanyResponse> updateCompany(
       @Valid @RequestBody CompanyUpdateRequest request, @PathVariable UUID companyId) {
-    AuthenticationImpl authentication = (AuthenticationImpl) SecurityContextHolder.getContext().getAuthentication();
-    CompanyResponse companyResponse = companyService.updateCompany(request, companyId,authentication);
+    AuthenticationImpl authentication =
+        (AuthenticationImpl) SecurityContextHolder.getContext().getAuthentication();
+    CompanyResponse companyResponse =
+        companyService.updateCompany(request, companyId, authentication);
     return new SuccessResponseBody<>(companyResponse);
   }
 
@@ -58,9 +60,9 @@ public class CompanyController {
   }
 
   @GetMapping
-  public ResponseBody<Page<CompanyResponse>> getAllCompanies(Pageable pageable, CompanySearchCond cond) {
+  public ResponseBody<Page<CompanyResponse>> getAllCompanies(
+      Pageable pageable, CompanySearchCond cond) {
     Page<CompanyResponse> response = companyService.findAllCompanies(pageable, cond);
     return new SuccessResponseBody<>(response);
   }
-
 }

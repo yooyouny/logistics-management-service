@@ -24,9 +24,11 @@ public class WeatherDeserializer {
     List<WeatherResponse.Item> filteredItems = new ArrayList<>();
     for (WeatherResponse.Item item : items) {
       String category = item.getCategory();
-      if (category.equals("T1H") || category.equals("RN1") ||
-          category.equals("REH") || category.equals("PTY") ||
-          category.equals("WSD")) {
+      if (category.equals("T1H")
+          || category.equals("RN1")
+          || category.equals("REH")
+          || category.equals("PTY")
+          || category.equals("WSD")) {
         filteredItems.add(item);
       }
     }

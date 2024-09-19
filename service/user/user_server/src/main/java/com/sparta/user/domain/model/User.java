@@ -45,7 +45,11 @@ public class User extends BaseEntity {
   private ShippingManager shippingManager;
 
   @Builder(access = AccessLevel.PROTECTED)
-  public User(String password, UserRole role, ShippingManager shippingManager, String username,
+  public User(
+      String password,
+      UserRole role,
+      ShippingManager shippingManager,
+      String username,
       String email) {
     this.isDelete = false;
     this.password = password;
