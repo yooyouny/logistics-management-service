@@ -1,4 +1,4 @@
-package com.sparta.delivery.presentation;
+package com.sparta.delivery.presentation.controller;
 
 import com.sparta.delivery.application.DeliveryFacadeService;
 import com.sparta.delivery.dto.DeliveryDto;
@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class DeliveryInternalController {
   public final DeliveryFacadeService deliveryFacadeService;
 
+  @PreAuthorize("isAuthenticated() and (hasRole('ROLE_MASTER') or hasRole('ROLE_HUB_SHIPPING_MANAGER'))")
   @GetMapping
   public List<DeliveryDto> getDeliveriesByShippingManager(
       @RequestParam("shippingManagerId") @NotNull UUID shippingManagerId,

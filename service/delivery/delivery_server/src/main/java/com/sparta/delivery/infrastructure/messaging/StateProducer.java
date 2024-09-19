@@ -9,7 +9,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 @RequiredArgsConstructor
 @Slf4j(topic = "StateProducer from DeliveryServer")
 public class StateProducer {
-  private final KafkaTemplate<String, Object> kafkaTemplate;
+  private final KafkaTemplate<String, UpdateStateRequest> kafkaTemplate;
 
   public void send(String topic, UUID deliveryId, UpdateStateRequest request) {
     kafkaTemplate.send(topic, deliveryId.toString(), request);
