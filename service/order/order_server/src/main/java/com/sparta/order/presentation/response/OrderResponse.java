@@ -22,6 +22,7 @@ public class OrderResponse {
   private LocalDateTime orderDate;
   private BigDecimal totalAmount;
   private int totalQuantity;
+  private UUID deliveryId;
   private List<OrderDetailResponse> orderDetails;
 
   @Builder
@@ -33,6 +34,7 @@ public class OrderResponse {
       OrderState orderState,
       LocalDateTime orderDate,
       List<OrderDetailResponse> details,
+      UUID deliveryId,
       BigDecimal totalAmount,
       int totalQuantity) {
     this.orderId = orderId;
@@ -42,6 +44,7 @@ public class OrderResponse {
     this.orderState = orderState;
     this.orderDate = orderDate;
     this.orderDetails = details;
+    this.deliveryId = deliveryId;
     this.totalAmount = totalAmount;
     this.totalQuantity = totalQuantity;
   }
@@ -58,6 +61,7 @@ public class OrderResponse {
             order.getOrderDetails().stream()
                 .map(OrderDetailResponse::fromEntity)
                 .collect(Collectors.toList()))
+        .deliveryId(order.getDeliveryId())
         .totalAmount(order.getTotalAmount().amount())
         .totalQuantity(order.getTotalQuantity())
         .build();

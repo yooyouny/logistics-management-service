@@ -11,7 +11,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 public class DeliveryCreateProducer {
   private final KafkaTemplate<String, Object> kafkaTemplate;
 
-  public void send(String topic, UUID orderId, DeliveryCreateDto dto) { // TODO :: company_dto로 옮기기
+  public void send(String topic, UUID orderId, DeliveryCreateDto dto) {
     kafkaTemplate.send(topic, orderId.toString(), dto);
     log.info("send DeliveryDto of {} to DeliveryServer", orderId);
   }

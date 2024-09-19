@@ -4,6 +4,7 @@ import com.sparta.commons.domain.jpa.KafkaTopicConstant;
 import com.sparta.delivery.application.DeliveryFacadeService;
 import com.sparta.delivery.application.DeliveryService;
 import com.sparta.delivery.dto.DeliveryCreateDto;
+import com.sparta.delivery.presentation.dto.DeliveryResponse;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Transactional
-@Slf4j(topic = " in DeliveryServer")
+@Slf4j(topic = "DeliveryConsumer in DeliveryServer")
 public class DeliveryConsumer {
   private final DeliveryFacadeService deliveryFacadeService;
   private final DeliveryService deliveryService;
@@ -27,7 +28,9 @@ public class DeliveryConsumer {
       @Header(name = "kafka_receivedMessageKey") String key, DeliveryCreateDto deliveryCreateDto) {
     UUID orderId = UUID.fromString(key);
     try {
-      deliveryFacadeService.createDelivery(deliveryCreateDto, orderId);
+      DeliveryResponse delivery = deliveryFacadeService.createDelivery(deliveryCreateDto, orderId);
+      kafkaTemplate.send(
+          KafkaTopicConstant.SET_DELIVERY_IN_ORDER, orderId.toString(), delivery.getDeliveryId());
     } catch (Exception e) {
       kafkaTemplate.send(
           KafkaTopicConstant.ERROR_IN_CREATE_DELIVERY, orderId.toString(), deliveryCreateDto);
