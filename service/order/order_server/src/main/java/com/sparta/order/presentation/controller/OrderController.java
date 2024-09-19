@@ -12,6 +12,7 @@ import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,16 +31,19 @@ public class OrderController {
   private final OrderFacadeService orderFacadeService;
   private final OrderService orderService;
 
+  @PreAuthorize("isAuthenticated()")
   @PostMapping
   public ResponseBody<OrderResponse> create(@RequestBody @Valid OrderCreateRequest request) {
     return new SuccessResponseBody<>(orderFacadeService.create(request));
   }
 
+  @PreAuthorize("isAuthenticated()")
   @GetMapping("/{orderId}")
   public ResponseBody<OrderResponse> get(@NotNull @PathVariable("orderId") UUID orderId) {
     return new SuccessResponseBody<>(orderService.get(orderId));
   }
 
+  @PreAuthorize("isAuthenticated()")
   @GetMapping
   public ResponseBody<CompanyOrderResponse> getCompanyOrderList(
       @NotNull @RequestParam UUID companyId,
@@ -49,11 +53,13 @@ public class OrderController {
         orderService.getCompanyOrderList(companyId, startDate, endDate));
   }
 
+  @PreAuthorize("isAuthenticated() and (hasRole('ROLE_MASTER') or hasRole('ROLE_HUB_MANAGER'))")
   @PutMapping("/{orderId}/cancel")
   public SuccessResponseBody<OrderResponse> cancel(@NotNull @PathVariable("orderId") UUID orderId) {
     return new SuccessResponseBody<>(orderFacadeService.cancel(orderId));
   }
 
+  @PreAuthorize("isAuthenticated() and (hasRole('ROLE_MASTER') or hasRole('ROLE_HUB_COMPANY'))")
   @PutMapping("/{orderId}/confirm")
   public SuccessResponseBody<OrderResponse> confirm(@NotNull @PathVariable("orderId") UUID orderId) {
     return new SuccessResponseBody<>(orderFacadeService.confirm(orderId));
