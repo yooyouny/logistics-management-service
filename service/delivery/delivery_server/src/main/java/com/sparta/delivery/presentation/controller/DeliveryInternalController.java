@@ -1,4 +1,4 @@
-package com.sparta.delivery.presentation;
+package com.sparta.delivery.presentation.controller;
 
 import com.sparta.delivery.application.DeliveryFacadeService;
 import com.sparta.delivery.dto.DeliveryDto;

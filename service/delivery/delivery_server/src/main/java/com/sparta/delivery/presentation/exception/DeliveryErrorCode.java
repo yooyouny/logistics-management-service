@@ -11,6 +11,7 @@ public enum DeliveryErrorCode implements ErrorCode {
   INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "common_error_001", "서버 내부 에러"),
   NOT_FOUND_DELIVERY(HttpStatus.NOT_FOUND, "delivery_error_001", "배송정보를 찾을 수 없습니다"),
   NOT_FOUND_HUB(HttpStatus.NOT_FOUND, "delivery_error_002", "관리허브정보를 찾을 수 없습니다"),
+  NO_AUTH(HttpStatus.UNAUTHORIZED, "common_error_002", "인증 정보가 없습니다"),
   ;
 
   private final HttpStatus status;

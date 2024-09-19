@@ -1,4 +1,4 @@
-package com.sparta.delivery.presentation;
+package com.sparta.delivery.presentation.controller;
 
 import com.sparta.commons.domain.response.SuccessResponseBody;
 import com.sparta.delivery.application.DeliveryFacadeService;
