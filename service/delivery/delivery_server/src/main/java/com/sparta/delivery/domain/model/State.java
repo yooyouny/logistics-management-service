@@ -18,11 +18,11 @@ public class State {
 
   public enum RouteState {
     PENDING("허브이동대기중"),
-    IN_TRANSIT_TO_HUB("허브이동중"),
+    IN_TRANSIT_TO_HUB("허브이동중"),// 외부 API -> delivery 배송중 전파 -> order 배송중 전파
     AT_ARRIVAL_HUB("목적지허브도착"),
     OUT_FOR_DELIVERY("출고완료"),
     IN_TRANSIT_TO_COMPANY("업체배송중"),
-    DELIVERED("배송완료");
+    DELIVERED("배송완료"); //외부 API -> delivery 배송완료 전파 -> order 배송완료 전파
     final String description;
 
     RouteState(String description) {

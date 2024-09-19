@@ -2,6 +2,7 @@ package com.sparta.delivery.application;
 
 import com.sparta.commons.domain.exception.BusinessException;
 import com.sparta.delivery.domain.model.Delivery;
+import com.sparta.delivery.domain.model.State.DeliveryState;
 import com.sparta.delivery.dto.DeliveryCreateDto;
 import com.sparta.delivery.dto.DeliveryDto;
 import com.sparta.delivery.infrastructure.client.CompanyClient;
@@ -36,7 +37,7 @@ public class DeliveryFacadeService {
 
   @Transactional
   public DeliveryResponse requestDeliveryAndCreateRoute(UUID deliveryId) {
-    Delivery delivery = deliveryService.updateDeliveryState(deliveryId);
+    Delivery delivery = deliveryService.updateDeliveryState(deliveryId, DeliveryState.REQUESTED);
     InterHubResponse deliveryRoute =
         hubClient
             .getDeliveryRoutes(delivery.getDepartureHubId(), delivery.getArrivalHubId())

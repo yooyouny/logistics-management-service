@@ -38,12 +38,9 @@ public class DeliveryService {
     return deliveryRepository.save(delivery);
   }
 
-  public Delivery updateDeliveryState(UUID deliveryId) {
-    Delivery delivery =
-        deliveryRepository
-            .findByDeliveryId(deliveryId)
-            .orElseThrow(() -> new BusinessException(DeliveryErrorCode.NOT_FOUND_DELIVERY));
-    delivery.updateDeliveryState(DeliveryState.REQUESTED);
+  public Delivery updateDeliveryState(UUID deliveryId, DeliveryState state) {
+    Delivery delivery = getDelivery(deliveryId);
+    delivery.updateDeliveryState(state);
     return delivery;
   }
 
