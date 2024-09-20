@@ -1,5 +1,6 @@
 package com.sparta.delivery.infrastructure.configuration;
 
+import com.sparta.commons.domain.jpa.UpdateStateRequest;
 import com.sparta.delivery.dto.StateUpdateDto;
 import com.sparta.delivery.infrastructure.messaging.StateProducer;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +13,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 @Configuration
 @RequiredArgsConstructor
 public class KafkaConfig {
-  private final KafkaTemplate<String, StateUpdateDto> kafkaTemplate;
+  private final KafkaTemplate<String, Object> kafkaTemplate;
 
   @Bean
   public StateProducer stateProducer(){
