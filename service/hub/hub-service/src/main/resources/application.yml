@@ -3,17 +3,15 @@ spring:
     name: hub
   # Hub service datasource
   datasource:
-    url: ${DATASOURCE_URL}
-    username: ${DATASOURCE_USERNAME}
-    password: ${DATASOURCE_PASSWORD}
     driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://hub-postgres:5432/logistics_hub
+    username: root
+    password: password
 
   data:
     redis:
       host: localhost
-      port: ${REDIS_PORT}
-      username: ${REDIS_USERNAME}
-      password: ${REDIS_PASSWORD}
+      port: 6379
 
   jpa:
     hibernate:
@@ -26,7 +24,6 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: ${EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE}
-
+      defaultZone: http://eureka-service:19090/eureka/
 server:
   port: 19094

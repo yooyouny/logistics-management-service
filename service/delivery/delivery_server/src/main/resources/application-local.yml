@@ -2,9 +2,10 @@ spring:
   application:
     name: delivery
   datasource:
-    url: ${DATASOURCE_URL}
-    username: ${DATASOURCE_USERNAME}
     driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://delivery-postgres:5432/logistics_delivery
+    username: root
+    password: password
   jpa:
     hibernate:
       ddl-auto: update
@@ -13,7 +14,7 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
   kafka:
-    bootstrap-servers: ${KAFKA_URL}
+    bootstrap-servers: kafka:9092
     listener:
       ack-mode: MANUAL
     producer:
@@ -32,7 +33,7 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: ${EUREKA_URL}
+      defaultZone: http://eureka-service:19090/eureka/
 server:
   port: 19097
 

@@ -3,10 +3,10 @@ spring:
     name: company
   # Hub service datasource
   datasource:
-    url: ${DATASOURCE_URL}
-    username: ${DATASOURCE_USERNAME}
-    password: ${DATASOURCE_PASSWORD}
+    url: jdbc:postgresql://company-postgres:5432/logistics_company
     driver-class-name: org.postgresql.Driver
+    username: root
+    password: password
 
   jpa:
     hibernate:
@@ -16,7 +16,7 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
   kafka:
-    bootstrap-servers: ${KAFKA_URL}
+    bootstrap-servers: kafka:9092
     listener:
       ack-mode: MANUAL
     producer:
@@ -35,7 +35,7 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:19090/eureka/
+      defaultZone: http://eureka-service:19090/eureka/
 
 server:
   port: 19095
@@ -43,4 +43,22 @@ server:
 logging:
   level:
     feign.client: DEBUG
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+    prometheus:
+      enabled: true
+#  server:
+#    port: 29095
+
+google:
+  api:
+    key: ${GOOGLE_API_KEY}
 

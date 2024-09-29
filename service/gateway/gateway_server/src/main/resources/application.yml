@@ -51,4 +51,4 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:19090/eureka/  # Eureka 서버의 URL을 지정
+      defaultZone: http://eureka-service:19090/eureka/  # Eureka 서버의 URL을 지정

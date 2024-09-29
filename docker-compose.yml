@@ -1,0 +1,186 @@
+version: '3.8'
+services:
+  mongodb:
+    image: mongo:latest
+    restart: always
+    ports:
+      - "27017:27017"
+    networks:
+      - logistic_network
+
+  redis:
+    image: redis:latest
+    restart: always
+    ports:
+      - "6379:6379"
+    networks:
+      - logistic_network
+
+  user-postgres:
+    image: postgres:15
+    restart: always
+    ports:
+      - "5431:5431"
+    networks:
+      - logistic_network
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: logistics_user
+
+  order-postgres:
+    image: postgres:15
+    restart: always
+    ports:
+      - "5432:5432"
+    networks:
+      - logistic_network
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: logistics_order
+
+  delivery-postgres:
+    image: postgres:15
+    restart: always
+    ports:
+      - "5433:5433"
+    networks:
+      - logistic_network
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: logistics_delivery
+
+  hub-postgres:
+    image: postgres:15
+    restart: always
+    ports:
+      - "5434:5434"
+    networks:
+      - logistic_network
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: logistics_hub
+
+  company-postgres:
+    image: postgres:15
+    restart: always
+    ports:
+      - "5435:5435"
+    networks:
+      - logistic_network
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: logistics_company
+
+  zookeeper:
+    image: wurstmeister/zookeeper:latest
+    platform: linux/amd64
+    ports:
+      - "2181:2181"
+    networks:
+      - logistic_network
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+
+  kafka:
+    image: wurstmeister/kafka:latest
+    platform: linux/amd64
+    ports:
+      - "9092:9092"
+    networks:
+      - logistic_network
+    environment:
+      KAFKA_ADVERTISED_LISTENERS: INSIDE://kafka:29092,OUTSIDE://localhost:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT
+      KAFKA_LISTENERS: INSIDE://0.0.0.0:29092,OUTSIDE://0.0.0.0:9092
+      KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  #---server---
+  eureka-service:
+    image: eureka:0.0.1-SNAPSHOT
+    networks:
+      - logistic_network
+    ports:
+      - "19090:19090"
+
+  gateway-service:
+    image: gateway_server:0.0.1-SNAPSHOT
+    networks:
+      - logistic_network
+    ports:
+      - "19091:19091"
+    depends_on:
+      - eureka-service
+
+  auth-service:
+    image: auth:0.0.1-SNAPSHOT
+    networks:
+      - logistic_network
+    ports:
+      - "19096:19096"
+    depends_on:
+      - eureka-service
+
+  user-service:
+    image: user_server:0.0.1-SNAPSHOT
+    networks:
+      - logistic_network
+    ports:
+      - "19092:19092"
+    depends_on:
+      - user-postgres
+      - eureka-service
+
+  order-service:
+    image: order_server:0.0.1-SNAPSHOT
+    networks:
+      - logistic_network
+    ports:
+      - "19093:19093"
+    depends_on:
+      - order-postgres
+      - eureka-service
+
+  delivery-service:
+    image: delivery_server:0.0.1-SNAPSHOT
+    networks:
+      - logistic_network
+    ports:
+      - "19097:19097"
+    depends_on:
+      - delivery-postgres
+      - eureka-service
+
+  hub-service:
+    image: hub-service:0.0.1-SNAPSHOT
+    networks:
+      - logistic_network
+    ports:
+      - "19094:19094"
+    depends_on:
+      - hub-postgres
+      - eureka-service
+
+  company-service:
+    image: company_server:0.0.1-SNAPSHOT
+    networks:
+      - logistic_network
+    ports:
+      - "19095:19095"
+    depends_on:
+      - company-postgres
+      - eureka-service
+    environment:
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY}
+
+networks:
+  logistic_network:
+    driver: bridge
