@@ -52,11 +52,12 @@ git clone https://github.com/yooyouny/logistics-management-service.git
 ```
 docker-compose up -d
 ```
+[Postman WorkFlow Test](https://winter-equinox-1079.postman.co/workspace/Team-Workspace~777f04e4-057d-4881-818e-d0a5634c8662/flow/66ebfb79a874ef003d4b19e5)
 
 ## Technical Decisions
-[인증과정에서의 워크플로우](https://github.com/yooyouny/logistics-management-service/wiki/%ED%8A%B8%EB%9F%AC%EB%B8%94-%EC%8A%88%ED%8C%85-%E2%80%90-%EA%B9%80%EC%9C%A0%EC%97%B0-(%ED%83%80%EC%9D%B4%ED%8B%80))
+[인증과정 워크플로우](https://github.com/yooyouny/logistics-management-service/wiki/%ED%8A%B8%EB%9F%AC%EB%B8%94-%EC%8A%88%ED%8C%85-%E2%80%90-%EA%B9%80%EC%9C%A0%EC%97%B0-(%ED%83%80%EC%9D%B4%ED%8B%80))
 
-[주문/배송의 이벤트 해결하기](https://github.com/yooyouny/logistics-management-service/wiki/%ED%8A%B8%EB%9F%AC%EB%B8%94-%EC%8A%88%ED%8C%85-%E2%80%90-%EB%B0%95%EA%B8%B0%EB%8F%84)
+[주문/배송 도메인에 이벤트 기반 메시징 도입하기](https://github.com/yooyouny/logistics-management-service/wiki/%EC%A3%BC%EB%AC%B8-%EB%B0%B0%EC%86%A1-%EB%8F%84%EB%A9%94%EC%9D%B8%EC%97%90-%EC%9D%B4%EB%B2%A4%ED%8A%B8-%EA%B8%B0%EB%B0%98-%EB%A9%94%EC%8B%9C%EC%A7%95-%EB%8F%84%EC%9E%85%ED%95%98%EA%B8%B0)
 
 
 ## Infra Structure
