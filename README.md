@@ -1,6 +1,7 @@
 ## 허브기반 B2B 물류 관리 서비스 물류핑
 업체간의 상품 주문 및 배송 서비스를 대행하는 플랫폼을 MSA 기반으로 구현
-<br> 
+<br>
+
 
 ## Team
 | <img src="https://avatars.githubusercontent.com/u/35358294?v=4" width="130" height="130"> | <img src ="https://avatars.githubusercontent.com/u/96743351?v=4" width="130" height="130"> | <img src="https://avatars.githubusercontent.com/u/120196095?v=4 " width="130" height="130"> |
@@ -10,7 +11,7 @@
 
 [Convention](https://github.com/yooyouny/logistics-management-service/wiki/Convention)
 
- 
+
 ## Skill
 ![Java 17](https://img.shields.io/badge/java_17-0078D6?style=for-the-badge&logo=java&logoColor=white)
 ![Boot](https://img.shields.io/badge/springboot-0078D6?style=for-the-badge&logo=springboot&logoColor=#)
@@ -43,6 +44,7 @@
 :bulb: Redis
 > 자주 사용하는 허브간 이동내역을 저장하기 위해 캐시 사용
 
+
 ## Installation and Getting Started
 1. Clone the repository:
 ```
@@ -54,20 +56,6 @@ docker-compose up -d
 ```
 [Postman WorkFlow Test](https://winter-equinox-1079.postman.co/workspace/Team-Workspace~777f04e4-057d-4881-818e-d0a5634c8662/flow/66ebfb79a874ef003d4b19e5)
 
-## Technical Decisions
-[인증과정 워크플로우](https://github.com/yooyouny/logistics-management-service/wiki/%ED%8A%B8%EB%9F%AC%EB%B8%94-%EC%8A%88%ED%8C%85-%E2%80%90-%EA%B9%80%EC%9C%A0%EC%97%B0-(%ED%83%80%EC%9D%B4%ED%8B%80))
-
-[주문/배송 도메인에 이벤트 기반 메시징 도입하기](https://github.com/yooyouny/logistics-management-service/wiki/%EC%A3%BC%EB%AC%B8-%EB%B0%B0%EC%86%A1-%EB%8F%84%EB%A9%94%EC%9D%B8%EC%97%90-%EC%9D%B4%EB%B2%A4%ED%8A%B8-%EA%B8%B0%EB%B0%98-%EB%A9%94%EC%8B%9C%EC%A7%95-%EB%8F%84%EC%9E%85%ED%95%98%EA%B8%B0)
-
-
-## Infra Structure
-![image](https://github.com/user-attachments/assets/035457c9-51c3-44da-aea1-de3265e9c1c0)
-
-## ERD
-![ERD](https://github.com/user-attachments/assets/827557b1-790f-4de6-bdd5-12037f97f16b)
-
-## Database Schema
-[테이블 명세서](https://github.com/yooyouny/logistics-management-service/wiki/Table)
 
 ## Project structure
 - 멀티모듈로 각 서비스 분리 관리
@@ -98,6 +86,19 @@ project
 │   │       ├── controller
 │   │       └── request
 ```
+
+
+## Infra Structure
+![image](https://github.com/user-attachments/assets/035457c9-51c3-44da-aea1-de3265e9c1c0)
+
+
+## ERD
+![ERD](https://github.com/user-attachments/assets/827557b1-790f-4de6-bdd5-12037f97f16b)
+
+
+## Database Schema
+[테이블 명세서](https://github.com/yooyouny/logistics-management-service/wiki/Table)
+
 
 ## API Design
 - :closed_lock_with_key: User 로그인 / 회원 가입
@@ -135,3 +136,9 @@ project
 - :mega: 슬랙 기능 : 담당자들에게 슬랙을 보내 업무 효율을 높일 수 있습니다
     - 자동 알림 전송: 업무 효율성을 높이기 위해 특정 조건이 발생하면 담당자에게 슬랙 메시지로 알림을 보낼 수 있습니다.
     - [Slack API 명세서](https://github.com/yooyouny/logistics-management-service/wiki/API-DESIGN#slack-apis)
+
+
+## Technical Decisions
+[인증과정 워크플로우](https://github.com/yooyouny/logistics-management-service/wiki/%ED%8A%B8%EB%9F%AC%EB%B8%94-%EC%8A%88%ED%8C%85-%E2%80%90-%EA%B9%80%EC%9C%A0%EC%97%B0-(%ED%83%80%EC%9D%B4%ED%8B%80))
+
+[주문/배송 도메인에 이벤트 기반 메시징 도입하기](https://github.com/yooyouny/logistics-management-service/wiki/%EC%A3%BC%EB%AC%B8-%EB%B0%B0%EC%86%A1-%EB%8F%84%EB%A9%94%EC%9D%B8%EC%97%90-%EC%9D%B4%EB%B2%A4%ED%8A%B8-%EA%B8%B0%EB%B0%98-%EB%A9%94%EC%8B%9C%EC%A7%95-%EB%8F%84%EC%9E%85%ED%95%98%EA%B8%B0)
