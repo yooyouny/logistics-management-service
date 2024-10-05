@@ -26,23 +26,24 @@ public class SecurityConfig {
   private final CustomAccessDeniedHandler accessDeniedHandler;
 
   @Bean
-  public SecurityFilterChain httpSecurity(HttpSecurity http, ObjectMapper objectMapper) throws Exception {
-    http
-        .csrf(AbstractHttpConfigurer::disable)
+  public SecurityFilterChain httpSecurity(HttpSecurity http, ObjectMapper objectMapper)
+      throws Exception {
+    http.csrf(AbstractHttpConfigurer::disable)
         .formLogin(AbstractHttpConfigurer::disable)
-        .sessionManagement((s) -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // TODO. 질문. 왜 설정했는데, 쿠키생성?
+        .sessionManagement(
+            (s) ->
+                s.sessionCreationPolicy(
+                    SessionCreationPolicy.STATELESS)) // TODO. 질문. 왜 설정했는데, 쿠키생성?
         .rememberMe(AbstractHttpConfigurer::disable)
         .httpBasic(AbstractHttpConfigurer::disable)
         .logout(AbstractHttpConfigurer::disable)
         .requestCache(RequestCacheConfigurer::disable)
-
-        .addFilterAfter(new SecurityContextFilter(objectMapper),
-            UsernamePasswordAuthenticationFilter.class)
-
-        .exceptionHandling(e -> e
-            .authenticationEntryPoint(authenticationEntryPoint)
-            .accessDeniedHandler(accessDeniedHandler))
-    ;
+        .addFilterAfter(
+            new SecurityContextFilter(objectMapper), UsernamePasswordAuthenticationFilter.class)
+        .exceptionHandling(
+            e ->
+                e.authenticationEntryPoint(authenticationEntryPoint)
+                    .accessDeniedHandler(accessDeniedHandler));
 
     return http.build();
   }

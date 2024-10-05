@@ -25,10 +25,9 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
 @Entity
-@Table(name = "P_ORDERS",
-    indexes = {
-    @Index(name = "idx_management_hub_id", columnList = "management_hub_id")
-})
+@Table(
+    name = "P_ORDERS",
+    indexes = {@Index(name = "idx_management_hub_id", columnList = "management_hub_id")})
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @SQLRestriction("is_delete is false")
 @SQLDelete(sql = "UPDATE p_orders SET deleted_at = NOW() where order_id = ?")
@@ -67,7 +66,11 @@ public class Order extends BaseEntity {
   private boolean isDelete = false;
 
   @Builder
-  private Order(UUID supplierCompanyId, UUID receiverCompanyId, UUID managementHubId, LocalDateTime orderDate) {
+  private Order(
+      UUID supplierCompanyId,
+      UUID receiverCompanyId,
+      UUID managementHubId,
+      LocalDateTime orderDate) {
     this.supplierCompanyId = supplierCompanyId;
     this.receiverCompanyId = receiverCompanyId;
     this.orderDate = orderDate;

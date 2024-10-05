@@ -43,21 +43,27 @@ public class HubService {
   @CachePut(cacheNames = "hubCache", key = "#result.hubId")
   @CacheEvict(cacheNames = "hubAllCache", allEntries = true)
   public HubResponse updateHub(HubUpdateRequest requestDto, UUID hubId) {
-    Hub hub = hubRepository.findByHubIdAndIsDeleteFalse(hubId)
-        .orElseThrow(() -> new BusinessException(HubErrorCode.NOT_FOUND));
+    Hub hub =
+        hubRepository
+            .findByHubIdAndIsDeleteFalse(hubId)
+            .orElseThrow(() -> new BusinessException(HubErrorCode.NOT_FOUND));
     hub.update(requestDto);
     return hubMapper.toResponse(hub);
-
   }
 
-  @Caching(evict = {@CacheEvict(cacheNames = "hubCache", key = "args[0]"),
-      @CacheEvict(cacheNames = "hubAllCache", allEntries = true)})
+  @Caching(
+      evict = {
+        @CacheEvict(cacheNames = "hubCache", key = "args[0]"),
+        @CacheEvict(cacheNames = "hubAllCache", allEntries = true)
+      })
   public void deleteHub(UUID hubId) {
-    AuthenticationImpl authentication = (AuthenticationImpl) SecurityContextHolder.getContext()
-        .getAuthentication();
+    AuthenticationImpl authentication =
+        (AuthenticationImpl) SecurityContextHolder.getContext().getAuthentication();
     String username = authentication.getName();
-    Hub hub = hubRepository.findById(hubId)
-        .orElseThrow(() -> new BusinessException(HubErrorCode.NOT_FOUND));
+    Hub hub =
+        hubRepository
+            .findById(hubId)
+            .orElseThrow(() -> new BusinessException(HubErrorCode.NOT_FOUND));
     if (!hub.getIsDelete()) {
       hub.delete(username);
     } else {
@@ -68,13 +74,18 @@ public class HubService {
   @Transactional(readOnly = true)
   @Cacheable(cacheNames = "hubCache", key = "args[0]")
   public HubResponse getSingleHub(UUID hubId) {
-    Hub hub = hubRepository.findByHubIdAndIsDeleteFalse(hubId)
-        .orElseThrow(() -> new BusinessException(HubErrorCode.NOT_FOUND));
+    Hub hub =
+        hubRepository
+            .findByHubIdAndIsDeleteFalse(hubId)
+            .orElseThrow(() -> new BusinessException(HubErrorCode.NOT_FOUND));
     return hubMapper.toResponse(hub);
   }
 
   @Transactional(readOnly = true)
-  @Cacheable(cacheNames = "hubAllCache", key = "#pageable.pageNumber + '-' + #pageable.pageSize + '-' + #cond.name + '-' + #cond.address")
+  @Cacheable(
+      cacheNames = "hubAllCache",
+      key =
+          "#pageable.pageNumber + '-' + #pageable.pageSize + '-' + #cond.name + '-' + #cond.address")
   public Page<HubResponse> getAllHub(Pageable pageable, HubSearchCond cond) {
     int pageSize = validatePageSize(pageable.getPageSize());
 
@@ -94,5 +105,4 @@ public class HubService {
     }
     return pageSize;
   }
-
 }

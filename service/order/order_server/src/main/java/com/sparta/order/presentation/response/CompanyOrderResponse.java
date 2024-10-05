@@ -11,14 +11,18 @@ import lombok.NoArgsConstructor;
 @Getter
 public class CompanyOrderResponse {
   private UUID companyId;
-  private List<OrderResponse> suppliedOrders;  // 우리 회사가 공급한 주문
-  private List<OrderResponse> receivedOrders;  // 우리 회사가 받은 주문
+  private List<OrderResponse> suppliedOrders; // 우리 회사가 공급한 주문
+  private List<OrderResponse> receivedOrders; // 우리 회사가 받은 주문
   private LocalDateTime startDate;
   private LocalDateTime endDate;
 
   @Builder
-  private CompanyOrderResponse(UUID companyId, List<OrderResponse> suppliedOrders,
-      List<OrderResponse> receivedOrders, LocalDateTime startDate, LocalDateTime endDate) {
+  private CompanyOrderResponse(
+      UUID companyId,
+      List<OrderResponse> suppliedOrders,
+      List<OrderResponse> receivedOrders,
+      LocalDateTime startDate,
+      LocalDateTime endDate) {
     this.companyId = companyId;
     this.suppliedOrders = suppliedOrders;
     this.receivedOrders = receivedOrders;
@@ -39,5 +43,5 @@ public class CompanyOrderResponse {
         .startDate(startDate)
         .endDate(endDate)
         .build();
-    }
+  }
 }

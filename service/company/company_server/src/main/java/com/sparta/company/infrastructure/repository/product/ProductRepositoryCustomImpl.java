@@ -31,20 +31,22 @@ public class ProductRepositoryCustomImpl implements ProductRepositoryCustom {
 
   @Override
   public Page<ProductResponse> searchProduct(Pageable validatedPageable, ProductSearchCond cond) {
-    JPAQuery<Product> commonQuery = queryFactory
-        .selectFrom(product)
-        .where(
-            productNameLike(cond.getProductName()),
-            hubIdEq(cond.getHubId()),
-            companyIdEq(cond.getCompanyId())
-        );
+    JPAQuery<Product> commonQuery =
+        queryFactory
+            .selectFrom(product)
+            .where(
+                productNameLike(cond.getProductName()),
+                hubIdEq(cond.getHubId()),
+                companyIdEq(cond.getCompanyId()));
 
-    List<ProductResponse> content = commonQuery
-        .limit(validatedPageable.getPageSize())
-        .offset(validatedPageable.getOffset())
-        .fetch()
-        .stream()
-        .map(productMapper::toResponse).toList();
+    List<ProductResponse> content =
+        commonQuery
+            .limit(validatedPageable.getPageSize())
+            .offset(validatedPageable.getOffset())
+            .fetch()
+            .stream()
+            .map(productMapper::toResponse)
+            .toList();
 
     return PageableExecutionUtils.getPage(content, validatedPageable, commonQuery::fetchCount);
   }
@@ -60,5 +62,4 @@ public class ProductRepositoryCustomImpl implements ProductRepositoryCustom {
   public BooleanExpression companyIdEq(UUID companyId) {
     return companyId != null ? product.company.companyId.eq(companyId) : null;
   }
-
 }

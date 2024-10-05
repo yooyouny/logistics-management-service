@@ -29,10 +29,20 @@ public class DeliveryResponse {
   private boolean isDelete = false;
 
   @Builder
-  private DeliveryResponse(UUID deliveryId, UUID orderId, UUID departureHubId, UUID arrivalHubId,
-      DeliveryState state, String shippingAddress, UUID shippingManagerId,
-      String shippingManagerSlackId, List<DeliveryRouteResponse> routes, long estimatedElapsedTime,
-      double estimatedDistance, LocalDateTime shippingStartDate, LocalDateTime shippingEndDate,
+  private DeliveryResponse(
+      UUID deliveryId,
+      UUID orderId,
+      UUID departureHubId,
+      UUID arrivalHubId,
+      DeliveryState state,
+      String shippingAddress,
+      UUID shippingManagerId,
+      String shippingManagerSlackId,
+      List<DeliveryRouteResponse> routes,
+      long estimatedElapsedTime,
+      double estimatedDistance,
+      LocalDateTime shippingStartDate,
+      LocalDateTime shippingEndDate,
       boolean isDelete) {
     this.deliveryId = deliveryId;
     this.orderId = orderId;
@@ -50,7 +60,7 @@ public class DeliveryResponse {
     this.isDelete = isDelete;
   }
 
-  public static DeliveryResponse fromEntity(Delivery delivery){
+  public static DeliveryResponse fromEntity(Delivery delivery) {
     return DeliveryResponse.builder()
         .deliveryId(delivery.getDeliveryId())
         .orderId(delivery.getOrderId())
@@ -70,6 +80,4 @@ public class DeliveryResponse {
         .shippingEndDate(delivery.getShippingEndDate())
         .build();
   }
-
-
 }

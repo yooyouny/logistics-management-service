@@ -35,10 +35,9 @@ public class ShippingManagerController {
   @PreAuthorize("isAuthenticated() and hasAnyRole('ROLE_MASTER','ROLE_HUB_MANAGER')")
   @PostMapping("/{userId}")
   public ResponseEntity<ResponseBody<Void>> saveShippingManager(
-      @PathVariable Long userId,
-      @RequestBody @Valid CreateShippingManagerRequest request) {
-    shippingManagerService.saveShippingManager(userId, request.slackId(), request.type(),
-        request.hubId());
+      @PathVariable Long userId, @RequestBody @Valid CreateShippingManagerRequest request) {
+    shippingManagerService.saveShippingManager(
+        userId, request.slackId(), request.type(), request.hubId());
     return ResponseEntity.ok(new SuccessResponseBody<>());
   }
 
@@ -47,9 +46,8 @@ public class ShippingManagerController {
   public ResponseEntity<ResponseBody<Void>> updateShippingManager(
       @PathVariable UUID shippingManagerId,
       @RequestBody @Valid UpdateShippingManagerRequest request) {
-    shippingManagerService.updateShippingManager(shippingManagerId, request.slackId(),
-        request.type(),
-        request.hubId());
+    shippingManagerService.updateShippingManager(
+        shippingManagerId, request.slackId(), request.type(), request.hubId());
     return ResponseEntity.ok(new SuccessResponseBody<>());
   }
 
@@ -57,8 +55,9 @@ public class ShippingManagerController {
   @GetMapping("/{shippingManagerId}")
   public ResponseEntity<ResponseBody<SippingManagerInfo>> getShippingManagerInfo(
       @PathVariable UUID shippingManagerId) {
-    return ResponseEntity.ok(new SuccessResponseBody<>(
-        shippingManagerService.getShippingManagerInfo(shippingManagerId)));
+    return ResponseEntity.ok(
+        new SuccessResponseBody<>(
+            shippingManagerService.getShippingManagerInfo(shippingManagerId)));
   }
 
   @PreAuthorize("isAuthenticated() and hasAnyRole('ROLE_MASTER','ROLE_HUB_MANAGER')")
@@ -69,15 +68,14 @@ public class ShippingManagerController {
       Pageable pageable) {
     return ResponseEntity.ok(
         new SuccessResponseBody<>(
-            shippingManagerService.getShippingManagerInfos(jwtClaim.getUserId(), jwtClaim.getRole(),
-                keyword, pageable)));
+            shippingManagerService.getShippingManagerInfos(
+                jwtClaim.getUserId(), jwtClaim.getRole(), keyword, pageable)));
   }
 
   @PreAuthorize("isAuthenticated() and hasAnyRole('ROLE_MASTER','ROLE_HUB_MANAGER')")
   @DeleteMapping("/{shippingManagerId}")
   public ResponseEntity<ResponseBody<Void>> deleteShippingManager(
-      @PathVariable UUID shippingManagerId,
-      @AuthenticationPrincipal JwtClaim jwtClaim) {
+      @PathVariable UUID shippingManagerId, @AuthenticationPrincipal JwtClaim jwtClaim) {
     shippingManagerService.deleteShippingManager(shippingManagerId, jwtClaim.getUsername());
     return ResponseEntity.ok(new SuccessResponseBody<>());
   }

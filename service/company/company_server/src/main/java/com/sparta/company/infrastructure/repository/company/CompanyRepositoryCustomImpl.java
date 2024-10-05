@@ -32,19 +32,18 @@ public class CompanyRepositoryCustomImpl implements CompanyRepositoryCustom {
 
   @Override
   public Page<CompanyResponse> searchCompany(Pageable pageable, CompanySearchCond cond) {
-    JPAQuery<Company> query = queryFactory
-        .selectFrom(company)
-        .where(
-            companyNameLike(cond.getCompanyName()),
-            hubIdEq(cond.getHubId()),
-            companyTypeEq(cond.getCompanyType())
-        );
+    JPAQuery<Company> query =
+        queryFactory
+            .selectFrom(company)
+            .where(
+                companyNameLike(cond.getCompanyName()),
+                hubIdEq(cond.getHubId()),
+                companyTypeEq(cond.getCompanyType()));
 
-    List<CompanyResponse> content = query
-        .offset(pageable.getOffset())
-        .limit(pageable.getPageSize()).fetch()
-        .stream()
-        .map(companyMapper::toResponse).toList();
+    List<CompanyResponse> content =
+        query.offset(pageable.getOffset()).limit(pageable.getPageSize()).fetch().stream()
+            .map(companyMapper::toResponse)
+            .toList();
 
     return PageableExecutionUtils.getPage(content, pageable, query::fetchCount);
   }

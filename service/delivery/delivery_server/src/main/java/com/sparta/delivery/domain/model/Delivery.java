@@ -25,10 +25,9 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
 @Entity
-@Table(name = "P_DELIVERIES",
-    indexes = {
-        @Index(name = "idx_shipping_manager_id", columnList = "shipping_manager_id")
-    })
+@Table(
+    name = "P_DELIVERIES",
+    indexes = {@Index(name = "idx_shipping_manager_id", columnList = "shipping_manager_id")})
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @SQLRestriction("is_delete is false")
 @SQLDelete(sql = "UPDATE p_deliveries SET deleted_at = NOW() where delivery_id = ?")
@@ -68,10 +67,10 @@ public class Delivery extends BaseEntity {
   private double estimatedDistance;
 
   @Column(name = "shipping_start_date")
-  private LocalDateTime shippingStartDate; //TODO :: 배송대기에서 배송요청으로 변경되었을때 초기화
+  private LocalDateTime shippingStartDate; // TODO :: 배송대기에서 배송요청으로 변경되었을때 초기화
 
   @Column(name = "shipping_end_date")
-  private LocalDateTime shippingEndDate; //TODO :: 업체배송중에서 업체배송완료로 변경되었을때 초기화
+  private LocalDateTime shippingEndDate; // TODO :: 업체배송중에서 업체배송완료로 변경되었을때 초기화
 
   private boolean isDelete = false;
 
@@ -90,18 +89,18 @@ public class Delivery extends BaseEntity {
     this.shippingManagerId = shippingManagerId;
     this.shippingManagerSlackId = shippingManagerSlackId;
   }
-  public void setEstimatedDeliveryData(long estimatedElapsedTime, double estimatedDistance){
+
+  public void setEstimatedDeliveryData(long estimatedElapsedTime, double estimatedDistance) {
     this.estimatedElapsedTime = estimatedElapsedTime;
     this.estimatedDistance = estimatedDistance;
     this.shippingStartDate = LocalDateTime.now();
   }
 
-  public void setDeliveryRoutes(List<DeliveryRoute> routes){
+  public void setDeliveryRoutes(List<DeliveryRoute> routes) {
     this.routes = routes;
   }
 
-  public void updateDeliveryState(DeliveryState state){
+  public void updateDeliveryState(DeliveryState state) {
     this.deliveryState = state;
   }
-
 }

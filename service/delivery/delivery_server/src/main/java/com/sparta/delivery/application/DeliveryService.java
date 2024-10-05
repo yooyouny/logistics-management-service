@@ -55,7 +55,7 @@ public class DeliveryService {
     deliveryRepository.delete(delivery);
   }
 
-  public void confirm(UUID deliveryId){
+  public void confirm(UUID deliveryId) {
     Delivery delivery = getDelivery(deliveryId);
     delivery.updateDeliveryState(DeliveryState.CONFIRMED);
   }
@@ -65,9 +65,9 @@ public class DeliveryService {
     return deliveryQueryRepository.findDeliveries(shippingManagerId, shippingStartDate);
   }
 
-  private Delivery getDelivery(UUID deliveryId){
+  private Delivery getDelivery(UUID deliveryId) {
     return deliveryRepository
-            .findByDeliveryId(deliveryId)
-            .orElseThrow(() -> new BusinessException(DeliveryErrorCode.NOT_FOUND_DELIVERY));
+        .findByDeliveryId(deliveryId)
+        .orElseThrow(() -> new BusinessException(DeliveryErrorCode.NOT_FOUND_DELIVERY));
   }
 }

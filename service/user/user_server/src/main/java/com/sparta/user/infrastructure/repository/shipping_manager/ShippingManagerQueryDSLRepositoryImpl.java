@@ -1,6 +1,5 @@
 package com.sparta.user.infrastructure.repository.shipping_manager;
 
-import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.sparta.user.application.dto.SippingManagerInfo;

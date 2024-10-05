@@ -1,7 +1,5 @@
 package com.sparta.delivery.infrastructure.configuration;
 
-import com.sparta.commons.domain.jpa.UpdateStateRequest;
-import com.sparta.delivery.dto.StateUpdateDto;
 import com.sparta.delivery.infrastructure.messaging.StateProducer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;

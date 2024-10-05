@@ -11,16 +11,15 @@ import lombok.Data;
 @AllArgsConstructor
 public class HubCreateRequest {
 
+  @NotNull private Long userId;
+  @NotBlank private String hubName;
+  @NotBlank private String hubAddress;
+
   @NotNull
-  private Long userId;
-  @NotBlank
-  private String hubName;
-  @NotBlank
-  private String hubAddress;
-  @NotNull
-  @Digits(integer = 3, fraction = 4)  // 정수부 최대 3자리, 소수부 최대 4자리
+  @Digits(integer = 3, fraction = 4) // 정수부 최대 3자리, 소수부 최대 4자리
   private BigDecimal hubLatitude;
+
   @NotNull
-  @Digits(integer = 3, fraction = 4)  // 정수부 최대 3자리, 소수부 최대 4자리
+  @Digits(integer = 3, fraction = 4) // 정수부 최대 3자리, 소수부 최대 4자리
   private BigDecimal hubLongitude;
 }

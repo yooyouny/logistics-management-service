@@ -1,6 +1,5 @@
 package com.sparta.hub.presentation;
 
-import com.sparta.commons.domain.jwt.JwtClaim;
 import com.sparta.commons.domain.response.ResponseBody;
 import com.sparta.commons.domain.response.SuccessResponseBody;
 import com.sparta.hub.application.dto.hub.HubCreateRequest;
@@ -8,17 +7,13 @@ import com.sparta.hub.application.dto.hub.HubResponse;
 import com.sparta.hub.application.dto.hub.HubSearchCond;
 import com.sparta.hub.application.dto.hub.HubUpdateRequest;
 import com.sparta.hub.application.service.HubService;
-import com.sparta.hub.infrastructure.config.AuthenticationImpl;
 import jakarta.validation.Valid;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor

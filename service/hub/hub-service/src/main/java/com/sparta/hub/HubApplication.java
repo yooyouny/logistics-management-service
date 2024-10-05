@@ -11,8 +11,7 @@ import org.springframework.data.web.config.EnableSpringDataWebSupport.PageSerial
 @EnableFeignClients
 public class HubApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(HubApplication.class, args);
-	}
-
+  public static void main(String[] args) {
+    SpringApplication.run(HubApplication.class, args);
+  }
 }

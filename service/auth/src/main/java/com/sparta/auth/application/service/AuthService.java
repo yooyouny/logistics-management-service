@@ -1,18 +1,17 @@
 package com.sparta.auth.application.service;
 
 import com.sparta.auth.application.dtos.SingInResponse;
-import com.sparta.commons.domain.exception.BusinessException;
-import com.sparta.commons.domain.jwt.JwtClaim;
 import com.sparta.auth.exception.AuthErrorCode;
 import com.sparta.auth.infrastructure.utils.JwtHandler;
+import com.sparta.commons.domain.exception.BusinessException;
+import com.sparta.commons.domain.jwt.JwtClaim;
 import com.sparta.user.dto.user_dto.UserCreateDto;
 import com.sparta.user.dto.user_dto.UserDto;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Slf4j
 @RequiredArgsConstructor

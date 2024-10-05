@@ -27,12 +27,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
   private static final String BEARER_PREFIX = "Bearer ";
   private final AuthenticationManager authenticationManager;
-  private final RequestMatcher requestMatcher = new RequestHeaderRequestMatcher(
-      HttpHeaders.AUTHORIZATION);
+  private final RequestMatcher requestMatcher =
+      new RequestHeaderRequestMatcher(HttpHeaders.AUTHORIZATION);
 
   @Override
-  protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
-      FilterChain filterChain) throws ServletException, IOException {
+  protected void doFilterInternal(
+      HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+      throws ServletException, IOException {
     if (!requestMatcher.matches(request)) {
       filterChain.doFilter(request, response);
       return;
@@ -62,11 +63,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     response.setStatus(e.getErrorCode().getStatus());
     response.setContentType("application/json;charset=UTF-8");
     ObjectMapper objectMapper = new ObjectMapper();
-    String errorResponse = objectMapper.writeValueAsString(
-        new FailedResponseBody(e.getErrorCode().getCode(), e.getErrorCode().getMessage()));
+    String errorResponse =
+        objectMapper.writeValueAsString(
+            new FailedResponseBody(e.getErrorCode().getCode(), e.getErrorCode().getMessage()));
     response.getWriter().write(errorResponse);
     response.flushBuffer();
     response.getWriter().close();
   }
-
 }

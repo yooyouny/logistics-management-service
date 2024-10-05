@@ -1,5 +1,7 @@
 package com.sparta.hub.infrastructure.repository.hub;
 
+import static com.sparta.hub.domain.QHub.*;
+
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -8,14 +10,11 @@ import com.sparta.hub.application.dto.hub.HubSearchCond;
 import com.sparta.hub.application.mapper.HubMapper;
 import com.sparta.hub.domain.Hub;
 import jakarta.persistence.EntityManager;
+import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.util.StringUtils;
-
-import java.util.List;
-
-import static com.sparta.hub.domain.QHub.*;
 
 public class HubRepositoryCustomImpl implements HubRepositoryCustom {
 

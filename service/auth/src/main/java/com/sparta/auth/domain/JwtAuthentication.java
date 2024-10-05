@@ -1,12 +1,11 @@
 package com.sparta.auth.domain;
 
 import com.sparta.commons.domain.jwt.JwtClaim;
+import java.util.Collection;
+import java.util.Collections;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-
-import java.util.Collection;
-import java.util.Collections;
 
 public record JwtAuthentication(Long userId, String username, String role)
     implements Authentication {

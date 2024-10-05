@@ -34,24 +34,23 @@ public class InterHubRepositoryCustomImpl implements InterHubRepositoryCustom {
   @Override
   public Page<InterHubResponse> searchHub(Pageable pageable, InterHubSearchCond cond) {
     QHub hub2 = new QHub("hub2");
-    JPAQuery<InterHub> commonQuery = queryFactory
-        .selectFrom(interHub)
-        .join(interHub.departureHub, hub).fetchJoin()
-        .join(interHub.arrivalHub, hub2).fetchJoin()
-        .where(
-            departureHubEq(cond.getDepartureHubId()),
-            arrivalHubEq(cond.getArrivalHubId()),
-            departureHubNameLike(cond.getDepartureHubName()),
-            arrivalHubNameLike(cond.getArrivalHubName()),
-            interHub.isDelete.eq(false)
-        );
-    List<InterHub> list = commonQuery
-        .offset(pageable.getOffset())
-        .limit(pageable.getPageSize())
-        .fetch();
+    JPAQuery<InterHub> commonQuery =
+        queryFactory
+            .selectFrom(interHub)
+            .join(interHub.departureHub, hub)
+            .fetchJoin()
+            .join(interHub.arrivalHub, hub2)
+            .fetchJoin()
+            .where(
+                departureHubEq(cond.getDepartureHubId()),
+                arrivalHubEq(cond.getArrivalHubId()),
+                departureHubNameLike(cond.getDepartureHubName()),
+                arrivalHubNameLike(cond.getArrivalHubName()),
+                interHub.isDelete.eq(false));
+    List<InterHub> list =
+        commonQuery.offset(pageable.getOffset()).limit(pageable.getPageSize()).fetch();
 
-    List<InterHubResponse> content = list.stream()
-        .map(interHubMapper::toResponse).toList();
+    List<InterHubResponse> content = list.stream().map(interHubMapper::toResponse).toList();
     return PageableExecutionUtils.getPage(content, pageable, commonQuery::fetchCount);
   }
 
@@ -64,13 +63,14 @@ public class InterHubRepositoryCustomImpl implements InterHubRepositoryCustom {
   }
 
   private BooleanExpression departureHubNameLike(String departureHubName) {
-    return StringUtils.hasText(departureHubName) ? interHub.departureHub.hubName.like(
-        "%" + departureHubName + "%") : null;
+    return StringUtils.hasText(departureHubName)
+        ? interHub.departureHub.hubName.like("%" + departureHubName + "%")
+        : null;
   }
 
   private BooleanExpression arrivalHubNameLike(String arrivalHubName) {
-    return StringUtils.hasText(arrivalHubName) ? interHub.arrivalHub.hubName.like(
-        "%" + arrivalHubName + "%") : null;
+    return StringUtils.hasText(arrivalHubName)
+        ? interHub.arrivalHub.hubName.like("%" + arrivalHubName + "%")
+        : null;
   }
-
 }

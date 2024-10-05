@@ -9,8 +9,6 @@ import lombok.Data;
 @AllArgsConstructor
 public class InterHubCreateRequest {
 
-  @NotNull
-  private UUID departureHubId;
-  @NotNull
-  private UUID arrivalHubId;
+  @NotNull private UUID departureHubId;
+  @NotNull private UUID arrivalHubId;
 }

@@ -26,5 +26,4 @@ public class InternalHubController {
   public Optional<HubResponse> getHubByCompany(@PathVariable("hubId") UUID hubId) {
     return hubService.getHubByCompany(hubId);
   }
-
 }

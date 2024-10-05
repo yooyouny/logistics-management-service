@@ -4,6 +4,7 @@ import com.sparta.commons.domain.jpa.BaseEntity;
 import com.sparta.user.domain.model.vo.ShippingManagerType;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.UUID;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -11,8 +12,6 @@ import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
-
-import java.util.UUID;
 
 @Slf4j
 @Getter

@@ -1,10 +1,9 @@
 package com.sparta.auth.domain;
 
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-
 import java.util.Collection;
 import java.util.Collections;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 
 public record JwtAuthenticationToken(String token) implements Authentication {
 

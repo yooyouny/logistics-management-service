@@ -3,7 +3,6 @@ package com.sparta.auth.exception;
 import com.sparta.commons.domain.exception.ErrorCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 
 @Getter
 @RequiredArgsConstructor

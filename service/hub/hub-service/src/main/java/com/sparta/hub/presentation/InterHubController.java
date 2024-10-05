@@ -43,7 +43,8 @@ public class InterHubController {
 
   @PreAuthorize("isAuthenticated() and hasRole('ROLE_MASTER')")
   @DeleteMapping("/{interHubId}")
-  public ResponseBody<UUID> deleteInterHubRoute(@PathVariable UUID interHubId,
+  public ResponseBody<UUID> deleteInterHubRoute(
+      @PathVariable UUID interHubId,
       @RequestHeader(value = "X_Email", required = false) String email) {
     interHubService.delete(interHubId, email);
     return new SuccessResponseBody<>(interHubId);
@@ -56,8 +57,8 @@ public class InterHubController {
   }
 
   @GetMapping
-  public ResponseBody<Page<InterHubResponse>> getAllInterHubRoutes(InterHubSearchCond cond,
-      Pageable pageable) {
+  public ResponseBody<Page<InterHubResponse>> getAllInterHubRoutes(
+      InterHubSearchCond cond, Pageable pageable) {
     Page<InterHubResponse> allHubRoute = interHubService.getAllHubRoute(cond, pageable);
     return new SuccessResponseBody<>(allHubRoute);
   }

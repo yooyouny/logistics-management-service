@@ -1,16 +1,15 @@
 package com.sparta.auth.infrastructure.utils;
 
-import com.sparta.commons.domain.jwt.JwtClaim;
 import com.sparta.auth.infrastructure.properties.JwtProperties;
+import com.sparta.commons.domain.jwt.JwtClaim;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import lombok.extern.slf4j.Slf4j;
-
-import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.Map;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class JwtHandler {

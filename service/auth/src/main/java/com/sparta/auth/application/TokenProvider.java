@@ -2,10 +2,10 @@ package com.sparta.auth.application;
 
 import com.sparta.auth.domain.JwtAuthentication;
 import com.sparta.auth.domain.JwtAuthenticationToken;
-import com.sparta.commons.domain.jwt.JwtClaim;
 import com.sparta.auth.exception.jwt.JwtTokenExpiredException;
 import com.sparta.auth.exception.jwt.JwtTokenInvalidException;
 import com.sparta.auth.infrastructure.utils.JwtHandler;
+import com.sparta.commons.domain.jwt.JwtClaim;
 import io.jsonwebtoken.ExpiredJwtException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

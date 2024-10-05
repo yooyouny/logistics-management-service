@@ -13,8 +13,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "slack_notification")
 public class SlackNotification {
 
-  @Id
-  private String id;
+  @Id private String id;
 
   private String slackId;
 
@@ -30,10 +29,6 @@ public class SlackNotification {
   }
 
   public static SlackNotification create(String slackId, String message, LocalDateTime sentAt) {
-    return SlackNotification.builder()
-        .slackId(slackId)
-        .message(message)
-        .sentAt(sentAt)
-        .build();
+    return SlackNotification.builder().slackId(slackId).message(message).sentAt(sentAt).build();
   }
 }

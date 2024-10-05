@@ -12,6 +12,5 @@ public interface HubClient {
   @GetMapping("/internal/interhubs")
   Optional<InterHubResponse> getDeliveryRoutes(
       @RequestParam("departureHubId") UUID departureHubId,
-      @RequestParam("arrivalHubId") UUID arrivalHubId
-  );
+      @RequestParam("arrivalHubId") UUID arrivalHubId);
 }

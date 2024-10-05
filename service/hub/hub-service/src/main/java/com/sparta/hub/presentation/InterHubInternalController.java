@@ -1,12 +1,8 @@
 package com.sparta.hub.presentation;
 
-import com.sparta.hub.application.dto.hub.HubResponse;
-import com.sparta.hub.application.mapper.HubMapper;
 import com.sparta.hub.application.service.HubService;
 import com.sparta.hub.application.service.InterHubService;
-import com.sparta.hub.domain.Hub;
 import com.sparta.hub.dto.InterHubResponse;
-import com.sparta.hub.infrastructure.feign.CompanyClient;
 import java.util.Optional;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
